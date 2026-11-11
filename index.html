@@ -78,11 +78,11 @@
     </div>
   </nav>
 
-  <!-- HERO SECTION -->
+  <!-- HERO SECTION WITH ENHANCED BANNER VISIBILITY -->
   <section class="relative py-20 lg:py-28 overflow-hidden border-b border-brand-border/40">
     <div class="absolute inset-0 z-0">
-      <img src="radical_banner.jpeg" alt="Banner Background" class="w-full h-full object-cover object-center opacity-20">
-      <div class="absolute inset-0 bg-gradient-to-r from-brand-dark via-brand-dark/95 to-brand-dark/70"></div>
+      <img src="radical_banner.jpeg" alt="Banner Background" class="w-full h-full object-cover object-center opacity-45">
+      <div class="absolute inset-0 bg-gradient-to-r from-brand-dark via-brand-dark/90 to-brand-dark/60"></div>
     </div>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
       <div class="grid lg:grid-cols-12 gap-12 items-center">
@@ -104,34 +104,46 @@
             <a href="#contact" class="bg-brand-card hover:bg-slate-800 border border-brand-border text-white font-semibold px-6 py-3.5 rounded-xl transition-colors">Get In Touch</a>
           </div>
         </div>
+
+        <!-- LIVE COUNTDOWN WIDGET -->
         <div class="lg:col-span-5">
-          <div class="bg-gradient-to-b from-brand-card to-brand-dark border border-brand-border p-6 sm:p-8 rounded-3xl shadow-2xl relative">
-            <div class="flex items-center justify-between pb-6 border-b border-brand-border/80">
+          <div class="bg-gradient-to-b from-brand-card/95 to-brand-dark/95 backdrop-blur-sm border border-brand-border p-6 sm:p-8 rounded-3xl shadow-2xl relative">
+            <div class="flex items-center justify-between pb-4 border-b border-brand-border/80">
               <div>
-                <span class="text-xs uppercase font-bold text-brand-salmon tracking-widest">Competition Overview</span>
-                <h3 class="font-display font-bold text-xl text-white mt-1">Edition 1: Free Entry</h3>
+                <span class="text-[10px] uppercase font-bold text-brand-salmon tracking-widest block">Live Milestone Countdown</span>
+                <h3 id="countdown-title" class="font-display font-bold text-lg text-white mt-0.5">Portal Official Launch</h3>
               </div>
-              <span class="bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-mono font-bold px-3 py-1 rounded-full">Active</span>
+              <span id="countdown-status" class="bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[10px] font-mono font-bold px-2.5 py-1 rounded-full">Counting Down</span>
             </div>
-            <div class="space-y-4 py-6 text-sm text-slate-300">
-              <div class="flex justify-between items-center py-2 border-b border-brand-border/40">
-                <span class="text-slate-400">Word Count Limit</span>
-                <span class="font-bold text-white">750 – 1,500 Words</span>
+
+            <!-- COUNTDOWN EVENT SELECTOR TABS -->
+            <div class="grid grid-cols-3 gap-1.5 p-1 bg-brand-dark/80 border border-brand-border rounded-xl my-4 text-[10px] font-bold">
+              <button type="button" class="countdown-tab active py-1.5 rounded-lg text-center transition-all bg-brand-salmon text-brand-dark" data-event="launch">Launch</button>
+              <button type="button" class="countdown-tab py-1.5 rounded-lg text-center transition-all text-slate-400 hover:text-white" data-event="deadline">Deadline</button>
+              <button type="button" class="countdown-tab py-1.5 rounded-lg text-center transition-all text-slate-400 hover:text-white" data-event="winners">Winners</button>
+            </div>
+
+            <!-- COUNTDOWN NUMERIC GRID -->
+            <div class="grid grid-cols-4 gap-2 text-center py-2">
+              <div class="bg-brand-dark border border-brand-border p-3 rounded-2xl">
+                <span id="timer-days" class="font-display font-extrabold text-2xl text-brand-salmon block font-mono">00</span>
+                <span class="text-[9px] uppercase font-semibold text-slate-400">Days</span>
               </div>
-              <div class="flex justify-between items-center py-2 border-b border-brand-border/40">
-                <span class="text-slate-400">Entry Fee</span>
-                <span class="font-bold text-emerald-400">Free (Inaugural Launch)</span>
+              <div class="bg-brand-dark border border-brand-border p-3 rounded-2xl">
+                <span id="timer-hours" class="font-display font-extrabold text-2xl text-white block font-mono">00</span>
+                <span class="text-[9px] uppercase font-semibold text-slate-400">Hours</span>
               </div>
-              <div class="flex justify-between items-center py-2 border-b border-brand-border/40">
-                <span class="text-slate-400">Core Tracks</span>
-                <span class="font-bold text-white">4 National Agenda Tracks</span>
+              <div class="bg-brand-dark border border-brand-border p-3 rounded-2xl">
+                <span id="timer-minutes" class="font-display font-extrabold text-2xl text-white block font-mono">00</span>
+                <span class="text-[9px] uppercase font-semibold text-slate-400">Mins</span>
               </div>
-              <div class="flex justify-between items-center py-2">
-                <span class="text-slate-400">National Theme</span>
-                <span class="font-bold text-brand-salmon">One Zambia, One Nation</span>
+              <div class="bg-brand-dark border border-brand-border p-3 rounded-2xl">
+                <span id="timer-seconds" class="font-display font-extrabold text-2xl text-brand-amber block font-mono">00</span>
+                <span class="text-[9px] uppercase font-semibold text-slate-400">Secs</span>
               </div>
             </div>
-            <a href="#submit" class="block w-full text-center bg-brand-salmon hover:bg-brand-salmonLight text-brand-dark font-extrabold py-3.5 rounded-xl transition-colors">Submit Essay Online</a>
+
+            <a href="#submit" class="block w-full text-center bg-brand-salmon hover:bg-brand-salmonLight text-brand-dark font-extrabold py-3 rounded-xl transition-colors mt-4 text-sm">Submit Essay Online</a>
           </div>
         </div>
       </div>
@@ -164,7 +176,7 @@
           </p>
           <p class="text-slate-400 text-sm leading-relaxed">
             Through video content, engineering discussions, tech breakdowns, and essay challenges, this portal serves as an incubator for practical solutions that directly support the <strong>Grow Zambia Agenda</strong> and national industrialization. 
-            Once the solutions have been suggested from the Essays, the most feasible ideas and indeed the winners will be invited to be a part of the Radical Engineers and make prototypes for the same, and the pitch the idea, with the already working prototype, to the relevant institutions for possible consideration.          
+            Once the solutions have been suggested from the Essays, the most feasible ideas and indeed the winners will be invited to be a part of the Radical Engineers and make prototypes for the same, and the pitch the idea, with the already working prototype, to the relevant institutions for possible consideration.            
           </p>
           <div class="grid sm:grid-cols-3 gap-4 pt-4">
             <div class="bg-brand-card border border-brand-border p-4 rounded-xl text-center"><span class="block text-2xl font-bold font-display text-brand-salmon">100%</span><span class="text-xs text-slate-400">Actionable Solutions</span></div>
@@ -245,7 +257,7 @@
         <div class="bg-brand-card border border-brand-border p-6 rounded-2xl relative">
           <span class="text-brand-salmon font-mono font-bold text-sm block">Phase 01: 1 January, 2027.</span>
           <h4 class="font-bold text-white text-base mt-1">Portal Launch</h4>
-          <p class="text-xs text-slate-400 mt-2">Submissions open across all 10 provinces for all 4 tracks. Participants are free to pick any question of their choice from any any of the 4 Tracks. These Tracks for for the first Entry are carefully chosen to align with the Grow Zambia Agenda. </p>
+          <p class="text-xs text-slate-400 mt-2">Submissions open across all 10 provinces for all 4 tracks. Participants are free to pick any question of their choice from any any of the 4 Tracks. These Tracks for for the first Entry are carefully chosen to align with the Grow Zambia Agenda.</p>
         </div>
         <div class="bg-brand-card border border-brand-border p-6 rounded-2xl relative">
           <span class="text-brand-salmon font-mono font-bold text-sm block">Phase 02: 1st - 15th January, 2027.</span>
@@ -306,6 +318,10 @@
         <p class="text-slate-400 text-sm mt-2">Edition 1 is free to enter. Choose 1 track and Prompt and then write your well reasoned essay. Fill out the details below to complete your submission.</p>
       </div>
       <div class="bg-brand-card border border-brand-border rounded-3xl p-6 sm:p-10 shadow-2xl relative">
+        
+        <!-- SUBMISSION STATUS BANNER (DYNAMICALLY MANAGED) -->
+        <div id="submission-lock-banner" class="hidden mb-6 p-5 rounded-2xl text-center border"></div>
+
         <form id="essay-form" class="space-y-6" novalidate>
           <div class="grid sm:grid-cols-2 gap-6">
             <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300">
@@ -346,9 +362,10 @@
             <input type="text" id="essay-title" required placeholder="e.g. Solar Irrigation for Central Province Smallholders" class="mt-2 w-full bg-brand-dark border border-brand-border rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-salmon transition-colors">
           </label>
           
+          <!-- MANDATORY FILE UPLOAD FIELD -->
           <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300">
-            Upload Essay Document (.pdf or .docx) <span class="text-slate-500 font-normal lowercase">(optional, max 3 MB)</span>
-            <input type="file" id="essay-file" accept=".pdf,.docx" class="mt-2 w-full bg-brand-dark border border-brand-border rounded-xl px-4 py-2.5 text-xs text-slate-300 focus:outline-none focus:border-brand-salmon transition-colors file:mr-4 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-brand-salmon/20 file:text-brand-salmon hover:file:bg-brand-salmon/30">
+            Upload Essay Document (.pdf or .docx) <span class="text-brand-salmon">*</span> <span class="text-slate-500 font-normal lowercase">(mandatory, max 3 MB)</span>
+            <input type="file" id="essay-file" required accept=".pdf,.docx" class="mt-2 w-full bg-brand-dark border border-brand-border rounded-xl px-4 py-2.5 text-xs text-slate-300 focus:outline-none focus:border-brand-salmon transition-colors file:mr-4 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-brand-salmon/20 file:text-brand-salmon hover:file:bg-brand-salmon/30">
           </label>
 
           <div>
@@ -477,6 +494,81 @@
       }
     });
 
+    // -------------------------------------------------------------
+    // REAL-TIME COUNTDOWN TIMER & TIMELINE STATUS LOGIC
+    // -------------------------------------------------------------
+    const targetDates = {
+      launch: new Date('2027-01-01T00:00:00+02:00').getTime(),
+      deadline: new Date('2027-01-15T23:59:59+02:00').getTime(),
+      winners: new Date('2027-02-07T12:00:00+02:00').getTime()
+    };
+
+    const eventTitles = {
+      launch: 'Portal Official Launch',
+      deadline: 'Submission Deadline',
+      winners: 'Winners Announcement'
+    };
+
+    let activeEvent = 'launch';
+
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const target = targetDates[activeEvent];
+      const difference = target - now;
+
+      const titleElem = document.getElementById('countdown-title');
+      const statusElem = document.getElementById('countdown-status');
+      if (titleElem) titleElem.textContent = eventTitles[activeEvent];
+
+      if (difference <= 0) {
+        document.getElementById('timer-days').textContent = '00';
+        document.getElementById('timer-hours').textContent = '00';
+        document.getElementById('timer-minutes').textContent = '00';
+        document.getElementById('timer-seconds').textContent = '00';
+        if (statusElem) {
+          statusElem.textContent = 'Milestone Reached';
+          statusElem.className = 'bg-brand-salmon/20 border border-brand-salmon text-brand-salmon text-[10px] font-mono font-bold px-2.5 py-1 rounded-full';
+        }
+        return;
+      }
+
+      if (statusElem) {
+        statusElem.textContent = 'Counting Down';
+        statusElem.className = 'bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[10px] font-mono font-bold px-2.5 py-1 rounded-full';
+      }
+
+      const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+      document.getElementById('timer-days').textContent = String(days).padStart(2, '0');
+      document.getElementById('timer-hours').textContent = String(hours).padStart(2, '0');
+      document.getElementById('timer-minutes').textContent = String(minutes).padStart(2, '0');
+      document.getElementById('timer-seconds').textContent = String(seconds).padStart(2, '0');
+    }
+
+    // Countdown Tab Controls
+    document.querySelectorAll('.countdown-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.countdown-tab').forEach(t => {
+          t.classList.remove('bg-brand-salmon', 'text-brand-dark');
+          t.classList.add('text-slate-400', 'hover:text-white');
+        });
+        tab.classList.add('bg-brand-salmon', 'text-brand-dark');
+        tab.classList.remove('text-slate-400', 'hover:text-white');
+
+        activeEvent = tab.dataset.event;
+        updateCountdown();
+      });
+    });
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    // -------------------------------------------------------------
+    // TRACKS & MEDIA DATA
+    // -------------------------------------------------------------
     const trackPromptsMap = {
       'Track 1: Agri-Tech & Climate Resilience': [
         'How can off-grid solar irrigation and localized cold storage be scaled across rural farming blocks in Southern, Central, and Eastern provinces to safeguard crop production against recurring droughts?',
@@ -535,7 +627,14 @@
       ).join('');
     }
 
-    // Populate Track Grid
+    // -------------------------------------------------------------
+    // AUTOMATED LAUNCH & DEADLINE LOCKING LOGIC
+    // -------------------------------------------------------------
+    const nowTimestamp = new Date().getTime();
+    const isLaunched = nowTimestamp >= targetDates.launch;
+    const isClosed = nowTimestamp > targetDates.deadline;
+
+    // Populate Track Grid with Automatic Launch Reveal Logic
     const trackGrid = document.getElementById('track-grid');
     if (trackGrid) {
       trackGrid.innerHTML = trackNames.map((track, trackIndex) => 
@@ -548,24 +647,43 @@
             </div>
           </div>
           <div class="space-y-3 pt-2">
-            ${trackPromptsMap[track].map((prompt, promptIndex) => 
-              `<button type="button" class="w-full text-left p-3.5 rounded-xl bg-brand-dark border border-brand-border/80 hover:border-brand-salmon/60 transition-colors prompt-clicker" data-track="${track}" data-prompt-index="${promptIndex}">
-                <span class="text-xs font-bold text-brand-salmon block mb-1">Prompt ${trackIndex + 1}.${promptIndex + 1}</span>
-                <span class="text-xs text-slate-300 leading-relaxed block">${prompt}</span>
-              </button>`
-            ).join('')}
+            ${isLaunched 
+              ? trackPromptsMap[track].map((prompt, promptIndex) => 
+                  `<button type="button" class="w-full text-left p-3.5 rounded-xl bg-brand-dark border border-brand-border/80 hover:border-brand-salmon/60 transition-colors prompt-clicker" data-track="${track}" data-prompt-index="${promptIndex}">
+                    <span class="text-xs font-bold text-brand-salmon block mb-1">Prompt ${trackIndex + 1}.${promptIndex + 1}</span>
+                    <span class="text-xs text-slate-300 leading-relaxed block">${prompt}</span>
+                  </button>`
+                ).join('')
+              : `<div class="p-6 rounded-xl bg-brand-dark/80 border border-brand-border/80 text-center space-y-2">
+                  <i class="fa-solid fa-lock text-brand-salmon text-xl mb-1 block"></i>
+                  <p class="text-xs font-bold text-white uppercase tracking-wider">Prompts Locked Until Official Launch</p>
+                  <p class="text-[11px] text-slate-400">Questions for this track will automatically unlock on 1 January 2027 at 00:00 CAT.</p>
+                </div>`
+            }
           </div>
         </article>`
       ).join('');
     }
 
-    // Setup Select Elements
+    // Setup Select Elements & Portal Submission Lock States
     const trackSelect = document.getElementById('essay-track');
     const questionSelect = document.getElementById('essay-question');
+    const essayForm = document.getElementById('essay-form');
+    const lockBanner = document.getElementById('submission-lock-banner');
+
     if (trackSelect && questionSelect) {
       trackNames.forEach(track => trackSelect.add(new Option(track, track)));
 
       function populateQuestions(track, selectedIndex = -1) {
+        if (!isLaunched) {
+          questionSelect.innerHTML = '<option value="" disabled selected>Prompts locked until 1 January 2027</option>';
+          return;
+        }
+        if (isClosed) {
+          questionSelect.innerHTML = '<option value="" disabled selected>Writing window is closed</option>';
+          return;
+        }
+
         questionSelect.innerHTML = '<option value="" disabled selected>Select specific prompt...</option>';
         (trackPromptsMap[track] || []).forEach((prompt, index) => {
           questionSelect.add(new Option(prompt, prompt, false, index === selectedIndex));
@@ -574,13 +692,32 @@
 
       trackSelect.addEventListener('change', () => populateQuestions(trackSelect.value));
 
-      document.querySelectorAll('.prompt-clicker').forEach(button => {
-        button.addEventListener('click', () => {
-          trackSelect.value = button.dataset.track;
-          populateQuestions(button.dataset.track, Number(button.dataset.promptIndex));
-          document.getElementById('submit').scrollIntoView({ behavior: 'smooth' });
+      if (isLaunched && !isClosed) {
+        document.querySelectorAll('.prompt-clicker').forEach(button => {
+          button.addEventListener('click', () => {
+            trackSelect.value = button.dataset.track;
+            populateQuestions(button.dataset.track, Number(button.dataset.promptIndex));
+            document.getElementById('submit').scrollIntoView({ behavior: 'smooth' });
+          });
         });
-      });
+      } else {
+        populateQuestions('');
+      }
+    }
+
+    // Apply Portal Form Lock State (Before Launch or After Deadline)
+    if (essayForm && lockBanner) {
+      if (!isLaunched) {
+        essayForm.style.opacity = '0.4';
+        essayForm.style.pointerEvents = 'none';
+        lockBanner.className = 'mb-6 p-5 rounded-2xl text-center bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-semibold block';
+        lockBanner.innerHTML = '<i class="fa-solid fa-lock text-base mb-1 block"></i>Submissions are currently locked. The portal officially opens on <strong>1 January 2027</strong>.';
+      } else if (isClosed) {
+        essayForm.style.opacity = '0.4';
+        essayForm.style.pointerEvents = 'none';
+        lockBanner.className = 'mb-6 p-5 rounded-2xl text-center bg-red-500/10 border border-red-500/30 text-red-400 text-xs font-semibold block';
+        lockBanner.innerHTML = '<i class="fa-solid fa-lock text-base mb-1 block"></i>The writing window has closed (Deadline: 15 January 2027). Thank you to all participants!';
+      }
     }
 
     // Word Counter
@@ -602,7 +739,7 @@
       });
     }
 
-    // ESSAY SUBMISSION HANDLER (SUPABASE)
+    // MANDATORY FILE UPLOAD & ESSAY SUBMISSION HANDLER (SUPABASE)
     const form = document.getElementById('essay-form');
     const submitBtn = document.getElementById('submit-btn');
     const btnText = document.getElementById('btn-text');
@@ -624,40 +761,43 @@
           essayBody.focus();
           return;
         }
-        formError.classList.add('hidden');
 
+        // Mandatory File Upload Check
+        const fileInput = document.getElementById('essay-file');
+        if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
+          formError.textContent = 'Please select and attach your essay document (.pdf or .docx) before submitting.';
+          formError.classList.remove('hidden');
+          return;
+        }
+
+        formError.classList.add('hidden');
         submitBtn.disabled = true;
         btnText.textContent = 'Uploading Submission...';
 
         const refId = `YRE-2026-${Math.floor(1000 + Math.random() * 9000)}`;
-        const fileInput = document.getElementById('essay-file');
         let uploadedFileUrl = null;
 
-        if (fileInput && fileInput.files && fileInput.files.length > 0) {
-          try {
-            const file = fileInput.files[0];
-            const fileExt = file.name.split('.').pop();
-            const filePath = `${refId}_${Date.now()}.${fileExt}`;
-
-            const { data: storageData, error: storageError } = await supabaseClient
-              .storage
-              .from('essays')
-              .upload(filePath, file);
-
-            if (!storageError) {
-              const { data: publicUrlData } = supabaseClient
-                .storage
-                .from('essays')
-                .getPublicUrl(filePath);
-
-              uploadedFileUrl = publicUrlData.publicUrl;
-            }
-          } catch (fileErr) {
-            console.warn('Storage connection skipped:', fileErr);
-          }
-        }
-
         try {
+          const file = fileInput.files[0];
+          const fileExt = file.name.split('.').pop();
+          const filePath = `${refId}_${Date.now()}.${fileExt}`;
+
+          const { data: storageData, error: storageError } = await supabaseClient
+            .storage
+            .from('essays')
+            .upload(filePath, file);
+
+          if (storageError) {
+            throw new Error('File upload failed: ' + storageError.message);
+          }
+
+          const { data: publicUrlData } = supabaseClient
+            .storage
+            .from('essays')
+            .getPublicUrl(filePath);
+
+          uploadedFileUrl = publicUrlData.publicUrl;
+
           const payload = {
             reference_id: refId,
             full_name: document.getElementById('author-name').value.trim(),
@@ -690,7 +830,7 @@
           formError.classList.remove('hidden');
         } finally {
           submitBtn.disabled = false;
-          btnText.textContent = 'Submit Essay Solution';
+          btnText.textContent = 'Submit Essay';
         }
       });
     }
@@ -733,7 +873,7 @@
           contactError.classList.remove('hidden');
         } finally {
           contactSubmitBtn.disabled = false;
-          contactBtnText.textContent = 'Send Message Now';
+          contactBtnText.textContent = 'Send Message';
         }
       });
     }
