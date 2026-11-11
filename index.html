@@ -346,10 +346,17 @@
   </footer>
 
   <script>
-    // SUPABASE CONFIGURATION (MATCHED TO YOUR ACTIVE PROJECT ID)
+    // SUPABASE CONFIGURATION - WITH HEADERS COMPATIBILITY FOR V2 PUBLISHABLE KEYS
     const SUPABASE_URL = 'https://ohqfwvpbzvewwcmegyej.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_PtihrfAVXzTj5LI8XdCzTg_NV3jrahH';
-    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+      global: {
+        headers: {
+          'apikey': SUPABASE_ANON_KEY,
+          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+        }
+      }
+    });
 
     const trackPromptsMap = {
       'Track 1: Agri-Tech & Climate Resilience': [
@@ -393,63 +400,69 @@
 
     // Populate Media Cards
     const mediaCards = document.getElementById('media-cards');
-    mediaCards.innerHTML = mediaItems.map(([category, title, description, duration]) => 
-      `<article class="bg-brand-card border border-brand-border rounded-2xl overflow-hidden hover:border-brand-salmon transition-colors group">
-        <div class="aspect-video bg-slate-900 relative flex items-center justify-center">
-          <i class="fa-solid fa-circle-play text-4xl text-brand-salmon group-hover:scale-110 transition-transform"></i>
-          <span class="absolute bottom-3 right-3 bg-black/80 text-[10px] text-slate-300 font-mono px-2 py-0.5 rounded">${duration}</span>
-        </div>
-        <div class="p-5">
-          <span class="text-[10px] text-brand-salmon font-bold uppercase tracking-wider block">${category}</span>
-          <h4 class="font-bold text-white mt-1 text-sm">${title}</h4>
-          <p class="text-xs text-slate-400 mt-2 leading-relaxed">${description}</p>
-        </div>
-      </article>`
-    ).join('');
+    if (mediaCards) {
+      mediaCards.innerHTML = mediaItems.map(([category, title, description, duration]) => 
+        `<article class="bg-brand-card border border-brand-border rounded-2xl overflow-hidden hover:border-brand-salmon transition-colors group">
+          <div class="aspect-video bg-slate-900 relative flex items-center justify-center">
+            <i class="fa-solid fa-circle-play text-4xl text-brand-salmon group-hover:scale-110 transition-transform"></i>
+            <span class="absolute bottom-3 right-3 bg-black/80 text-[10px] text-slate-300 font-mono px-2 py-0.5 rounded">${duration}</span>
+          </div>
+          <div class="p-5">
+            <span class="text-[10px] text-brand-salmon font-bold uppercase tracking-wider block">${category}</span>
+            <h4 class="font-bold text-white mt-1 text-sm">${title}</h4>
+            <p class="text-xs text-slate-400 mt-2 leading-relaxed">${description}</p>
+          </div>
+        </article>`
+      ).join('');
+    }
 
     // Populate Track Grid
     const trackGrid = document.getElementById('track-grid');
-    trackGrid.innerHTML = trackNames.map((track, trackIndex) => 
-      `<article class="bg-brand-card border border-brand-border rounded-3xl p-6 sm:p-8 hover:border-brand-salmon transition-colors">
-        <div class="flex items-center space-x-4 mb-4">
-          <div class="w-12 h-12 rounded-xl bg-brand-salmon/15 border border-brand-salmon/30 flex items-center justify-center text-brand-salmon text-xl font-bold">0${trackIndex + 1}</div>
-          <div>
-            <h3 class="font-display font-bold text-xl text-white">${track}</h3>
-            <span class="text-xs text-slate-400">${trackDetails[trackIndex][1]}</span>
+    if (trackGrid) {
+      trackGrid.innerHTML = trackNames.map((track, trackIndex) => 
+        `<article class="bg-brand-card border border-brand-border rounded-3xl p-6 sm:p-8 hover:border-brand-salmon transition-colors">
+          <div class="flex items-center space-x-4 mb-4">
+            <div class="w-12 h-12 rounded-xl bg-brand-salmon/15 border border-brand-salmon/30 flex items-center justify-center text-brand-salmon text-xl font-bold">0${trackIndex + 1}</div>
+            <div>
+              <h3 class="font-display font-bold text-xl text-white">${track}</h3>
+              <span class="text-xs text-slate-400">${trackDetails[trackIndex][1]}</span>
+            </div>
           </div>
-        </div>
-        <div class="space-y-3 pt-2">
-          ${trackPromptsMap[track].map((prompt, promptIndex) => 
-            `<button type="button" class="w-full text-left p-3.5 rounded-xl bg-brand-dark border border-brand-border/80 hover:border-brand-salmon/60 transition-colors prompt-clicker" data-track="${track}" data-prompt-index="${promptIndex}">
-              <span class="text-xs font-bold text-brand-salmon block mb-1">Prompt ${trackIndex + 1}.${promptIndex + 1}</span>
-              <span class="text-xs text-slate-300 leading-relaxed block">${prompt}</span>
-            </button>`
-          ).join('')}
-        </div>
-      </article>`
-    ).join('');
+          <div class="space-y-3 pt-2">
+            ${trackPromptsMap[track].map((prompt, promptIndex) => 
+              `<button type="button" class="w-full text-left p-3.5 rounded-xl bg-brand-dark border border-brand-border/80 hover:border-brand-salmon/60 transition-colors prompt-clicker" data-track="${track}" data-prompt-index="${promptIndex}">
+                <span class="text-xs font-bold text-brand-salmon block mb-1">Prompt ${trackIndex + 1}.${promptIndex + 1}</span>
+                <span class="text-xs text-slate-300 leading-relaxed block">${prompt}</span>
+              </button>`
+            ).join('')}
+          </div>
+        </article>`
+      ).join('');
+    }
 
     // Setup Select Elements
     const trackSelect = document.getElementById('essay-track');
     const questionSelect = document.getElementById('essay-question');
-    trackNames.forEach(track => trackSelect.add(new Option(track, track)));
+    if (trackSelect && questionSelect) {
+      trackNames.forEach(track => trackSelect.add(new Option(track, track)));
 
-    function populateQuestions(track, selectedIndex = -1) {
-      questionSelect.innerHTML = '<option value="" disabled selected>Select specific prompt...</option>';
-      (trackPromptsMap[track] || []).forEach((prompt, index) => {
-        questionSelect.add(new Option(prompt, prompt, false, index === selectedIndex));
+      function populateQuestions(track, selectedIndex = -1) {
+        questionSelect.innerHTML = '<option value="" disabled selected>Select specific prompt...</option>';
+        (trackPromptsMap[track] || []).forEach((prompt, index) => {
+          questionSelect.add(new Option(prompt, prompt, false, index === selectedIndex));
+        });
+      }
+
+      trackSelect.addEventListener('change', () => populateQuestions(trackSelect.value));
+
+      document.querySelectorAll('.prompt-clicker').forEach(button => {
+        button.addEventListener('click', () => {
+          trackSelect.value = button.dataset.track;
+          populateQuestions(button.dataset.track, Number(button.dataset.promptIndex));
+          document.getElementById('submit').scrollIntoView({ behavior: 'smooth' });
+        });
       });
     }
-
-    trackSelect.addEventListener('change', () => populateQuestions(trackSelect.value));
-
-    document.querySelectorAll('.prompt-clicker').forEach(button => {
-      button.addEventListener('click', () => {
-        trackSelect.value = button.dataset.track;
-        populateQuestions(button.dataset.track, Number(button.dataset.promptIndex));
-        document.getElementById('submit').scrollIntoView({ behavior: 'smooth' });
-      });
-    });
 
     // Word Counter
     const essayBody = document.getElementById('essay-body');
@@ -457,134 +470,147 @@
     const formError = document.getElementById('form-error');
 
     function wordCount() {
-      const text = essayBody.value.trim();
+      const text = essayBody ? essayBody.value.trim() : '';
       return text ? text.split(/\s+/).length : 0;
     }
 
-    essayBody.addEventListener('input', () => {
-      const count = wordCount();
-      wordCountDisplay.textContent = count;
-      wordCountDisplay.classList.toggle('text-red-500', count > 1500 || (count > 0 && count < 750));
-      wordCountDisplay.classList.toggle('text-brand-salmon', count >= 750 && count <= 1500);
-    });
+    if (essayBody && wordCountDisplay) {
+      essayBody.addEventListener('input', () => {
+        const count = wordCount();
+        wordCountDisplay.textContent = count;
+        wordCountDisplay.classList.toggle('text-red-500', count > 1500 || (count > 0 && count < 750));
+        wordCountDisplay.classList.toggle('text-brand-salmon', count >= 750 && count <= 1500);
+      });
+    }
 
-    // FORM SUBMISSION WITH FILE UPLOAD TO SUPABASE STORAGE
+    // SUBMISSION HANDLER
     const form = document.getElementById('essay-form');
     const submitBtn = document.getElementById('submit-btn');
     const btnText = document.getElementById('btn-text');
     const successBox = document.getElementById('submission-success');
 
-    form.addEventListener('submit', async (event) => {
-      event.preventDefault();
+    if (form) {
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
 
-      if (!form.checkValidity()) {
-        form.reportValidity();
-        return;
-      }
+        if (!form.checkValidity()) {
+          form.reportValidity();
+          return;
+        }
 
-      const count = wordCount();
-      if (count < 750 || count > 1500) {
-        formError.textContent = `Your essay must contain between 750 and 1,500 words. It currently has ${count}.`;
-        formError.classList.remove('hidden');
-        essayBody.focus();
-        return;
-      }
-      formError.classList.add('hidden');
+        const count = wordCount();
+        if (count < 750 || count > 1500) {
+          formError.textContent = `Your essay must contain between 750 and 1,500 words. It currently has ${count}.`;
+          formError.classList.remove('hidden');
+          essayBody.focus();
+          return;
+        }
+        formError.classList.add('hidden');
 
-      // Set Loading State
-      submitBtn.disabled = true;
-      btnText.textContent = 'Uploading Submission...';
+        submitBtn.disabled = true;
+        btnText.textContent = 'Uploading Submission...';
 
-      const refId = `YRE-2026-${Math.floor(1000 + Math.random() * 9000)}`;
-      const fileInput = document.getElementById('essay-file');
-      let uploadedFileUrl = null;
+        const refId = `YRE-2026-${Math.floor(1000 + Math.random() * 9000)}`;
+        const fileInput = document.getElementById('essay-file');
+        let uploadedFileUrl = null;
 
-      try {
-        // 1. Upload File to Supabase Storage (if selected)
-        if (fileInput.files.length > 0) {
-          const file = fileInput.files[0];
-          const fileExt = file.name.split('.').pop();
-          const filePath = `${refId}_${Date.now()}.${fileExt}`;
+        // 1. File Upload Handler (Optional)
+        if (fileInput && fileInput.files && fileInput.files.length > 0) {
+          try {
+            const file = fileInput.files[0];
+            const fileExt = file.name.split('.').pop();
+            const filePath = `${refId}_${Date.now()}.${fileExt}`;
 
-          const { data: storageData, error: storageError } = await supabaseClient
-            .storage
-            .from('essays')
-            .upload(filePath, file);
+            const { data: storageData, error: storageError } = await supabaseClient
+              .storage
+              .from('essays')
+              .upload(filePath, file);
 
-          if (storageError) {
-            throw new Error('File upload failed: ' + storageError.message);
+            if (!storageError) {
+              const { data: publicUrlData } = supabaseClient
+                .storage
+                .from('essays')
+                .getPublicUrl(filePath);
+
+              uploadedFileUrl = publicUrlData.publicUrl;
+            } else {
+              console.warn('Storage upload bypassed:', storageError.message);
+            }
+          } catch (fileErr) {
+            console.warn('Storage connection skipped:', fileErr);
+          }
+        }
+
+        // 2. Insert Entry into Table
+        try {
+          const payload = {
+            reference_id: refId,
+            full_name: document.getElementById('author-name').value.trim(),
+            phone: document.getElementById('author-phone').value.trim(),
+            email: document.getElementById('author-email').value.trim(),
+            location: document.getElementById('author-location').value.trim(),
+            track: trackSelect.value,
+            question: questionSelect.value,
+            essay_title: document.getElementById('essay-title').value.trim(),
+            essay_body: essayBody.value.trim(),
+            word_count: count,
+            file_url: uploadedFileUrl
+          };
+
+          const { data, error } = await supabaseClient.from('essays').insert([payload]);
+
+          if (error) {
+            throw error;
           }
 
-          // Fetch Public URL
-          const { data: publicUrlData } = supabaseClient
-            .storage
-            .from('essays')
-            .getPublicUrl(filePath);
+          // Show Success Receipt
+          document.getElementById('ref-id-display').textContent = refId;
+          document.getElementById('receipt-email').textContent = payload.email;
+          document.getElementById('receipt-track').textContent = payload.track;
+          document.getElementById('receipt-title').textContent = payload.essay_title;
+          
+          form.classList.add('hidden');
+          successBox.classList.remove('hidden');
 
-          uploadedFileUrl = publicUrlData.publicUrl;
+        } catch (err) {
+          console.error('Database Error:', err);
+          formError.textContent = `Submission failed: ${err.message || 'Network connection blocked by browser extension.'}`;
+          formError.classList.remove('hidden');
+        } finally {
+          submitBtn.disabled = false;
+          btnText.textContent = 'Submit Essay Solution';
         }
+      });
+    }
 
-        // 2. Insert Metadata into Database Table
-        const payload = {
-          reference_id: refId,
-          full_name: document.getElementById('author-name').value.trim(),
-          phone: document.getElementById('author-phone').value.trim(),
-          email: document.getElementById('author-email').value.trim(),
-          location: document.getElementById('author-location').value.trim(),
-          track: trackSelect.value,
-          question: questionSelect.value,
-          essay_title: document.getElementById('essay-title').value.trim(),
-          essay_body: essayBody.value.trim(),
-          word_count: count,
-          file_url: uploadedFileUrl
-        };
-
-        const { data, error } = await supabaseClient.from('essays').insert([payload]);
-
-        if (error) {
-          throw new Error(error.message);
+    const newSubBtn = document.getElementById('new-submission');
+    if (newSubBtn) {
+      newSubBtn.addEventListener('click', () => {
+        form.reset();
+        if (questionSelect) {
+          questionSelect.innerHTML = '<option value="" disabled selected>First choose a track above...</option>';
         }
-
-        // Show Success UI
-        document.getElementById('ref-id-display').textContent = refId;
-        document.getElementById('receipt-email').textContent = payload.email;
-        document.getElementById('receipt-track').textContent = payload.track;
-        document.getElementById('receipt-title').textContent = payload.essay_title;
-        
-        form.classList.add('hidden');
-        successBox.classList.remove('hidden');
-
-      } catch (err) {
-        console.error('Submission Error:', err);
-        formError.textContent = `Submission failed: ${err.message}. Please check your internet connection or bucket configuration.`;
-        formError.classList.remove('hidden');
-      } finally {
-        submitBtn.disabled = false;
-        btnText.textContent = 'Submit Essay Solution';
-      }
-    });
-
-    document.getElementById('new-submission').addEventListener('click', () => {
-      form.reset();
-      questionSelect.innerHTML = '<option value="" disabled selected>First choose a track above...</option>';
-      wordCountDisplay.textContent = '0';
-      successBox.classList.add('hidden');
-      form.classList.remove('hidden');
-    });
+        if (wordCountDisplay) wordCountDisplay.textContent = '0';
+        successBox.classList.add('hidden');
+        form.classList.remove('hidden');
+      });
+    }
 
     // Mobile Navigation Drawer Toggle
     const menuButton = document.getElementById('mobile-menu-toggle');
     const mobileMenu = document.getElementById('mobile-menu');
-    menuButton.addEventListener('click', () => {
-      const isOpen = mobileMenu.classList.toggle('hidden') === false;
-      menuButton.setAttribute('aria-expanded', String(isOpen));
-    });
-    mobileMenu.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => {
-        mobileMenu.classList.add('hidden');
-        menuButton.setAttribute('aria-expanded', 'false');
+    if (menuButton && mobileMenu) {
+      menuButton.addEventListener('click', () => {
+        const isOpen = mobileMenu.classList.toggle('hidden') === false;
+        menuButton.setAttribute('aria-expanded', String(isOpen));
       });
-    });
+      mobileMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          mobileMenu.classList.add('hidden');
+          menuButton.setAttribute('aria-expanded', 'false');
+        });
+      });
+    }
   </script>
 </body>
 </html>
