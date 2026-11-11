@@ -240,7 +240,7 @@
       <div class="text-center max-w-3xl mx-auto mb-16">
         <span class="text-brand-salmon text-xs uppercase font-bold tracking-widest block">Grow Zambia Agenda</span>
         <h2 class="font-display text-3xl sm:text-4xl font-extrabold text-white mt-1">4 Competition Tracks & 16 Prompts</h2>
-        <p class="text-slate-400 text-sm mt-3">Centered on <strong>"Grow Zambia Agenda"</strong>. Select a track below to view its 4 specific essay questions. Pick 1 question from any track of your choice for your 750 to 1,500-word submission.</p>
+        <p class="text-slate-400 text-sm mt-3">Grounded in the motto <strong>"One Zambia, One Nation"</strong>. Select a track below to view its 4 specific essay questions. Pick 1 question for your 750 to 1,500-word submission.</p>
       </div>
       <div id="track-grid" class="grid lg:grid-cols-2 gap-8"></div>
     </div>
@@ -495,7 +495,7 @@
     });
 
     // -------------------------------------------------------------
-    // REAL-TIME COUNTDOWN TIMER & TIMELINE STATUS LOGIC
+    // REAL-TIME COUNTDOWN TIMER & DYNAMIC DATABASE SETTINGS
     // -------------------------------------------------------------
     const targetDates = {
       launch: new Date('2027-01-01T00:00:00+02:00').getTime(),
@@ -510,6 +510,29 @@
     };
 
     let activeEvent = 'launch';
+    let isLaunched = false;
+    let isClosed = false;
+
+    async function loadDatabaseSettings() {
+      try {
+        const { data, error } = await supabaseClient.from('admin_settings').select('*');
+        if (data && data.length > 0) {
+          data.forEach(row => {
+            if (row.key === 'launch_date') targetDates.launch = new Date(row.value).getTime();
+            if (row.key === 'deadline_date') targetDates.deadline = new Date(row.value).getTime();
+            if (row.key === 'winners_date') targetDates.winners = new Date(row.value).getTime();
+          });
+        }
+      } catch (err) {
+        console.warn('Using default fallback timeline dates.');
+      }
+
+      const nowTimestamp = new Date().getTime();
+      isLaunched = nowTimestamp >= targetDates.launch;
+      isClosed = nowTimestamp > targetDates.deadline;
+
+      initPortalStates();
+    }
 
     function updateCountdown() {
       const now = new Date().getTime();
@@ -627,98 +650,96 @@
       ).join('');
     }
 
-    // -------------------------------------------------------------
-    // AUTOMATED LAUNCH & DEADLINE LOCKING LOGIC
-    // -------------------------------------------------------------
-    const nowTimestamp = new Date().getTime();
-    const isLaunched = nowTimestamp >= targetDates.launch;
-    const isClosed = nowTimestamp > targetDates.deadline;
-
-    // Populate Track Grid with Automatic Launch Reveal Logic
-    const trackGrid = document.getElementById('track-grid');
-    if (trackGrid) {
-      trackGrid.innerHTML = trackNames.map((track, trackIndex) => 
-        `<article class="bg-brand-card border border-brand-border rounded-3xl p-6 sm:p-8 hover:border-brand-salmon transition-colors">
-          <div class="flex items-center space-x-4 mb-4">
-            <div class="w-12 h-12 rounded-xl bg-brand-salmon/15 border border-brand-salmon/30 flex items-center justify-center text-brand-salmon text-xl font-bold">0${trackIndex + 1}</div>
-            <div>
-              <h3 class="font-display font-bold text-xl text-white">${track}</h3>
-              <span class="text-xs text-slate-400">${trackDetails[trackIndex][1]}</span>
+    function initPortalStates() {
+      // Populate Track Grid with Automatic Launch Reveal Logic
+      const trackGrid = document.getElementById('track-grid');
+      if (trackGrid) {
+        trackGrid.innerHTML = trackNames.map((track, trackIndex) => 
+          `<article class="bg-brand-card border border-brand-border rounded-3xl p-6 sm:p-8 hover:border-brand-salmon transition-colors">
+            <div class="flex items-center space-x-4 mb-4">
+              <div class="w-12 h-12 rounded-xl bg-brand-salmon/15 border border-brand-salmon/30 flex items-center justify-center text-brand-salmon text-xl font-bold">0${trackIndex + 1}</div>
+              <div>
+                <h3 class="font-display font-bold text-xl text-white">${track}</h3>
+                <span class="text-xs text-slate-400">${trackDetails[trackIndex][1]}</span>
+              </div>
             </div>
-          </div>
-          <div class="space-y-3 pt-2">
-            ${isLaunched 
-              ? trackPromptsMap[track].map((prompt, promptIndex) => 
-                  `<button type="button" class="w-full text-left p-3.5 rounded-xl bg-brand-dark border border-brand-border/80 hover:border-brand-salmon/60 transition-colors prompt-clicker" data-track="${track}" data-prompt-index="${promptIndex}">
-                    <span class="text-xs font-bold text-brand-salmon block mb-1">Prompt ${trackIndex + 1}.${promptIndex + 1}</span>
-                    <span class="text-xs text-slate-300 leading-relaxed block">${prompt}</span>
-                  </button>`
-                ).join('')
-              : `<div class="p-6 rounded-xl bg-brand-dark/80 border border-brand-border/80 text-center space-y-2">
-                  <i class="fa-solid fa-lock text-brand-salmon text-xl mb-1 block"></i>
-                  <p class="text-xs font-bold text-white uppercase tracking-wider">Prompts Locked Until Official Launch</p>
-                  <p class="text-[11px] text-slate-400">Questions for this track will automatically unlock on 1 January 2027 at 00:00 CAT.</p>
-                </div>`
-            }
-          </div>
-        </article>`
-      ).join('');
-    }
-
-    // Setup Select Elements & Portal Submission Lock States
-    const trackSelect = document.getElementById('essay-track');
-    const questionSelect = document.getElementById('essay-question');
-    const essayForm = document.getElementById('essay-form');
-    const lockBanner = document.getElementById('submission-lock-banner');
-
-    if (trackSelect && questionSelect) {
-      trackNames.forEach(track => trackSelect.add(new Option(track, track)));
-
-      function populateQuestions(track, selectedIndex = -1) {
-        if (!isLaunched) {
-          questionSelect.innerHTML = '<option value="" disabled selected>Prompts locked until 1 January 2027</option>';
-          return;
-        }
-        if (isClosed) {
-          questionSelect.innerHTML = '<option value="" disabled selected>Writing window is closed</option>';
-          return;
-        }
-
-        questionSelect.innerHTML = '<option value="" disabled selected>Select specific prompt...</option>';
-        (trackPromptsMap[track] || []).forEach((prompt, index) => {
-          questionSelect.add(new Option(prompt, prompt, false, index === selectedIndex));
-        });
+            <div class="space-y-3 pt-2">
+              ${isLaunched 
+                ? trackPromptsMap[track].map((prompt, promptIndex) => 
+                    `<button type="button" class="w-full text-left p-3.5 rounded-xl bg-brand-dark border border-brand-border/80 hover:border-brand-salmon/60 transition-colors prompt-clicker" data-track="${track}" data-prompt-index="${promptIndex}">
+                      <span class="text-xs font-bold text-brand-salmon block mb-1">Prompt ${trackIndex + 1}.${promptIndex + 1}</span>
+                      <span class="text-xs text-slate-300 leading-relaxed block">${prompt}</span>
+                    </button>`
+                  ).join('')
+                : `<div class="p-6 rounded-xl bg-brand-dark/80 border border-brand-border/80 text-center space-y-2">
+                    <i class="fa-solid fa-lock text-brand-salmon text-xl mb-1 block"></i>
+                    <p class="text-xs font-bold text-white uppercase tracking-wider">Prompts Locked Until Official Launch</p>
+                    <p class="text-[11px] text-slate-400">Questions for this track will automatically unlock on official launch day.</p>
+                  </div>`
+              }
+            </div>
+          </article>`
+        ).join('');
       }
 
-      trackSelect.addEventListener('change', () => populateQuestions(trackSelect.value));
+      // Setup Select Elements & Portal Submission Lock States
+      const trackSelect = document.getElementById('essay-track');
+      const questionSelect = document.getElementById('essay-question');
+      const essayForm = document.getElementById('essay-form');
+      const lockBanner = document.getElementById('submission-lock-banner');
 
-      if (isLaunched && !isClosed) {
-        document.querySelectorAll('.prompt-clicker').forEach(button => {
-          button.addEventListener('click', () => {
-            trackSelect.value = button.dataset.track;
-            populateQuestions(button.dataset.track, Number(button.dataset.promptIndex));
-            document.getElementById('submit').scrollIntoView({ behavior: 'smooth' });
+      if (trackSelect && questionSelect) {
+        trackSelect.innerHTML = '<option value="" disabled selected>Choose Track...</option>';
+        trackNames.forEach(track => trackSelect.add(new Option(track, track)));
+
+        function populateQuestions(track, selectedIndex = -1) {
+          if (!isLaunched) {
+            questionSelect.innerHTML = '<option value="" disabled selected>Prompts locked until official launch</option>';
+            return;
+          }
+          if (isClosed) {
+            questionSelect.innerHTML = '<option value="" disabled selected>Writing window is closed</option>';
+            return;
+          }
+
+          questionSelect.innerHTML = '<option value="" disabled selected>Select specific prompt...</option>';
+          (trackPromptsMap[track] || []).forEach((prompt, index) => {
+            questionSelect.add(new Option(prompt, prompt, false, index === selectedIndex));
           });
-        });
-      } else {
-        populateQuestions('');
+        }
+
+        trackSelect.addEventListener('change', () => populateQuestions(trackSelect.value));
+
+        if (isLaunched && !isClosed) {
+          document.querySelectorAll('.prompt-clicker').forEach(button => {
+            button.addEventListener('click', () => {
+              trackSelect.value = button.dataset.track;
+              populateQuestions(button.dataset.track, Number(button.dataset.promptIndex));
+              document.getElementById('submit').scrollIntoView({ behavior: 'smooth' });
+            });
+          });
+        } else {
+          populateQuestions('');
+        }
+      }
+
+      // Apply Portal Form Lock State
+      if (essayForm && lockBanner) {
+        if (!isLaunched) {
+          essayForm.style.opacity = '0.4';
+          essayForm.style.pointerEvents = 'none';
+          lockBanner.className = 'mb-6 p-5 rounded-2xl text-center bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-semibold block';
+          lockBanner.innerHTML = '<i class="fa-solid fa-lock text-base mb-1 block"></i>Submissions are currently locked. The portal officially opens on launch day.';
+        } else if (isClosed) {
+          essayForm.style.opacity = '0.4';
+          essayForm.style.pointerEvents = 'none';
+          lockBanner.className = 'mb-6 p-5 rounded-2xl text-center bg-red-500/10 border border-red-500/30 text-red-400 text-xs font-semibold block';
+          lockBanner.innerHTML = '<i class="fa-solid fa-lock text-base mb-1 block"></i>The writing window has closed. Thank you to all participants!';
+        }
       }
     }
 
-    // Apply Portal Form Lock State (Before Launch or After Deadline)
-    if (essayForm && lockBanner) {
-      if (!isLaunched) {
-        essayForm.style.opacity = '0.4';
-        essayForm.style.pointerEvents = 'none';
-        lockBanner.className = 'mb-6 p-5 rounded-2xl text-center bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-semibold block';
-        lockBanner.innerHTML = '<i class="fa-solid fa-lock text-base mb-1 block"></i>Submissions are currently locked. The portal officially opens on <strong>1 January 2027</strong>.';
-      } else if (isClosed) {
-        essayForm.style.opacity = '0.4';
-        essayForm.style.pointerEvents = 'none';
-        lockBanner.className = 'mb-6 p-5 rounded-2xl text-center bg-red-500/10 border border-red-500/30 text-red-400 text-xs font-semibold block';
-        lockBanner.innerHTML = '<i class="fa-solid fa-lock text-base mb-1 block"></i>The writing window has closed (Deadline: 15 January 2027). Thank you to all participants!';
-      }
-    }
+    loadDatabaseSettings();
 
     // Word Counter
     const essayBody = document.getElementById('essay-body');
@@ -804,8 +825,8 @@
             phone: document.getElementById('author-phone').value.trim(),
             email: document.getElementById('author-email').value.trim(),
             location: document.getElementById('author-location').value.trim(),
-            track: trackSelect.value,
-            question: questionSelect.value,
+            track: document.getElementById('essay-track').value,
+            question: document.getElementById('essay-question').value,
             essay_title: document.getElementById('essay-title').value.trim(),
             essay_body: essayBody.value.trim(),
             word_count: count,
