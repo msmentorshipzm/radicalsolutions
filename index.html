@@ -339,10 +339,9 @@
   </footer>
 
   <script>
-    // SUPABASE INITIALIZATION
-    // Replace these credentials with your actual project keys from Supabase Dashboard -> Project Settings -> API
-    const SUPABASE_URL = 'https://YOUR_SUPABASE_PROJECT_REF.supabase.co';
-    const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+    // SUPABASE CONFIGURATION (CONNECTED)
+    const SUPABASE_URL = 'https://cfptbvyylkngzazhsmra.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_PtihrfAVXzTj5LI8XdCzTg_NV3jrahH';
     const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     const trackPromptsMap = {
@@ -423,7 +422,7 @@
       </article>`
     ).join('');
 
-    // Setup Track & Question Select Options
+    // Setup Select Elements
     const trackSelect = document.getElementById('essay-track');
     const questionSelect = document.getElementById('essay-question');
     trackNames.forEach(track => trackSelect.add(new Option(track, track)));
@@ -445,7 +444,7 @@
       });
     });
 
-    // Word Count Calculation
+    // Word Counter
     const essayBody = document.getElementById('essay-body');
     const wordCountDisplay = document.getElementById('word-count-display');
     const formError = document.getElementById('form-error');
@@ -462,7 +461,7 @@
       wordCountDisplay.classList.toggle('text-brand-salmon', count >= 750 && count <= 1500);
     });
 
-    // SUPABASE SUBMISSION HANDLER
+    // FORM SUBMISSION (SUPABASE DATABASE POST)
     const form = document.getElementById('essay-form');
     const submitBtn = document.getElementById('submit-btn');
     const btnText = document.getElementById('btn-text');
@@ -485,9 +484,9 @@
       }
       formError.classList.add('hidden');
 
-      // Loading UI State
+      // Set Loading UI State
       submitBtn.disabled = true;
-      btnText.textContent = 'Saving to Database...';
+      btnText.textContent = 'Saving Submission...';
 
       const refId = `YRE-2026-${Math.floor(1000 + Math.random() * 9000)}`;
       const payload = {
@@ -504,7 +503,6 @@
       };
 
       try {
-        // Insert into Supabase table
         const { data, error } = await supabaseClient.from('essays').insert([payload]);
 
         if (error) {
@@ -522,7 +520,7 @@
 
       } catch (err) {
         console.error('Submission Error:', err);
-        formError.textContent = `Submission failed: ${err.message}. Please check your internet connection or keys.`;
+        formError.textContent = `Submission failed: ${err.message}. Please verify table permissions or network connection.`;
         formError.classList.remove('hidden');
       } finally {
         submitBtn.disabled = false;
@@ -538,7 +536,7 @@
       form.classList.remove('hidden');
     });
 
-    // Mobile Menu Toggle
+    // Mobile Navigation Drawer Toggle
     const menuButton = document.getElementById('mobile-menu-toggle');
     const mobileMenu = document.getElementById('mobile-menu');
     menuButton.addEventListener('click', () => {
