@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard | Your Radical Engineer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: { dark: '#0f1115', card: '#161920', border: '#242935', salmon: '#FA7052', salmonLight: '#FF8A70', amber: '#F59E0B' }
+          },
+          fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'], display: ['Space Grotesk', 'sans-serif'] }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="bg-brand-dark text-slate-200 font-sans antialiased min-h-screen flex flex-col justify-between">
+
+  <!-- TOP BAR -->
+  <header class="border-b border-brand-border bg-brand-card/80 backdrop-blur px-6 py-4 flex items-center justify-between">
+    <div class="flex items-center space-x-3">
+      <img src="radical_logo.jpeg" alt="Logo" class="w-9 h-9 rounded-lg object-cover border border-brand-border">
+      <span class="font-display font-bold text-white text-base">Radical Engineer • Admin Control Panel</span>
+    </div>
+    <div class="flex items-center space-x-4">
+      <a href="index.html" target="_blank" class="text-xs bg-brand-dark hover:bg-slate-800 border border-brand-border text-slate-300 px-4 py-2 rounded-xl transition-colors font-semibold flex items-center space-x-2">
+        <span>Live Portal</span><i class="fa-solid fa-external-link text-[10px]"></i>
+      </a>
+      <button id="logout-btn" class="hidden text-xs bg-brand-salmon/20 hover:bg-brand-salmon/30 border border-brand-salmon text-brand-salmon px-4 py-2 rounded-xl transition-colors font-semibold">
+        <i class="fa-solid fa-right-from-bracket mr-1.5"></i> Logout
+      </button>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT CONTAINER -->
+  <main class="max-w-7xl mx-auto px-4 py-12 w-full flex-grow">
+    
+    <!-- LOGIN SCREEN -->
+    <div id="login-container" class="max-w-md mx-auto bg-brand-card border border-brand-border p-8 rounded-3xl shadow-2xl">
+      <div class="text-center mb-8">
+        <div class="w-14 h-14 bg-brand-salmon/10 border border-brand-salmon/30 rounded-2xl flex items-center justify-center text-brand-salmon text-2xl mx-auto mb-3">
+          <i class="fa-solid fa-lock"></i>
+        </div>
+        <h2 class="font-display font-extrabold text-2xl text-white">Admin Secure Login</h2>
+        <p class="text-xs text-slate-400 mt-1">Authorized personnel only. Enter credentials to manage submissions.</p>
+      </div>
+      
+      <form id="login-form" class="space-y-4">
+        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300">
+          Admin Email
+          <input type="email" id="admin-email" required placeholder="admin@yourradicalengineer.com" class="mt-2 w-full bg-brand-dark border border-brand-border rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-salmon">
+        </label>
+        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300">
+          Password
+          <input type="password" id="admin-password" required placeholder="••••••••••••" class="mt-2 w-full bg-brand-dark border border-brand-border rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-salmon">
+        </label>
+        <p id="login-error" class="hidden text-xs text-red-400 text-center" role="alert"></p>
+        <button type="submit" id="login-submit-btn" class="w-full py-3.5 rounded-xl bg-brand-salmon hover:bg-brand-salmonLight text-brand-dark font-extrabold text-sm transition-all shadow-lg shadow-brand-salmon/20">
+          Sign In to Dashboard
+        </button>
+      </form>
+    </div>
+
+    <!-- DASHBOARD VIEW -->
+    <div id="dashboard-container" class="hidden space-y-12">
+      
+      <!-- TIMELINE CONFIG SECTION -->
+      <div class="bg-brand-card border border-brand-border p-8 rounded-3xl shadow-xl">
+        <span class="text-brand-salmon text-xs uppercase font-bold tracking-widest block">Cycle Management</span>
+        <h2 class="font-display text-2xl font-extrabold text-white mt-1 mb-4">Challenge Timeline Controls</h2>
+        <form id="settings-form" class="space-y-6">
+          <div class="grid sm:grid-cols-3 gap-6">
+            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300">
+              Launch Date & Time
+              <input type="datetime-local" id="set-launch" required class="mt-2 w-full bg-brand-dark border border-brand-border rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-salmon font-mono">
+            </label>
+            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300">
+              Submission Deadline
+              <input type="datetime-local" id="set-deadline" required class="mt-2 w-full bg-brand-dark border border-brand-border rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-salmon font-mono">
+            </label>
+            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300">
+              Winners Announcement
+              <input type="datetime-local" id="set-winners" required class="mt-2 w-full bg-brand-dark border border-brand-border rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-salmon font-mono">
+            </label>
+          </div>
+          <div class="flex items-center justify-between">
+            <button type="submit" class="px-6 py-3 rounded-xl bg-brand-salmon hover:bg-brand-salmonLight text-brand-dark font-extrabold text-xs transition-all">
+              Save Timelines
+            </button>
+            <span id="settings-success" class="hidden text-xs text-emerald-400 font-semibold"><i class="fa-solid fa-check mr-1"></i> Timelines updated!</span>
+          </div>
+        </form>
+      </div>
+
+      <!-- ESSAY SUBMISSIONS GRADING TABLE -->
+      <div class="bg-brand-card border border-brand-border rounded-3xl shadow-xl overflow-hidden">
+        <div class="p-6 sm:p-8 border-b border-brand-border flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          <div>
+            <span class="text-brand-salmon text-xs uppercase font-bold tracking-widest block">Adjudication Portal</span>
+            <h2 class="font-display text-2xl font-extrabold text-white mt-1">Submitted Student Essays</h2>
+          </div>
+          <button id="refresh-essays" class="text-xs bg-brand-dark hover:bg-slate-800 border border-brand-border text-slate-300 px-4 py-2.5 rounded-xl transition-colors font-semibold flex items-center space-x-2">
+            <i class="fa-solid fa-rotate"></i><span>Refresh List</span>
+          </button>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse text-xs">
+            <thead>
+              <tr class="bg-brand-dark/60 text-slate-400 border-b border-brand-border uppercase tracking-wider">
+                <th class="p-4">Reference & Author</th>
+                <th class="p-4">Track & Title</th>
+                <th class="p-4">Word Count</th>
+                <th class="p-4">Document</th>
+                <th class="p-4">Status / Winner</th>
+                <th class="p-4 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="essays-table-body" class="divide-y divide-brand-border/60">
+              <tr>
+                <td colspan="6" class="p-8 text-center text-slate-500">Loading submissions from database...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <footer class="border-t border-brand-border py-6 text-center text-xs text-slate-500">
+    &copy; 2026 Your Radical Engineer. Admin Security Console.
+  </footer>
+
+  <script>
+    const SUPABASE_URL = 'https://ohqfwvpbzvewvcmegyej.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_PtihrfAVXzTj5LI8XdCzTg_NV3jrahH';
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const loginContainer = document.getElementById('login-container');
+    const dashboardContainer = document.getElementById('dashboard-container');
+    const logoutBtn = document.getElementById('logout-btn');
+    const loginForm = document.getElementById('login-form');
+    const loginError = document.getElementById('login-error');
+
+    async function checkSession() {
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      if (session) {
+        showDashboard();
+      } else {
+        showLogin();
+      }
+    }
+
+    function showLogin() {
+      loginContainer.classList.remove('hidden');
+      dashboardContainer.classList.add('hidden');
+      logoutBtn.classList.add('hidden');
+    }
+
+    async function showDashboard() {
+      loginContainer.classList.add('hidden');
+      dashboardContainer.classList.remove('hidden');
+      logoutBtn.classList.remove('hidden');
+      await fetchCurrentSettings();
+      await fetchEssays();
+    }
+
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      loginError.classList.add('hidden');
+      const email = document.getElementById('admin-email').value;
+      const password = document.getElementById('admin-password').value;
+
+      const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
+      if (error) {
+        loginError.textContent = error.message;
+        loginError.classList.remove('hidden');
+      } else {
+        showDashboard();
+      }
+    });
+
+    logoutBtn.addEventListener('click', async () => {
+      await supabaseClient.auth.signOut();
+      showLogin();
+    });
+
+    async function fetchCurrentSettings() {
+      const { data } = await supabaseClient.from('admin_settings').select('*');
+      if (data) {
+        data.forEach(row => {
+          if (row.key === 'launch_date') document.getElementById('set-launch').value = row.value.slice(0, 16);
+          if (row.key === 'deadline_date') document.getElementById('set-deadline').value = row.value.slice(0, 16);
+          if (row.key === 'winners_date') document.getElementById('set-winners').value = row.value.slice(0, 16);
+        });
+      }
+    }
+
+    document.getElementById('settings-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const successBox = document.getElementById('settings-success');
+      successBox.classList.add('hidden');
+
+      const launchVal = new Date(document.getElementById('set-launch').value).toISOString();
+      const deadlineVal = new Date(document.getElementById('set-deadline').value).toISOString();
+      const winnersVal = new Date(document.getElementById('set-winners').value).toISOString();
+
+      const { error } = await supabaseClient.from('admin_settings').upsert([
+        { key: 'launch_date', value: launchVal },
+        { key: 'deadline_date', value: deadlineVal },
+        { key: 'winners_date', value: winnersVal }
+      ]);
+
+      if (!error) successBox.classList.remove('hidden');
+    });
+
+    // Fetch and Display Student Submissions
+    async function fetchEssays() {
+      const tbody = document.getElementById('essays-table-body');
+      tbody.innerHTML = `<tr><td colspan="6" class="p-8 text-center text-slate-500">Loading submissions...</td></tr>`;
+
+      const { data, error } = await supabaseClient
+        .from('essays')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error || !data || data.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" class="p-8 text-center text-slate-500">No essay submissions found yet.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = data.map(essay => `
+        <tr class="hover:bg-brand-dark/40 transition-colors">
+          <td class="p-4">
+            <span class="font-mono font-bold text-brand-salmon block">${essay.reference_id || 'N/A'}</span>
+            <strong class="text-white block mt-0.5">${essay.full_name}</strong>
+            <span class="text-[10px] text-slate-400">${essay.email} • ${essay.phone}</span>
+          </td>
+          <td class="p-4 max-w-xs">
+            <span class="text-[10px] uppercase font-bold text-brand-amber block">${essay.track}</span>
+            <strong class="text-white block mt-0.5">${essay.essay_title}</strong>
+            <span class="text-[10px] text-slate-400 truncate block">Q: ${essay.question}</span>
+          </td>
+          <td class="p-4 font-mono font-bold text-white">
+            ${essay.word_count} words
+          </td>
+          <td class="p-4">
+            ${essay.file_url 
+              ? `<a href="${essay.file_url}" target="_blank" class="inline-flex items-center space-x-1.5 bg-brand-salmon/10 border border-brand-salmon/30 text-brand-salmon px-3 py-1.5 rounded-lg hover:bg-brand-salmon/20 font-semibold">
+                   <i class="fa-solid fa-file-arrow-down"></i><span>Download Doc</span>
+                 </a>` 
+              : `<span class="text-slate-500 italic">No file attached</span>`
+            }
+          </td>
+          <td class="p-4">
+            <span class="px-2.5 py-1 rounded-full text-[10px] font-bold font-mono ${essay.is_winner ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40' : 'bg-slate-800 text-slate-400'}">
+              ${essay.is_winner ? '🏆 Winner' : 'Pending Review'}
+            </span>
+          </td>
+          <td class="p-4 text-right">
+            <button onclick="toggleWinner('${essay.id}', ${essay.is_winner ? 'false' : 'true'})" class="px-3 py-1.5 rounded-lg text-xs font-bold transition-colors ${essay.is_winner ? 'bg-red-500/20 hover:bg-red-500/30 text-red-400 border border-red-500/30' : 'bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-400 border border-emerald-500/30'}">
+              ${essay.is_winner ? 'Unmark Winner' : 'Mark as Winner'}
+            </button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    // Toggle Winner Status in Database
+    window.toggleWinner = async function(essayId, newStatus) {
+      const { error } = await supabaseClient
+        .from('essays')
+        .update({ is_winner: newStatus })
+        .eq('id', essayId);
+
+      if (error) {
+        alert('Failed to update winner status: ' + error.message);
+      } else {
+        await fetchEssays();
+      }
+    };
+
+    document.getElementById('refresh-essays').addEventListener('click', fetchEssays);
+
+    checkSession();
+  </script>
+</body>
+</html>
