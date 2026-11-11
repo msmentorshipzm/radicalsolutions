@@ -277,6 +277,13 @@
             Essay Title <span class="text-brand-salmon">*</span>
             <input type="text" id="essay-title" required placeholder="e.g. Solar Irrigation for Southern Province Smallholders" class="mt-2 w-full bg-brand-dark border border-brand-border rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-salmon transition-colors">
           </label>
+          
+          <!-- FILE UPLOAD FIELD -->
+          <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300">
+            Upload Essay Document (.pdf or .docx) <span class="text-slate-500 font-normal lowercase">(optional, max 10MB)</span>
+            <input type="file" id="essay-file" accept=".pdf,.docx" class="mt-2 w-full bg-brand-dark border border-brand-border rounded-xl px-4 py-2.5 text-xs text-slate-300 focus:outline-none focus:border-brand-salmon transition-colors file:mr-4 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-brand-salmon/20 file:text-brand-salmon hover:file:bg-brand-salmon/30">
+          </label>
+
           <div>
             <div class="flex items-center justify-between mb-2">
               <label for="essay-body" class="block text-xs font-semibold uppercase tracking-wider text-slate-300">Essay Body (750 to 1,500 words) <span class="text-brand-salmon">*</span></label>
@@ -339,7 +346,7 @@
   </footer>
 
   <script>
-    // SUPABASE CONFIGURATION (CONNECTED)
+    // SUPABASE CONFIGURATION
     const SUPABASE_URL = 'https://cfptbvyylkngzazhsmra.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_PtihrfAVXzTj5LI8XdCzTg_NV3jrahH';
     const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -461,7 +468,7 @@
       wordCountDisplay.classList.toggle('text-brand-salmon', count >= 750 && count <= 1500);
     });
 
-    // FORM SUBMISSION (SUPABASE DATABASE POST)
+    // FORM SUBMISSION WITH FILE UPLOAD TO SUPABASE STORAGE
     const form = document.getElementById('essay-form');
     const submitBtn = document.getElementById('submit-btn');
     const btnText = document.getElementById('btn-text');
@@ -484,25 +491,54 @@
       }
       formError.classList.add('hidden');
 
-      // Set Loading UI State
+      // Set Loading State
       submitBtn.disabled = true;
-      btnText.textContent = 'Saving Submission...';
+      btnText.textContent = 'Uploading Submission...';
 
       const refId = `YRE-2026-${Math.floor(1000 + Math.random() * 9000)}`;
-      const payload = {
-        reference_id: refId,
-        full_name: document.getElementById('author-name').value.trim(),
-        phone: document.getElementById('author-phone').value.trim(),
-        email: document.getElementById('author-email').value.trim(),
-        location: document.getElementById('author-location').value.trim(),
-        track: trackSelect.value,
-        question: questionSelect.value,
-        essay_title: document.getElementById('essay-title').value.trim(),
-        essay_body: essayBody.value.trim(),
-        word_count: count
-      };
+      const fileInput = document.getElementById('essay-file');
+      let uploadedFileUrl = null;
 
       try {
+        // 1. Upload File to Supabase Storage (if selected)
+        if (fileInput.files.length > 0) {
+          const file = fileInput.files[0];
+          const fileExt = file.name.split('.').pop();
+          const filePath = `${refId}_${Date.now()}.${fileExt}`;
+
+          const { data: storageData, error: storageError } = await supabaseClient
+            .storage
+            .from('essays')
+            .upload(filePath, file);
+
+          if (storageError) {
+            throw new Error('File upload failed: ' + storageError.message);
+          }
+
+          // Fetch Public URL
+          const { data: publicUrlData } = supabaseClient
+            .storage
+            .from('essays')
+            .getPublicUrl(filePath);
+
+          uploadedFileUrl = publicUrlData.publicUrl;
+        }
+
+        // 2. Insert Metadata into Database Table
+        const payload = {
+          reference_id: refId,
+          full_name: document.getElementById('author-name').value.trim(),
+          phone: document.getElementById('author-phone').value.trim(),
+          email: document.getElementById('author-email').value.trim(),
+          location: document.getElementById('author-location').value.trim(),
+          track: trackSelect.value,
+          question: questionSelect.value,
+          essay_title: document.getElementById('essay-title').value.trim(),
+          essay_body: essayBody.value.trim(),
+          word_count: count,
+          file_url: uploadedFileUrl
+        };
+
         const { data, error } = await supabaseClient.from('essays').insert([payload]);
 
         if (error) {
@@ -520,7 +556,7 @@
 
       } catch (err) {
         console.error('Submission Error:', err);
-        formError.textContent = `Submission failed: ${err.message}. Please verify table permissions or network connection.`;
+        formError.textContent = `Submission failed: ${err.message}. Please check your internet connection or bucket configuration.`;
         formError.classList.remove('hidden');
       } finally {
         submitBtn.disabled = false;
