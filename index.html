@@ -66,7 +66,7 @@
             <a href="#submit" class="bg-brand-salmon hover:bg-brand-salmonLight text-brand-dark font-bold px-5 py-2.5 rounded-xl transition-all shadow-md shadow-brand-salmon/20 flex items-center space-x-2">
               <i class="fa-solid fa-pen-nib text-xs"></i><span>Submit Essay</span>
             </a>
-            <button type="button" onclick="openAdminPortal()" class="text-slate-300 hover:text-brand-salmon transition-colors text-xs font-semibold flex items-center space-x-1.5 bg-brand-card border border-brand-border px-3.5 py-2.5 rounded-xl" title="Admin Control Panel">
+            <button type="button" onclick="openAdminPortal()" class="text-slate-300 hover:text-brand-salmon transition-colors text-xs font-semibold flex items-center space-x-1.5 bg-brand-card border border-brand-border px-3.5 py-2.5 rounded-xl" title="Admin & Adjudication Panel">
               <i class="fa-solid fa-lock text-[10px] text-brand-salmon"></i><span>Admin</span>
             </button>
           </div>
@@ -84,7 +84,7 @@
         <a href="#contact" class="block text-slate-300 hover:text-brand-salmon py-1">Contact Us</a>
         <a href="#submit" class="block bg-brand-salmon text-brand-dark text-center font-bold py-2.5 rounded-xl">Submit Essay Challenge</a>
         <button type="button" onclick="openAdminPortal()" class="w-full text-left text-slate-300 hover:text-brand-salmon py-2 border-t border-brand-border/60 flex items-center space-x-2 text-sm font-semibold">
-          <i class="fa-solid fa-lock text-xs text-brand-salmon"></i><span>Admin Control Panel</span>
+          <i class="fa-solid fa-lock text-xs text-brand-salmon"></i><span>Admin / Judge Portal</span>
         </button>
       </div>
     </nav>
@@ -161,17 +161,17 @@
       </div>
     </section>
 
-    <!-- PUBLISHED WINNERS SHOWCASE (AUTOMATICALLY APPEARS WHEN ENABLED IN ADMIN) -->
+    <!-- PUBLISHED OVERALL WINNER SHOWCASE (AUTOMATICALLY APPEARS WHEN ENABLED BY OWNER) -->
     <section id="winners-showcase" class="hidden py-20 bg-gradient-to-b from-brand-card to-brand-dark border-b border-brand-border/40">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center max-w-3xl mx-auto mb-14">
-          <span class="inline-flex items-center space-x-2 bg-emerald-500/10 border border-emerald-500/30 px-3.5 py-1 rounded-full text-emerald-400 text-xs font-bold uppercase tracking-widest mb-3">
-            <i class="fa-solid fa-trophy"></i><span>Official Challenge Winners</span>
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-10">
+          <span class="inline-flex items-center space-x-2 bg-emerald-500/10 border border-emerald-500/30 px-4 py-1.5 rounded-full text-emerald-400 text-xs font-bold uppercase tracking-widest mb-3">
+            <i class="fa-solid fa-trophy"></i><span>Official Challenge Winner</span>
           </span>
-          <h2 class="font-display text-3xl sm:text-4xl font-extrabold text-white">Radical Solutions Laureates</h2>
-          <p class="text-slate-400 text-sm mt-2">Congratulations to the winning authors selected by the adjudication panel to prototype their solutions.</p>
+          <h2 class="font-display text-3xl sm:text-4xl font-extrabold text-white">Radical Solutions Overall Laureate</h2>
+          <p class="text-slate-400 text-sm mt-2">Selected by the adjudication panel to build a working prototype with Your Radical Engineer.</p>
         </div>
-        <div id="winners-grid" class="grid md:grid-cols-2 gap-8"></div>
+        <div id="winners-grid" class="space-y-6"></div>
       </div>
     </section>
 
@@ -201,7 +201,7 @@
             </p>
             <p class="text-slate-400 text-sm leading-relaxed">
               Through video content, engineering discussions, tech breakdowns, and essay challenges, this portal serves as an incubator for practical solutions that directly support the <strong>Grow Zambia Agenda</strong> and national industrialization.
-              Once the solutions have been suggested from the Essays, the most feasible ideas and indeed the winners will be invited to be a part of the Radical Engineers and make prototypes for the same, and pitch the idea, with the already working prototype, to the relevant institutions for possible consideration.
+              Once the solutions have been suggested from the Essays, the most feasible ideas and indeed the winner will be invited to be a part of the Radical Engineers and make prototypes for the same, and pitch the idea, with the already working prototype, to the relevant institutions for possible consideration.
             </p>
             <div class="grid sm:grid-cols-3 gap-4 pt-4">
               <div class="bg-brand-card border border-brand-border p-4 rounded-xl text-center"><span class="block text-2xl font-bold font-display text-brand-salmon">100%</span><span class="text-xs text-slate-400">Actionable Solutions</span></div>
@@ -297,7 +297,7 @@
           <div class="bg-brand-card border border-brand-border p-6 rounded-2xl relative">
             <span class="text-brand-salmon font-mono font-bold text-sm block">Phase 04: 7th February, 2027</span>
             <h4 class="font-bold text-white text-base mt-1">Winners & Publication</h4>
-            <p class="text-xs text-slate-400 mt-2">Announcement of top radical solutions, Prize Giving and media showcases.</p>
+            <p class="text-xs text-slate-400 mt-2">Announcement of the overall radical solution, Prize Giving and media showcases.</p>
           </div>
         </div>
       </div>
@@ -489,7 +489,7 @@
   </div>
 
   <!-- ===================================================================== -->
-  <!-- VIEW 2: INTEGRATED ADMIN CONTROL PANEL                                -->
+  <!-- VIEW 2: INTEGRATED ADMIN & JUDGE CONTROL PANEL                        -->
   <!-- ===================================================================== -->
   <div id="admin-portal-view" class="hidden flex-grow flex flex-col">
 
@@ -498,7 +498,7 @@
       <div class="flex items-center space-x-3">
         <img src="radical_logo.jpeg" alt="Logo" class="w-9 h-9 rounded-lg object-cover border border-brand-border">
         <div>
-          <span class="font-display font-bold text-white text-base block leading-none">Radical Engineer • Admin Control Panel</span>
+          <span id="panel-role-title" class="font-display font-bold text-white text-base block leading-none">Radical Engineer • Adjudication & Admin Panel</span>
           <span id="logged-in-user" class="text-[10px] text-brand-salmon font-mono hidden"></span>
         </div>
       </div>
@@ -515,19 +515,19 @@
     <!-- ADMIN MAIN AREA -->
     <main class="max-w-7xl mx-auto px-4 py-10 w-full flex-grow">
 
-      <!-- ADMIN LOGIN SCREEN -->
+      <!-- LOGIN SCREEN -->
       <div id="login-container" class="max-w-md mx-auto bg-brand-card border border-brand-border p-8 rounded-3xl shadow-2xl my-8">
         <div class="text-center mb-8">
           <div class="w-14 h-14 bg-brand-salmon/10 border border-brand-salmon/30 rounded-2xl flex items-center justify-center text-brand-salmon text-2xl mx-auto mb-3">
             <i class="fa-solid fa-shield-halved"></i>
           </div>
-          <h2 class="font-display font-extrabold text-2xl text-white">Admin Secure Login</h2>
-          <p class="text-xs text-slate-400 mt-1">Sign in with your authorized email and password to manage submissions and portal settings.</p>
+          <h2 class="font-display font-extrabold text-2xl text-white">Portal Secure Login</h2>
+          <p class="text-xs text-slate-400 mt-1">Sign in with your authorized Admin or Judge credentials.</p>
         </div>
 
         <form id="login-form" class="space-y-4">
           <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300">
-            Admin Email
+            Email Address
             <input type="email" id="admin-email" required placeholder="yourradicalengineer@gmail.com" class="mt-2 w-full bg-brand-dark border border-brand-border rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-salmon">
           </label>
           <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300">
@@ -541,8 +541,14 @@
         </form>
       </div>
 
-      <!-- ADMIN DASHBOARD CONTENT -->
+      <!-- DASHBOARD CONTENT -->
       <div id="dashboard-container" class="hidden space-y-10">
+
+        <!-- JUDGE NOTICE BANNER (SHOWN ONLY FOR NON-OWNER JUDGES) -->
+        <div id="judge-notice-banner" class="hidden bg-brand-amber/10 border border-brand-amber/30 p-4 rounded-2xl flex items-center space-x-3 text-xs text-brand-amber">
+          <i class="fa-solid fa-gavel text-base"></i>
+          <span><strong>Judge Adjudication Mode:</strong> You can read all submitted essays, download attachments, assign scores (/100), and add feedback comments. Final overall winner selection and site controls are reserved for <strong>Your Radical Engineer</strong>.</span>
+        </div>
 
         <!-- METRICS SUMMARY -->
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
@@ -555,22 +561,22 @@
             <span id="stat-graded" class="font-display font-extrabold text-3xl text-brand-amber mt-1 block">0</span>
           </div>
           <div class="bg-brand-card border border-brand-border p-5 rounded-2xl">
-            <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider block">Selected Winners</span>
-            <span id="stat-winners" class="font-display font-extrabold text-3xl text-emerald-400 mt-1 block">0</span>
+            <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider block">Overall Winner</span>
+            <span id="stat-winners" class="font-display font-extrabold text-lg text-emerald-400 mt-2 block truncate">Not Selected</span>
           </div>
           <div class="bg-brand-card border border-brand-border p-5 rounded-2xl">
-            <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider block">Winners Showcase</span>
+            <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider block">Winner Showcase</span>
             <span id="stat-publish-status" class="font-display font-extrabold text-lg text-brand-salmon mt-2 block">Hidden (Draft)</span>
           </div>
         </div>
 
-        <!-- SETTINGS & CO-ADMIN ACCOUNTS -->
-        <div class="grid lg:grid-cols-12 gap-8">
+        <!-- OWNER-ONLY CONTROLS (HIDDEN FOR JUDGES) -->
+        <div id="owner-only-controls" class="hidden grid lg:grid-cols-12 gap-8">
           
           <!-- TIMELINE & PUBLISHING CONTROLS -->
           <div class="lg:col-span-7 bg-brand-card border border-brand-border p-6 sm:p-8 rounded-3xl shadow-xl">
-            <span class="text-brand-salmon text-xs uppercase font-bold tracking-widest block">Cycle & Website Controls</span>
-            <h2 class="font-display text-xl font-extrabold text-white mt-1 mb-5">Deadlines & Winner Publication</h2>
+            <span class="text-brand-salmon text-xs uppercase font-bold tracking-widest block">Owner Cycle & Website Controls</span>
+            <h2 class="font-display text-xl font-extrabold text-white mt-1 mb-5">Deadlines & Overall Winner Publication</h2>
             <form id="settings-form" class="space-y-5">
               <div class="grid sm:grid-cols-3 gap-4">
                 <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300">
@@ -589,8 +595,8 @@
 
               <div class="p-4 rounded-2xl bg-brand-dark border border-brand-border flex items-center justify-between">
                 <div>
-                  <strong class="text-xs text-white block">Publish Winners on Main Website</strong>
-                  <span class="text-[11px] text-slate-400">When enabled, all essays marked as "Winner" appear publicly on the portal.</span>
+                  <strong class="text-xs text-white block">Publish Overall Winner on Main Website</strong>
+                  <span class="text-[11px] text-slate-400">When enabled, the Overall Winner's essay title, author, and remarks appear on the public portal.</span>
                 </div>
                 <input type="checkbox" id="set-publish-winners" class="w-5 h-5 accent-brand-salmon rounded cursor-pointer">
               </div>
@@ -604,36 +610,36 @@
             </form>
           </div>
 
-          <!-- CREATE CO-ADMIN / JUDGE ACCOUNT -->
+          <!-- CREATE JUDGE ACCOUNT (OWNER ONLY) -->
           <div class="lg:col-span-5 bg-brand-card border border-brand-border p-6 sm:p-8 rounded-3xl shadow-xl">
-            <span class="text-brand-amber text-xs uppercase font-bold tracking-widest block">Access Management</span>
-            <h2 class="font-display text-xl font-extrabold text-white mt-1 mb-2">Create Admin / Judge Account</h2>
-            <p class="text-xs text-slate-400 mb-5">Authorize fellow adjudicators or team members to log into this dashboard.</p>
+            <span class="text-brand-amber text-xs uppercase font-bold tracking-widest block">Owner Access Management</span>
+            <h2 class="font-display text-xl font-extrabold text-white mt-1 mb-2">Create Judge Account</h2>
+            <p class="text-xs text-slate-400 mb-5">Authorize adjudicators to read and grade essays. Judges cannot create accounts or declare winners.</p>
             
             <form id="create-admin-form" class="space-y-4">
               <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300">
-                New Admin Email
+                Judge Email Address
                 <input type="email" id="new-admin-email" required placeholder="judge@yourradicalengineer.com" class="mt-1.5 w-full bg-brand-dark border border-brand-border rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-brand-salmon">
               </label>
               <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300">
-                Temporary Password (min 6 chars)
+                Assign Password (min 6 chars)
                 <input type="password" id="new-admin-password" required minlength="6" placeholder="••••••••" class="mt-1.5 w-full bg-brand-dark border border-brand-border rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-brand-salmon">
               </label>
               <p id="create-admin-msg" class="hidden text-xs font-semibold"></p>
               <button type="submit" id="create-admin-btn" class="w-full py-3 rounded-xl bg-brand-dark hover:bg-slate-800 border border-brand-salmon/50 text-brand-salmon font-bold text-xs transition-all">
-                <i class="fa-solid fa-user-plus mr-1.5"></i> Create Authorized Account
+                <i class="fa-solid fa-user-plus mr-1.5"></i> Create Judge Account
               </button>
             </form>
           </div>
 
         </div>
 
-        <!-- ESSAY SUBMISSIONS GRADING TABLE -->
+        <!-- ESSAY SUBMISSIONS RANKED GRADING TABLE -->
         <div class="bg-brand-card border border-brand-border rounded-3xl shadow-xl overflow-hidden">
           <div class="p-6 sm:p-8 border-b border-brand-border flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div>
-              <span class="text-brand-salmon text-xs uppercase font-bold tracking-widest block">Adjudication Portal</span>
-              <h2 class="font-display text-2xl font-extrabold text-white mt-1">Submitted Student Essays</h2>
+              <span class="text-brand-salmon text-xs uppercase font-bold tracking-widest block">Adjudication Ranking</span>
+              <h2 class="font-display text-2xl font-extrabold text-white mt-1">Submitted Student Essays (Ranked by Score)</h2>
             </div>
             <div class="flex items-center space-x-3">
               <select id="filter-track" class="bg-brand-dark border border-brand-border rounded-xl px-3 py-2 text-xs text-slate-300 focus:outline-none focus:border-brand-salmon">
@@ -653,17 +659,18 @@
             <table class="w-full text-left border-collapse text-xs">
               <thead>
                 <tr class="bg-brand-dark/60 text-slate-400 border-b border-brand-border uppercase tracking-wider">
+                  <th class="p-4">Rank</th>
                   <th class="p-4">Ref & Author</th>
                   <th class="p-4">Track & Title</th>
                   <th class="p-4">Document</th>
                   <th class="p-4">Score (/100)</th>
                   <th class="p-4">Status</th>
-                  <th class="p-4 text-right">Grade & Winner</th>
+                  <th class="p-4 text-right">Action</th>
                 </tr>
               </thead>
               <tbody id="essays-table-body" class="divide-y divide-brand-border/60">
                 <tr>
-                  <td colspan="6" class="p-8 text-center text-slate-500">Loading submissions from database...</td>
+                  <td colspan="7" class="p-8 text-center text-slate-500">Loading submissions from database...</td>
                 </tr>
               </tbody>
             </table>
@@ -710,16 +717,17 @@
               <input type="number" id="grade-score" min="0" max="100" required class="w-full bg-brand-dark border border-brand-border rounded-xl px-4 py-2.5 text-sm font-mono font-bold text-white focus:outline-none focus:border-brand-salmon">
             </div>
             <div class="sm:col-span-9">
-              <label class="block text-xs font-bold uppercase text-slate-300 mb-1.5">Admin Adjudication Comments</label>
-              <input type="text" id="grade-comments" placeholder="e.g. Strong technical feasibility on solar grid sizing; winner material." class="w-full bg-brand-dark border border-brand-border rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-brand-salmon">
+              <label class="block text-xs font-bold uppercase text-slate-300 mb-1.5">Adjudication Comments</label>
+              <input type="text" id="grade-comments" placeholder="e.g. Strong technical feasibility on solar grid sizing." class="w-full bg-brand-dark border border-brand-border rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-brand-salmon">
             </div>
             <div class="sm:col-span-12 flex flex-wrap items-center justify-between gap-4 pt-2">
-              <label class="flex items-center space-x-2.5 cursor-pointer bg-emerald-500/10 border border-emerald-500/30 px-4 py-2.5 rounded-xl">
+              <!-- OWNER-ONLY OVERALL WINNER CHECKBOX -->
+              <label id="owner-winner-toggle-wrapper" class="hidden flex items-center space-x-2.5 cursor-pointer bg-emerald-500/10 border border-emerald-500/30 px-4 py-2.5 rounded-xl">
                 <input type="checkbox" id="grade-is-winner" class="w-4 h-4 accent-emerald-500 rounded">
-                <span class="text-xs font-bold text-emerald-400">🏆 Mark as Official Track Winner (sets is_winner = TRUE)</span>
+                <span class="text-xs font-bold text-emerald-400">🏆 Declare as Overall Winner (Owner Only)</span>
               </label>
-              <button type="submit" id="save-grade-btn" class="px-6 py-3 rounded-xl bg-brand-salmon hover:bg-brand-salmonLight text-brand-dark font-extrabold text-xs transition-all">
-                Save Grade & Status
+              <button type="submit" id="save-grade-btn" class="ml-auto px-6 py-3 rounded-xl bg-brand-salmon hover:bg-brand-salmonLight text-brand-dark font-extrabold text-xs transition-all">
+                Save Grade & Comments
               </button>
             </div>
           </form>
@@ -744,7 +752,7 @@
           <p>Official Contact: <a href="mailto:yourradicalengineer@gmail.com" class="text-brand-salmon hover:underline font-mono">yourradicalengineer@gmail.com</a> | +260 976 452 281</p>
           <p>
             &copy; 2026 Your Radical Engineer. All rights reserved. • 
-            <button type="button" onclick="openAdminPortal()" class="text-slate-500 hover:text-brand-salmon underline ml-1">Admin Portal</button>
+            <button type="button" onclick="openAdminPortal()" class="text-slate-500 hover:text-brand-salmon underline ml-1">Admin / Judge Portal</button>
           </p>
         </div>
       </div>
@@ -753,18 +761,20 @@
 
   <script>
     // =====================================================================
-    // SUPABASE INITIALIZATION
+    // SUPABASE & OWNER CONFIGURATION
     // =====================================================================
     const SUPABASE_URL = 'https://ohqfwvpbzvewvcmegyej.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_PtihrfAVXzTj5LI8XdCzTg_NV3jrahH';
+    const OWNER_EMAIL = 'yourradicalengineer@gmail.com';
 
-    // Main client for public queries & admin authenticated session
     const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    // Secondary non-persistent client so creating new admin users doesn't log you out
+    // Secondary non-persistent client so creating new judge accounts doesn't log out the owner
     const secondaryAuthClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
       auth: { persistSession: false, autoRefreshToken: false }
     });
+
+    let isCurrentUserOwner = false;
 
     // =====================================================================
     // VIEW SWITCHING (PUBLIC PORTAL <-> ADMIN PANEL)
@@ -785,10 +795,9 @@
       publicPortalView.classList.remove('hidden');
       history.replaceState(null, '', window.location.pathname + window.location.search);
       window.scrollTo({ top: 0, behavior: 'smooth' });
-      loadDatabaseSettings(); // Refresh timelines & published winners immediately
+      loadDatabaseSettings();
     };
 
-    // Open admin view automatically if URL has #admin
     if (window.location.hash === '#admin') {
       openAdminPortal();
     }
@@ -850,21 +859,22 @@
         .from('essays')
         .select('full_name, location, track, essay_title, score, admin_comments')
         .eq('is_winner', true)
-        .order('score', { ascending: false });
+        .order('score', { ascending: false })
+        .limit(1);
 
       if (winners && winners.length > 0) {
         showcase.classList.remove('hidden');
-        grid.innerHTML = winners.map(w => `
-          <article class="bg-brand-card border border-emerald-500/40 rounded-3xl p-6 sm:p-8 shadow-xl relative">
-            <div class="flex items-center justify-between mb-3">
-              <span class="text-[10px] uppercase font-bold text-brand-salmon tracking-wider">${w.track}</span>
-              <span class="bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 text-[10px] font-mono font-bold px-2.5 py-1 rounded-full">🏆 Official Winner</span>
+        const w = winners[0];
+        grid.innerHTML = `
+          <article class="bg-brand-card border-2 border-emerald-500/50 rounded-3xl p-8 sm:p-10 shadow-2xl relative text-center">
+            <div class="inline-flex items-center space-x-2 bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 text-xs font-mono font-bold px-3.5 py-1 rounded-full mb-4">
+              <span>🏆 Overall Challenge Winner • ${w.track}</span>
             </div>
-            <h3 class="font-display font-bold text-xl text-white mb-2">"${w.essay_title}"</h3>
-            <p class="text-xs text-slate-300 font-semibold">By ${w.full_name} <span class="text-slate-400 font-normal">• ${w.location || 'Zambia'}</span></p>
-            ${w.admin_comments ? `<p class="text-xs text-slate-400 italic mt-4 pt-3 border-t border-brand-border/80">"${w.admin_comments}"</p>` : ''}
+            <h3 class="font-display font-extrabold text-2xl sm:text-3xl text-white mb-3">"${w.essay_title}"</h3>
+            <p class="text-sm text-brand-salmon font-bold">Authored by ${w.full_name} <span class="text-slate-400 font-normal">• ${w.location || 'Zambia'}</span></p>
+            ${w.admin_comments ? `<p class="text-xs text-slate-300 italic mt-5 pt-4 border-t border-brand-border/80 max-w-2xl mx-auto">"${w.admin_comments}"</p>` : ''}
           </article>
-        `).join('');
+        `;
       } else {
         showcase.classList.add('hidden');
       }
@@ -1259,7 +1269,7 @@
     }
 
     // =====================================================================
-    // ADMIN PANEL LOGIC (AUTH, CO-ADMINS, SETTINGS, GRADING & WINNERS)
+    // ADMIN & JUDGE PANEL LOGIC (ROLE-BASED ACCESS & SCORE RANKING)
     // =====================================================================
     const loginContainer = document.getElementById('login-container');
     const dashboardContainer = document.getElementById('dashboard-container');
@@ -1271,6 +1281,7 @@
     let allEssaysCache = [];
 
     function showAdminLogin() {
+      isCurrentUserOwner = false;
       loginContainer.classList.remove('hidden');
       dashboardContainer.classList.add('hidden');
       logoutBtn.classList.add('hidden');
@@ -1281,10 +1292,29 @@
       loginContainer.classList.add('hidden');
       dashboardContainer.classList.remove('hidden');
       logoutBtn.classList.remove('hidden');
-      if (userEmail) {
-        loggedInUserLabel.textContent = `Logged in as: ${userEmail}`;
-        loggedInUserLabel.classList.remove('hidden');
+
+      isCurrentUserOwner = (userEmail || '').toLowerCase() === OWNER_EMAIL.toLowerCase();
+
+      const ownerControls = document.getElementById('owner-only-controls');
+      const judgeBanner = document.getElementById('judge-notice-banner');
+      const ownerWinnerToggle = document.getElementById('owner-winner-toggle-wrapper');
+      const panelRoleTitle = document.getElementById('panel-role-title');
+
+      if (isCurrentUserOwner) {
+        ownerControls.classList.remove('hidden');
+        judgeBanner.classList.add('hidden');
+        ownerWinnerToggle.classList.remove('hidden');
+        panelRoleTitle.textContent = 'Radical Engineer • Owner Admin Control Panel';
+        loggedInUserLabel.textContent = `Owner Admin: ${userEmail}`;
+      } else {
+        ownerControls.classList.add('hidden');
+        judgeBanner.classList.remove('hidden');
+        ownerWinnerToggle.classList.add('hidden');
+        panelRoleTitle.textContent = 'Radical Engineer • Judge Adjudication Portal';
+        loggedInUserLabel.textContent = `Adjudicator / Judge: ${userEmail}`;
       }
+      loggedInUserLabel.classList.remove('hidden');
+
       await fetchAdminSettings();
       await fetchAdminEssays();
     }
@@ -1331,9 +1361,11 @@
       showAdminLogin();
     });
 
-    // Create Additional Admin / Judge Account
+    // Create Judge Account (Owner Only)
     document.getElementById('create-admin-form').addEventListener('submit', async (e) => {
       e.preventDefault();
+      if (!isCurrentUserOwner) return;
+
       const msgBox = document.getElementById('create-admin-msg');
       const btn = document.getElementById('create-admin-btn');
       msgBox.classList.add('hidden');
@@ -1342,20 +1374,26 @@
       const email = document.getElementById('new-admin-email').value.trim();
       const password = document.getElementById('new-admin-password').value;
 
-      const { error } = await secondaryAuthClient.auth.signUp({ email, password });
+      const { error } = await secondaryAuthClient.auth.signUp({
+        email,
+        password,
+        options: {
+          emailRedirectTo: 'https://msmentorshipzm.github.io/radicalsolutions/'
+        }
+      });
       btn.disabled = false;
 
       if (error) {
         msgBox.textContent = `Error: ${error.message}`;
         msgBox.className = 'text-xs font-semibold text-red-400 block';
       } else {
-        msgBox.textContent = `Account created for ${email}! They can now sign in with this email & password.`;
+        msgBox.textContent = `Judge account created for ${email}! They can sign in immediately with this email & password.`;
         msgBox.className = 'text-xs font-semibold text-emerald-400 block';
         document.getElementById('create-admin-form').reset();
       }
     });
 
-    // Fetch & Save Website Settings
+    // Fetch & Save Website Settings (Owner Only)
     async function fetchAdminSettings() {
       const { data } = await supabaseClient.from('admin_settings').select('*');
       if (data) {
@@ -1374,6 +1412,8 @@
 
     document.getElementById('settings-form').addEventListener('submit', async (e) => {
       e.preventDefault();
+      if (!isCurrentUserOwner) return;
+
       const successBox = document.getElementById('settings-success');
       successBox.classList.add('hidden');
 
@@ -1397,18 +1437,19 @@
       }
     });
 
-    // Fetch, Filter & Render Essays
+    // Fetch, Rank by Score & Render Essays
     async function fetchAdminEssays() {
       const tbody = document.getElementById('essays-table-body');
-      tbody.innerHTML = `<tr><td colspan="6" class="p-8 text-center text-slate-500">Loading submissions...</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-slate-500">Loading submissions...</td></tr>`;
 
       const { data, error } = await supabaseClient
         .from('essays')
         .select('*')
-        .order('created_at', { ascending: false });
+        .order('score', { ascending: false, nullsFirst: false })
+        .order('created_at', { ascending: true });
 
       if (error) {
-        tbody.innerHTML = `<tr><td colspan="6" class="p-8 text-center text-red-400">Error loading essays: ${error.message}</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-red-400">Error loading essays: ${error.message}</td></tr>`;
         return;
       }
 
@@ -1420,7 +1461,8 @@
     function updateAdminStats() {
       document.getElementById('stat-total').textContent = allEssaysCache.length;
       document.getElementById('stat-graded').textContent = allEssaysCache.filter(e => e.score && e.score > 0).length;
-      document.getElementById('stat-winners').textContent = allEssaysCache.filter(e => e.is_winner).length;
+      const overallWinner = allEssaysCache.find(e => e.is_winner);
+      document.getElementById('stat-winners').textContent = overallWinner ? overallWinner.full_name : 'Not Selected';
     }
 
     function renderAdminEssaysTable() {
@@ -1431,48 +1473,56 @@
         : allEssaysCache.filter(e => e.track === trackFilter);
 
       if (filtered.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="6" class="p-8 text-center text-slate-500">No essay submissions found for this filter.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-slate-500">No essay submissions found for this filter.</td></tr>`;
         return;
       }
 
-      tbody.innerHTML = filtered.map(essay => `
-        <tr class="hover:bg-brand-dark/40 transition-colors">
-          <td class="p-4">
-            <span class="font-mono font-bold text-brand-salmon block">${essay.reference_id || 'N/A'}</span>
-            <strong class="text-white block mt-0.5">${essay.full_name}</strong>
-            <span class="text-[10px] text-slate-400">${essay.location || ''} • ${essay.phone}</span>
-          </td>
-          <td class="p-4 max-w-xs">
-            <span class="text-[10px] uppercase font-bold text-brand-amber block">${essay.track}</span>
-            <strong class="text-white block mt-0.5">${essay.essay_title}</strong>
-            <span class="text-[10px] text-slate-400 block mt-0.5">${essay.word_count} words</span>
-          </td>
-          <td class="p-4">
-            ${essay.file_url
-              ? `<a href="${essay.file_url}" target="_blank" class="inline-flex items-center space-x-1.5 bg-brand-salmon/10 border border-brand-salmon/30 text-brand-salmon px-3 py-1.5 rounded-lg hover:bg-brand-salmon/20 font-semibold">
-                   <i class="fa-solid fa-file-arrow-down"></i><span>File</span>
-                 </a>`
-              : `<span class="text-slate-500 italic">Text Only</span>`
-            }
-          </td>
-          <td class="p-4">
-            <span class="font-mono font-extrabold text-sm ${essay.score > 0 ? 'text-brand-amber' : 'text-slate-500'}">
-              ${essay.score || 0}/100
-            </span>
-            ${essay.admin_comments ? `<span class="text-[10px] text-slate-400 block max-w-[140px] truncate" title="${essay.admin_comments}">${essay.admin_comments}</span>` : ''}
-          </td>
-          <td class="p-4">
-            <span class="px-2.5 py-1 rounded-full text-[10px] font-bold font-mono ${essay.is_winner ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40' : 'bg-slate-800 text-slate-400'}">
-              ${essay.is_winner ? '🏆 Winner' : 'Submitted'}
-            </span>
-          </td>
-          <td class="p-4 text-right">
-            <button type="button" onclick="openGradeModal('${essay.id}')" class="px-3.5 py-2 rounded-xl bg-brand-salmon hover:bg-brand-salmonLight text-brand-dark font-extrabold text-xs transition-colors">
-              <i class="fa-solid fa-pen-to-square mr-1"></i> Read & Grade
-            </button>
-          </td>
-        </tr>
-      `).join('');
+      tbody.innerHTML = filtered.map((essay, idx) => {
+        const isGraded = essay.score && essay.score > 0;
+        const rankBadge = isGraded
+          ? `<span class="inline-flex items-center justify-center w-7 h-7 rounded-lg font-mono font-extrabold text-xs ${idx === 0 ? 'bg-brand-amber/20 text-brand-amber border border-brand-amber/40' : 'bg-brand-dark text-slate-300 border border-brand-border'}">#${idx + 1}</span>`
+          : `<span class="text-[10px] font-mono text-slate-500">—</span>`;
+
+        return `
+          <tr class="hover:bg-brand-dark/40 transition-colors ${essay.is_winner ? 'bg-emerald-500/5' : ''}">
+            <td class="p-4">${rankBadge}</td>
+            <td class="p-4">
+              <span class="font-mono font-bold text-brand-salmon block">${essay.reference_id || 'N/A'}</span>
+              <strong class="text-white block mt-0.5">${essay.full_name}</strong>
+              <span class="text-[10px] text-slate-400">${essay.location || ''} • ${essay.phone}</span>
+            </td>
+            <td class="p-4 max-w-xs">
+              <span class="text-[10px] uppercase font-bold text-brand-amber block">${essay.track}</span>
+              <strong class="text-white block mt-0.5">${essay.essay_title}</strong>
+              <span class="text-[10px] text-slate-400 block mt-0.5">${essay.word_count} words</span>
+            </td>
+            <td class="p-4">
+              ${essay.file_url
+                ? `<a href="${essay.file_url}" target="_blank" class="inline-flex items-center space-x-1.5 bg-brand-salmon/10 border border-brand-salmon/30 text-brand-salmon px-3 py-1.5 rounded-lg hover:bg-brand-salmon/20 font-semibold">
+                     <i class="fa-solid fa-file-arrow-down"></i><span>File</span>
+                   </a>`
+                : `<span class="text-slate-500 italic">Text Only</span>`
+              }
+            </td>
+            <td class="p-4">
+              <span class="font-mono font-extrabold text-sm ${isGraded ? 'text-brand-amber' : 'text-slate-500'}">
+                ${essay.score || 0}/100
+              </span>
+              ${essay.admin_comments ? `<span class="text-[10px] text-slate-400 block max-w-[140px] truncate" title="${essay.admin_comments}">${essay.admin_comments}</span>` : ''}
+            </td>
+            <td class="p-4">
+              <span class="px-2.5 py-1 rounded-full text-[10px] font-bold font-mono ${essay.is_winner ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40' : (isGraded ? 'bg-brand-amber/15 text-brand-amber' : 'bg-slate-800 text-slate-400')}">
+                ${essay.is_winner ? '🏆 Overall Winner' : (isGraded ? 'Graded' : 'Pending')}
+              </span>
+            </td>
+            <td class="p-4 text-right">
+              <button type="button" onclick="openGradeModal('${essay.id}')" class="px-3.5 py-2 rounded-xl bg-brand-salmon hover:bg-brand-salmonLight text-brand-dark font-extrabold text-xs transition-colors">
+                <i class="fa-solid fa-pen-to-square mr-1"></i> Read & Grade
+              </button>
+            </td>
+          </tr>
+        `;
+      }).join('');
     }
 
     // Grading Modal Controls
@@ -1516,15 +1566,29 @@
       const id = document.getElementById('grade-essay-id').value;
       const score = Number(document.getElementById('grade-score').value);
       const admin_comments = document.getElementById('grade-comments').value.trim();
-      const is_winner = document.getElementById('grade-is-winner').checked;
+
+      const updatePayload = { score, admin_comments };
+
+      if (isCurrentUserOwner) {
+        const makeWinner = document.getElementById('grade-is-winner').checked;
+        updatePayload.is_winner = makeWinner;
+
+        // Ensure only one overall winner exists at a time when owner selects a winner
+        if (makeWinner) {
+          await supabaseClient
+            .from('essays')
+            .update({ is_winner: false })
+            .neq('id', id);
+        }
+      }
 
       const { error } = await supabaseClient
         .from('essays')
-        .update({ score, admin_comments, is_winner })
+        .update(updatePayload)
         .eq('id', id);
 
       saveBtn.disabled = false;
-      saveBtn.textContent = 'Save Grade & Status';
+      saveBtn.textContent = 'Save Grade & Comments';
 
       if (error) {
         alert('Failed to save grade: ' + error.message);
