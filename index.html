@@ -161,17 +161,16 @@
       </div>
     </section>
 
-    <!-- PUBLISHED OVERALL WINNER SHOWCASE (AUTOMATICALLY APPEARS WHEN ENABLED BY OWNER) -->
-    <section id="winners-showcase" class="hidden py-20 bg-gradient-to-b from-brand-card to-brand-dark border-b border-brand-border/40">
-      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- PUBLISHED OVERALL WINNER SHOWCASE (EXECUTIVE CENTERED LAYOUT) -->
+    <section id="winners-showcase" class="hidden py-24 bg-gradient-to-b from-brand-card via-brand-dark to-brand-dark border-b border-brand-border/40 relative overflow-hidden">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="text-center mb-10">
-          <span class="inline-flex items-center space-x-2 bg-emerald-500/10 border border-emerald-500/30 px-4 py-1.5 rounded-full text-emerald-400 text-xs font-bold uppercase tracking-widest mb-3">
-            <i class="fa-solid fa-trophy"></i><span>Official Challenge Winner</span>
+          <span class="inline-flex items-center space-x-2 bg-brand-amber/10 border border-brand-amber/30 px-4 py-1.5 rounded-full text-brand-amber text-xs font-bold uppercase tracking-widest mb-4">
+            <i class="fa-solid fa-award"></i><span>Official Results • Edition 1</span>
           </span>
-          <h2 class="font-display text-3xl sm:text-4xl font-extrabold text-white">Radical Solutions Overall Laureate</h2>
-          <p class="text-slate-400 text-sm mt-2">Selected by the adjudication panel to build a working prototype with Your Radical Engineer.</p>
+          <h2 class="font-display text-3xl sm:text-5xl font-extrabold text-white tracking-tight">Radical Solutions Laureate</h2>
         </div>
-        <div id="winners-grid" class="space-y-6"></div>
+        <div id="winners-grid"></div>
       </div>
     </section>
 
@@ -542,12 +541,27 @@
       </div>
 
       <!-- DASHBOARD CONTENT -->
-      <div id="dashboard-container" class="hidden space-y-10">
+      <div id="dashboard-container" class="hidden space-y-8">
 
         <!-- JUDGE NOTICE BANNER (SHOWN ONLY FOR NON-OWNER JUDGES) -->
         <div id="judge-notice-banner" class="hidden bg-brand-amber/10 border border-brand-amber/30 p-4 rounded-2xl flex items-center space-x-3 text-xs text-brand-amber">
           <i class="fa-solid fa-gavel text-base"></i>
           <span><strong>Judge Adjudication Mode:</strong> You can read all submitted essays, download attachments, assign scores (/100), and add feedback comments. Final overall winner selection and site controls are reserved for <strong>Your Radical Engineer</strong>.</span>
+        </div>
+
+        <!-- ACCOUNT SECURITY: CHANGE PASSWORD (AVAILABLE TO OWNER & JUDGES) -->
+        <div class="bg-brand-card border border-brand-border p-5 rounded-2xl flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
+          <div>
+            <span class="text-[10px] uppercase font-bold text-brand-salmon tracking-widest block">Account Security</span>
+            <strong class="text-sm text-white">Change Your Login Password</strong>
+            <span id="password-change-msg" class="text-xs ml-2 hidden"></span>
+          </div>
+          <form id="change-password-form" class="flex flex-wrap sm:flex-nowrap items-center gap-3 w-full lg:w-auto">
+            <input type="password" id="new-user-password" required minlength="6" placeholder="New password (min 6 chars)" class="bg-brand-dark border border-brand-border rounded-xl px-4 py-2 text-xs text-white focus:outline-none focus:border-brand-salmon w-full sm:w-56">
+            <button type="submit" id="change-pass-btn" class="px-4 py-2 rounded-xl bg-brand-dark hover:bg-slate-800 border border-brand-border text-slate-200 font-bold text-xs transition-colors whitespace-nowrap">
+              Update Password
+            </button>
+          </form>
         </div>
 
         <!-- METRICS SUMMARY -->
@@ -593,10 +607,23 @@
                 </label>
               </div>
 
+              <!-- CUSTOM PUBLIC WINNER ANNOUNCEMENT MESSAGE -->
+              <div>
+                <div class="flex items-center justify-between mb-1.5">
+                  <label for="set-winner-message" class="block text-xs font-semibold uppercase tracking-wider text-slate-300">
+                    Official Public Winner Announcement Message
+                  </label>
+                  <button type="button" id="fill-template-msg" class="text-[11px] text-brand-salmon hover:underline font-semibold">
+                    <i class="fa-solid fa-wand-magic-sparkles mr-1"></i>Insert Professional Template
+                  </button>
+                </div>
+                <textarea id="set-winner-message" rows="3" placeholder="Write your official public announcement congratulating the winner and announcing the prototype phase..." class="w-full bg-brand-dark border border-brand-border rounded-xl p-3.5 text-xs text-white focus:outline-none focus:border-brand-salmon leading-relaxed"></textarea>
+              </div>
+
               <div class="p-4 rounded-2xl bg-brand-dark border border-brand-border flex items-center justify-between">
                 <div>
                   <strong class="text-xs text-white block">Publish Overall Winner on Main Website</strong>
-                  <span class="text-[11px] text-slate-400">When enabled, the Overall Winner's essay title, author, and remarks appear on the public portal.</span>
+                  <span class="text-[11px] text-slate-400">When enabled, the Overall Winner's essay title, author, and your official announcement appear on the public portal.</span>
                 </div>
                 <input type="checkbox" id="set-publish-winners" class="w-5 h-5 accent-brand-salmon rounded cursor-pointer">
               </div>
@@ -614,7 +641,7 @@
           <div class="lg:col-span-5 bg-brand-card border border-brand-border p-6 sm:p-8 rounded-3xl shadow-xl">
             <span class="text-brand-amber text-xs uppercase font-bold tracking-widest block">Owner Access Management</span>
             <h2 class="font-display text-xl font-extrabold text-white mt-1 mb-2">Create Judge Account</h2>
-            <p class="text-xs text-slate-400 mb-5">Authorize adjudicators to read and grade essays. Judges cannot create accounts or declare winners.</p>
+            <p class="text-xs text-slate-400 mb-5">Invite adjudicators to read and grade essays. Their confirmation email will include this temporary password.</p>
             
             <form id="create-admin-form" class="space-y-4">
               <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300">
@@ -622,12 +649,12 @@
                 <input type="email" id="new-admin-email" required placeholder="judge@yourradicalengineer.com" class="mt-1.5 w-full bg-brand-dark border border-brand-border rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-brand-salmon">
               </label>
               <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300">
-                Assign Password (min 6 chars)
+                Temporary Password (min 6 chars)
                 <input type="password" id="new-admin-password" required minlength="6" placeholder="••••••••" class="mt-1.5 w-full bg-brand-dark border border-brand-border rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-brand-salmon">
               </label>
               <p id="create-admin-msg" class="hidden text-xs font-semibold"></p>
               <button type="submit" id="create-admin-btn" class="w-full py-3 rounded-xl bg-brand-dark hover:bg-slate-800 border border-brand-salmon/50 text-brand-salmon font-bold text-xs transition-all">
-                <i class="fa-solid fa-user-plus mr-1.5"></i> Create Judge Account
+                <i class="fa-solid fa-user-plus mr-1.5"></i> Create Judge & Send Invite
               </button>
             </form>
           </div>
@@ -717,7 +744,7 @@
               <input type="number" id="grade-score" min="0" max="100" required class="w-full bg-brand-dark border border-brand-border rounded-xl px-4 py-2.5 text-sm font-mono font-bold text-white focus:outline-none focus:border-brand-salmon">
             </div>
             <div class="sm:col-span-9">
-              <label class="block text-xs font-bold uppercase text-slate-300 mb-1.5">Adjudication Comments</label>
+              <label class="block text-xs font-bold uppercase text-slate-300 mb-1.5">Internal Adjudication Notes (Private)</label>
               <input type="text" id="grade-comments" placeholder="e.g. Strong technical feasibility on solar grid sizing." class="w-full bg-brand-dark border border-brand-border rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-brand-salmon">
             </div>
             <div class="sm:col-span-12 flex flex-wrap items-center justify-between gap-4 pt-2">
@@ -727,7 +754,7 @@
                 <span class="text-xs font-bold text-emerald-400">🏆 Declare as Overall Winner (Owner Only)</span>
               </label>
               <button type="submit" id="save-grade-btn" class="ml-auto px-6 py-3 rounded-xl bg-brand-salmon hover:bg-brand-salmonLight text-brand-dark font-extrabold text-xs transition-all">
-                Save Grade & Comments
+                Save Grade & Notes
               </button>
             </div>
           </form>
@@ -798,7 +825,7 @@
       loadDatabaseSettings();
     };
 
-    if (window.location.hash === '#admin') {
+    if (window.location.hash === '#admin' || window.location.hash.includes('access_token')) {
       openAdminPortal();
     }
 
@@ -823,6 +850,7 @@
 
     async function loadDatabaseSettings() {
       let publishWinners = false;
+      let customWinnerMessage = '';
       try {
         const { data } = await supabaseClient.from('admin_settings').select('*');
         if (data && data.length > 0) {
@@ -831,6 +859,7 @@
             if (row.key === 'deadline_date') targetDates.deadline = new Date(row.value).getTime();
             if (row.key === 'winners_date') targetDates.winners = new Date(row.value).getTime();
             if (row.key === 'publish_winners' && row.value === 'true') publishWinners = true;
+            if (row.key === 'winner_announcement_message') customWinnerMessage = row.value;
           });
         }
       } catch (err) {
@@ -842,10 +871,10 @@
       isClosed = nowTimestamp > targetDates.deadline;
 
       initPortalStates();
-      await loadPublishedWinners(publishWinners);
+      await loadPublishedWinners(publishWinners, customWinnerMessage);
     }
 
-    async function loadPublishedWinners(isPublished) {
+    async function loadPublishedWinners(isPublished, customMessage) {
       const showcase = document.getElementById('winners-showcase');
       const grid = document.getElementById('winners-grid');
       if (!showcase || !grid) return;
@@ -857,7 +886,7 @@
 
       const { data: winners } = await supabaseClient
         .from('essays')
-        .select('full_name, location, track, essay_title, score, admin_comments')
+        .select('full_name, location, track, essay_title')
         .eq('is_winner', true)
         .order('score', { ascending: false })
         .limit(1);
@@ -865,14 +894,32 @@
       if (winners && winners.length > 0) {
         showcase.classList.remove('hidden');
         const w = winners[0];
+        const announcementText = (customMessage && customMessage.trim().length > 0)
+          ? customMessage.trim()
+          : `Following rigorous technical adjudication across all submissions, we are proud to announce ${w.full_name} as the Inaugural Radical Solutions Challenge Winner. The winning proposal will now advance to the prototyping and institutional pitch phase with Your Radical Engineer.`;
+
         grid.innerHTML = `
-          <article class="bg-brand-card border-2 border-emerald-500/50 rounded-3xl p-8 sm:p-10 shadow-2xl relative text-center">
-            <div class="inline-flex items-center space-x-2 bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 text-xs font-mono font-bold px-3.5 py-1 rounded-full mb-4">
-              <span>🏆 Overall Challenge Winner • ${w.track}</span>
+          <article class="bg-gradient-to-b from-brand-card to-brand-dark border border-brand-salmon/40 rounded-3xl p-8 sm:p-12 shadow-2xl text-center relative">
+            <div class="w-16 h-16 rounded-2xl bg-brand-amber/10 border border-brand-amber/30 text-brand-amber text-3xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+              <i class="fa-solid fa-trophy"></i>
             </div>
-            <h3 class="font-display font-extrabold text-2xl sm:text-3xl text-white mb-3">"${w.essay_title}"</h3>
-            <p class="text-sm text-brand-salmon font-bold">Authored by ${w.full_name} <span class="text-slate-400 font-normal">• ${w.location || 'Zambia'}</span></p>
-            ${w.admin_comments ? `<p class="text-xs text-slate-300 italic mt-5 pt-4 border-t border-brand-border/80 max-w-2xl mx-auto">"${w.admin_comments}"</p>` : ''}
+            <span class="inline-block text-[11px] uppercase font-bold text-brand-salmon tracking-widest bg-brand-salmon/10 border border-brand-salmon/30 px-3.5 py-1 rounded-full mb-4">
+              ${w.track}
+            </span>
+            <h3 class="font-display font-extrabold text-2xl sm:text-4xl text-white leading-snug mb-4">
+              “${w.essay_title}”
+            </h3>
+            <div class="inline-flex items-center justify-center space-x-2 text-sm sm:text-base text-slate-200 font-semibold mb-6">
+              <span>Authored by <strong class="text-white">${w.full_name}</strong></span>
+              <span class="text-brand-salmon">•</span>
+              <span class="text-slate-400">${w.location || 'Zambia'}</span>
+            </div>
+            <div class="max-w-2xl mx-auto pt-6 border-t border-brand-border/80">
+              <p class="text-sm text-slate-300 leading-relaxed whitespace-pre-line">${announcementText}</p>
+              <p class="text-xs font-display font-bold text-brand-salmon uppercase tracking-widest mt-5">
+                — Milimo Siabana, Your Radical Engineer
+              </p>
+            </div>
           </article>
         `;
       } else {
@@ -1361,7 +1408,33 @@
       showAdminLogin();
     });
 
-    // Create Judge Account (Owner Only)
+    // Change Logged-In User Password (Owner or Judge)
+    document.getElementById('change-password-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const msgEl = document.getElementById('password-change-msg');
+      const btn = document.getElementById('change-pass-btn');
+      const newPassword = document.getElementById('new-user-password').value;
+
+      msgEl.classList.add('hidden');
+      btn.disabled = true;
+      btn.textContent = 'Updating...';
+
+      const { error } = await supabaseClient.auth.updateUser({ password: newPassword });
+
+      btn.disabled = false;
+      btn.textContent = 'Update Password';
+
+      if (error) {
+        msgEl.textContent = `Error: ${error.message}`;
+        msgEl.className = 'text-xs font-semibold text-red-400 inline-block';
+      } else {
+        msgEl.textContent = 'Password updated successfully!';
+        msgEl.className = 'text-xs font-semibold text-emerald-400 inline-block';
+        document.getElementById('change-password-form').reset();
+      }
+    });
+
+    // Create Judge Account & Pass Temporary Password to Email Template (Owner Only)
     document.getElementById('create-admin-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       if (!isCurrentUserOwner) return;
@@ -1378,7 +1451,11 @@
         email,
         password,
         options: {
-          emailRedirectTo: 'https://msmentorshipzm.github.io/radicalsolutions/'
+          emailRedirectTo: 'https://msmentorshipzm.github.io/radicalsolutions/#admin',
+          data: {
+            temp_password: password,
+            role: 'judge'
+          }
         }
       });
       btn.disabled = false;
@@ -1387,7 +1464,7 @@
         msgBox.textContent = `Error: ${error.message}`;
         msgBox.className = 'text-xs font-semibold text-red-400 block';
       } else {
-        msgBox.textContent = `Judge account created for ${email}! They can sign in immediately with this email & password.`;
+        msgBox.textContent = `Invitation sent to ${email} with their temporary password!`;
         msgBox.className = 'text-xs font-semibold text-emerald-400 block';
         document.getElementById('create-admin-form').reset();
       }
@@ -1401,6 +1478,7 @@
           if (row.key === 'launch_date') document.getElementById('set-launch').value = row.value.slice(0, 16);
           if (row.key === 'deadline_date') document.getElementById('set-deadline').value = row.value.slice(0, 16);
           if (row.key === 'winners_date') document.getElementById('set-winners').value = row.value.slice(0, 16);
+          if (row.key === 'winner_announcement_message') document.getElementById('set-winner-message').value = row.value || '';
           if (row.key === 'publish_winners') {
             const isPub = row.value === 'true';
             document.getElementById('set-publish-winners').checked = isPub;
@@ -1409,6 +1487,15 @@
         });
       }
     }
+
+    // 1-Click Professional Announcement Template Button
+    document.getElementById('fill-template-msg').addEventListener('click', () => {
+      const winner = allEssaysCache.find(e => e.is_winner);
+      const winnerName = winner ? winner.full_name : '[Winner Name]';
+      const trackName = winner ? winner.track : '[Selected Track]';
+      document.getElementById('set-winner-message').value =
+        `After thorough evaluation of technical feasibility, originality, and alignment with the Grow Zambia Agenda, the adjudication panel is pleased to name ${winnerName} (${trackName}) as the Overall Winner of Edition 1.\n\nWe now invite the laureate to collaborate directly with Your Radical Engineer to develop a working prototype for formal presentation to relevant national institutions.`;
+    });
 
     document.getElementById('settings-form').addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -1421,12 +1508,14 @@
       const deadlineVal = new Date(document.getElementById('set-deadline').value).toISOString();
       const winnersVal = new Date(document.getElementById('set-winners').value).toISOString();
       const publishWinnersVal = document.getElementById('set-publish-winners').checked ? 'true' : 'false';
+      const winnerMessageVal = document.getElementById('set-winner-message').value.trim();
 
       const { error } = await supabaseClient.from('admin_settings').upsert([
         { key: 'launch_date', value: launchVal },
         { key: 'deadline_date', value: deadlineVal },
         { key: 'winners_date', value: winnersVal },
-        { key: 'publish_winners', value: publishWinnersVal }
+        { key: 'publish_winners', value: publishWinnersVal },
+        { key: 'winner_announcement_message', value: winnerMessageVal }
       ]);
 
       if (!error) {
@@ -1573,7 +1662,6 @@
         const makeWinner = document.getElementById('grade-is-winner').checked;
         updatePayload.is_winner = makeWinner;
 
-        // Ensure only one overall winner exists at a time when owner selects a winner
         if (makeWinner) {
           await supabaseClient
             .from('essays')
@@ -1588,7 +1676,7 @@
         .eq('id', id);
 
       saveBtn.disabled = false;
-      saveBtn.textContent = 'Save Grade & Comments';
+      saveBtn.textContent = 'Save Grade & Notes';
 
       if (error) {
         alert('Failed to save grade: ' + error.message);
