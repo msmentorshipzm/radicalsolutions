@@ -135,14 +135,12 @@
                 <span id="countdown-status" class="bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[10px] font-mono font-bold px-2.5 py-1 rounded-full">Counting Down</span>
               </div>
 
-              <!-- COUNTDOWN EVENT SELECTOR TABS -->
               <div class="grid grid-cols-3 gap-1.5 p-1 bg-brand-dark/80 border border-brand-border rounded-xl my-4 text-[10px] font-bold">
                 <button type="button" class="countdown-tab active py-1.5 rounded-lg text-center transition-all bg-brand-salmon text-brand-dark" data-event="launch">Launch</button>
                 <button type="button" class="countdown-tab py-1.5 rounded-lg text-center transition-all text-slate-400 hover:text-white" data-event="deadline">Deadline</button>
                 <button type="button" class="countdown-tab py-1.5 rounded-lg text-center transition-all text-slate-400 hover:text-white" data-event="winners">Winners</button>
               </div>
 
-              <!-- COUNTDOWN NUMERIC GRID -->
               <div class="grid grid-cols-4 gap-2 text-center py-2">
                 <div class="bg-brand-dark border border-brand-border p-3 rounded-2xl">
                   <span id="timer-days" class="font-display font-extrabold text-2xl text-brand-salmon block font-mono">00</span>
@@ -299,7 +297,7 @@
           <div class="bg-brand-card border border-brand-border p-6 rounded-2xl relative">
             <span class="text-brand-salmon font-mono font-bold text-sm block">Phase 03: Adjudication</span>
             <h4 class="font-bold text-white text-base mt-1">Panel Review</h4>
-            <p class="text-xs text-slate-400 mt-2">Independent evaluation of technical feasibility, originality, and national impact by assigned judges.</p>
+            <p class="text-xs text-slate-400 mt-2">Independent blind evaluation of technical feasibility, originality, and national impact by assigned judges.</p>
           </div>
           <div class="bg-brand-card border border-brand-border p-6 rounded-2xl relative">
             <span class="text-brand-salmon font-mono font-bold text-sm block">Phase 04: Publication</span>
@@ -365,7 +363,6 @@
         </div>
         <div class="bg-brand-card border border-brand-border rounded-3xl p-6 sm:p-10 shadow-2xl relative">
 
-          <!-- SUBMISSION STATUS BANNER -->
           <div id="submission-lock-banner" class="hidden mb-6 p-5 rounded-2xl text-center border"></div>
 
           <form id="essay-form" class="space-y-6" novalidate>
@@ -591,8 +588,8 @@
 
         <!-- JUDGE NOTICE BANNER -->
         <div id="judge-notice-banner" class="hidden bg-brand-amber/10 border border-brand-amber/30 p-4 rounded-2xl flex items-center space-x-3 text-xs text-brand-amber">
-          <i class="fa-solid fa-gavel text-base"></i>
-          <span><strong>Judge Adjudication Mode:</strong> You can view submissions, filter by Pending / In Progress / Needs Review / Graded, search by Reference ID or Name, read essays, use AI Pre-Mark, and assign scores (/100) with notes. Ranked standings, judge assignments, payment settings, cycle tracks, media, rules, and winner publication belong strictly to <strong>Your Radical Engineer</strong>.</span>
+          <i class="fa-solid fa-user-secret text-base"></i>
+          <span><strong>Blind Adjudication Mode:</strong> Author names, locations, and contact details are hidden so every entry is evaluated strictly on merit using its <strong>Reference ID</strong>. You can see how many essays are assigned to you alongside total submissions, filter by status, use AI Pre-Mark, and assign scores (/100) with notes.</span>
         </div>
 
         <!-- ACCOUNT SECURITY: CHANGE PASSWORD -->
@@ -633,7 +630,7 @@
             <span id="stat-graded" class="font-display font-extrabold text-3xl text-emerald-400 mt-1 block">0</span>
           </div>
           <div class="bg-brand-card border border-brand-border p-5 rounded-2xl">
-            <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider block">Overall Winner</span>
+            <span id="stat-sixth-label" class="text-[10px] uppercase font-bold text-slate-400 tracking-wider block">Overall Winner</span>
             <span id="stat-winners" class="font-display font-extrabold text-base text-emerald-400 mt-2 block truncate">Not Selected</span>
           </div>
         </div>
@@ -756,7 +753,7 @@
               <div>
                 <span class="text-brand-amber text-xs uppercase font-bold tracking-widest block">Owner Access Management</span>
                 <h2 class="font-display text-xl font-extrabold text-white mt-1 mb-2">Create & Manage Judges</h2>
-                <p class="text-xs text-slate-400 mb-5">Create a new judge, or re-enter a paused/revoked judge's email with a new password to update their account and send fresh credentials.</p>
+                <p class="text-xs text-slate-400 mb-5">Create a new judge account or reactivate an existing judge. Invitations and password links are dispatched automatically via your configured Supabase SMTP.</p>
 
                 <form id="create-admin-form" class="space-y-3.5">
                   <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300">
@@ -768,12 +765,12 @@
                     <input type="email" id="new-admin-email" required placeholder="judge@yourradicalengineer.com" class="mt-1.5 w-full bg-brand-dark border border-brand-border rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-brand-salmon">
                   </label>
                   <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300">
-                    Temporary Password (min 6 chars)
+                    Initial Password (min 6 chars)
                     <input type="text" id="new-admin-password" required minlength="6" placeholder="e.g. YRE#482910" class="mt-1.5 w-full bg-brand-dark border border-brand-border rounded-xl px-4 py-2.5 text-xs text-white font-mono focus:outline-none focus:border-brand-salmon">
                   </label>
                   <p id="create-admin-msg" class="hidden text-xs font-semibold"></p>
                   <button type="submit" id="create-admin-btn" class="w-full py-3 rounded-xl bg-brand-dark hover:bg-slate-800 border border-brand-salmon/50 text-brand-salmon font-bold text-xs transition-all">
-                    <i class="fa-solid fa-user-plus mr-1.5"></i> Create / Update Judge & Email Credentials
+                    <i class="fa-solid fa-user-plus mr-1.5"></i> Create / Update Judge (Send via SMTP)
                   </button>
                 </form>
               </div>
@@ -869,13 +866,18 @@
                 <h2 id="essays-card-heading" class="font-display text-2xl font-extrabold text-white mt-1">Submitted Student Essays</h2>
               </div>
               <div class="flex flex-wrap items-center gap-3 w-full lg:w-auto">
+                <!-- OWNER-ONLY EQUAL AUTO-ASSIGN BUTTON -->
+                <button id="auto-assign-equal-btn" type="button" class="hidden text-xs bg-brand-teal/15 hover:bg-brand-teal/25 border border-brand-teal/50 text-brand-teal px-3.5 py-2 rounded-xl transition-colors font-extrabold flex items-center space-x-1.5" title="Equally distribute eligible essays across active judges only (excludes paused/revoked judges & Your Radical Engineer)">
+                  <i class="fa-solid fa-scale-balanced"></i><span>Auto-Assign Equally</span>
+                </button>
+
                 <div class="relative flex-grow sm:flex-grow-0">
                   <i class="fa-solid fa-magnifying-glass text-slate-400 text-xs absolute left-3.5 top-1/2 -translate-y-1/2"></i>
                   <input
                     type="search"
                     id="search-essays"
                     placeholder="Search Ref ID or Name..."
-                    aria-label="Search submissions by reference ID or contestant name"
+                    aria-label="Search submissions"
                     class="w-full sm:w-52 bg-brand-dark border border-brand-border rounded-xl pl-9 pr-3.5 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-brand-salmon transition-colors"
                   >
                 </div>
@@ -920,7 +922,7 @@
               <thead>
                 <tr class="bg-brand-dark/60 text-slate-400 border-b border-brand-border uppercase tracking-wider">
                   <th id="rank-col-header" class="p-4">Rank</th>
-                  <th class="p-4">Ref & Author</th>
+                  <th id="author-col-header" class="p-4">Ref & Author</th>
                   <th class="p-4">Track & Title</th>
                   <th class="p-4">Payment / Doc</th>
                   <th class="p-4">Assigned / Judge</th>
@@ -1183,10 +1185,6 @@
     const OWNER_EMAIL = 'yourradicalengineer@gmail.com';
 
     const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-    const secondaryAuthClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-      auth: { persistSession: false, autoRefreshToken: false }
-    });
 
     let isCurrentUserOwner = false;
     let currentSessionEmail = '';
@@ -1972,39 +1970,54 @@
       return 'pending';
     }
 
-    function sendJudgeCredentialsEmail(judgeName, judgeEmail, password, isReactivation = false) {
-      const portalLink = 'https://msmentorshipzm.github.io/radicalsolutions/#admin';
+    // Dispatch judge invitation / password setup email directly via Supabase Custom SMTP (NO Outlook mailto)
+    async function triggerSupabaseSmtpInvite(judgeEmail) {
+      const portalRedirect = 'https://msmentorshipzm.github.io/radicalsolutions/#admin';
+      const { error } = await supabaseClient.auth.resetPasswordForEmail(judgeEmail, {
+        redirectTo: portalRedirect
+      });
+      if (error) {
+        console.warn('Supabase SMTP trigger notice:', error.message);
+      }
+    }
+
+    // Owner-Only: Send Winner Congratulatory Message & Request Portrait Photo
+    window.sendWinnerCongratulationsEmail = function(essayKeyParam) {
+      if (!isCurrentUserOwner) return;
+      const essay = allEssaysCache.find(e => String(getEssayPrimaryKey(e)) === String(essayKeyParam));
+      if (!essay) return;
+
       const subject = encodeURIComponent(
-        isReactivation
-          ? 'Your Radical Engineer — Judge Portal Access Reactivated'
-          : 'Your Radical Engineer — Judge Adjudication Portal Credentials'
+        `CONGRATULATIONS! Official Winner — Your Radical Engineer Essay Challenge (${essay.reference_id || ''})`
       );
       const bodyText =
-`Hello ${judgeName || judgeEmail},
+`Dear ${essay.full_name},
 
-${isReactivation
-  ? 'Your adjudicator access to the Your Radical Engineer Essay Challenge Portal has been reactivated with updated login credentials.'
-  : 'You have been appointed as an official Adjudicator / Judge for the Your Radical Engineer — Radical Solutions Essay Challenge.'}
+CONGRATULATIONS!
 
-Use the credentials below to sign in and evaluate assigned essays:
-• Portal Login URL: ${portalLink}
-• Login Email: ${judgeEmail}
-• Temporary Password: ${password}
+Following rigorous technical adjudication across all national submissions, we are thrilled to inform you that your essay titled:
+"${essay.essay_title}" (${essay.track})
+Reference ID: ${essay.reference_id || 'N/A'}
 
-For security, please change your password under "Account Security" once logged in.
+has been selected as the OVERALL WINNER of the Your Radical Engineer — Radical Solutions Essay Challenge!
 
-Best regards,
+NEXT STEPS — PORTRAIT PHOTO REQUEST:
+1. Please reply directly to this email with a clear, high-resolution portrait photograph of yourself (JPG or PNG) so we can feature you on the official Your Radical Engineer Laureate Showcase.
+2. We will also share details shortly on kicking off the prototype development and institutional pitch phase with Your Radical Engineer.
+
+Once again, congratulations on engineering a practical solution for the Grow Zambia Agenda!
+
+Warm regards,
 Milimo Siabana
 Your Radical Engineer
-Grow Zambia Agenda`;
++260 976 452 281`;
 
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(bodyText).catch(() => {});
       }
-      window.location.href = `mailto:${judgeEmail}?subject=${subject}&body=${encodeURIComponent(bodyText)}`;
-    }
+      window.location.href = `mailto:${essay.email}?subject=${subject}&body=${encodeURIComponent(bodyText)}`;
+    };
 
-    // Pre-fill the Create/Update Judge form when clicking "Re-Create Account" on a Paused/Revoked judge
     window.prefillJudgeRecreateForm = function(email, fullName) {
       const nameInput = document.getElementById('new-admin-name');
       const emailInput = document.getElementById('new-admin-email');
@@ -2108,30 +2121,42 @@ Grow Zambia Agenda`;
       const judgeBanner = document.getElementById('judge-notice-banner');
       const ownerWinnerToggle = document.getElementById('owner-winner-toggle-wrapper');
       const sendBackBtn = document.getElementById('send-back-review-btn');
+      const autoAssignBtn = document.getElementById('auto-assign-equal-btn');
       const panelRoleTitle = document.getElementById('panel-role-title');
       const essaysCardBadge = document.getElementById('essays-card-badge');
       const essaysCardHeading = document.getElementById('essays-card-heading');
       const rankColHeader = document.getElementById('rank-col-header');
+      const authorColHeader = document.getElementById('author-col-header');
+      const searchInput = document.getElementById('search-essays');
+      const sixthLabel = document.getElementById('stat-sixth-label');
 
       if (isCurrentUserOwner) {
         ownerControls.classList.remove('hidden');
         judgeBanner.classList.add('hidden');
         ownerWinnerToggle.classList.remove('hidden');
         sendBackBtn.classList.remove('hidden');
+        autoAssignBtn.classList.remove('hidden');
         panelRoleTitle.textContent = 'Radical Engineer • Owner Admin Control Panel';
         essaysCardBadge.textContent = 'Adjudication Ranking';
         essaysCardHeading.textContent = 'Submitted Student Essays (Ranked by Score)';
         rankColHeader.textContent = 'Rank';
+        authorColHeader.textContent = 'Ref & Author';
+        searchInput.placeholder = 'Search Ref ID or Name...';
+        sixthLabel.textContent = 'Overall Winner';
         loggedInUserLabel.textContent = `Owner Admin: ${userEmail}`;
       } else {
         ownerControls.classList.add('hidden');
         judgeBanner.classList.remove('hidden');
         ownerWinnerToggle.classList.add('hidden');
         sendBackBtn.classList.add('hidden');
-        panelRoleTitle.textContent = 'Radical Engineer • Judge Adjudication Portal';
-        essaysCardBadge.textContent = 'Adjudication Queue';
-        essaysCardHeading.textContent = 'Submitted Student Essays';
+        autoAssignBtn.classList.add('hidden');
+        panelRoleTitle.textContent = 'Radical Engineer • Blind Judge Adjudication Portal';
+        essaysCardBadge.textContent = 'Blind Adjudication Queue';
+        essaysCardHeading.textContent = 'Submitted Student Essays (Anonymized)';
         rankColHeader.textContent = 'Entry';
+        authorColHeader.textContent = 'Reference ID';
+        searchInput.placeholder = 'Search by Reference ID...';
+        sixthLabel.textContent = 'Assigned to Me';
         loggedInUserLabel.textContent = `Adjudicator / Judge: ${userEmail}`;
       }
       loggedInUserLabel.classList.remove('hidden');
@@ -2232,7 +2257,6 @@ Grow Zambia Agenda`;
       populateJudgeFilterDropdown();
     }
 
-    // Owner Action: Pause, Revoke, or Reactivate & Email Judge
     window.setJudgeLifecycleStatus = async function(email, nextStatus) {
       if (!isCurrentUserOwner) return;
       const cleanEmail = email.trim().toLowerCase();
@@ -2240,57 +2264,28 @@ Grow Zambia Agenda`;
       const judgeName = judge?.full_name || cleanEmail;
 
       if (nextStatus === 'revoked') {
-        if (!confirm(`Revoke access for ${judgeName} (${cleanEmail})? They will be blocked from logging in until you reactivate or re-create their account.`)) {
+        if (!confirm(`Revoke access for ${judgeName} (${cleanEmail})? They will be blocked from logging in until you reactivate them.`)) {
           return;
         }
       }
 
-      if (nextStatus === 'active') {
-        const generatePass = `YRE#${Math.floor(100000 + Math.random() * 900000)}`;
-        const chosenPass = prompt(
-          `Enter a new temporary password for ${judgeName} (${cleanEmail}) to reactivate & email them:`,
-          generatePass
-        );
-        if (!chosenPass) return;
-        const cleanPass = chosenPass.trim();
-        if (cleanPass.length < 6) {
-          alert('Password must be at least 6 characters.');
-          return;
-        }
-
-        const { data: fnData, error: fnError } = await supabaseClient.functions.invoke('manage-judge-access', {
-          body: {
-            email: cleanEmail,
-            fullName: judgeName,
-            newPassword: cleanPass,
-            isReactivation: true
-          }
-        });
-
-        if (fnError) {
-          alert('Could not reset judge password on server: ' + fnError.message + '\nPlease verify the manage-judge-access Edge Function is deployed.');
-          return;
-        }
-
-        await fetchRegisteredJudges();
-        renderAdminEssaysTable();
-
-        if (!fnData?.emailSentAutomatically) {
-          sendJudgeCredentialsEmail(judgeName, cleanEmail, cleanPass, true);
-        } else {
-          alert(`Access reactivated and new password (${cleanPass}) emailed automatically to ${cleanEmail}.`);
-        }
-        return;
-      }
-
+      const isActivating = nextStatus === 'active';
       const { error } = await supabaseClient
         .from('portal_judges')
-        .update({ active: false, status: nextStatus })
+        .update({
+          active: isActivating,
+          status: nextStatus
+        })
         .eq('email', cleanEmail);
 
       if (error) {
         alert('Could not update judge status: ' + error.message);
         return;
+      }
+
+      if (isActivating) {
+        await triggerSupabaseSmtpInvite(cleanEmail);
+        alert(`Access reactivated for ${judgeName} (${cleanEmail}). A login/password setup email has been dispatched via your Supabase SMTP.`);
       }
 
       await fetchRegisteredJudges();
@@ -2333,11 +2328,11 @@ Grow Zambia Agenda`;
                 <button type="button" onclick="setJudgeLifecycleStatus('${em}', 'paused')" class="px-2 py-1 rounded-lg text-[10px] font-bold bg-amber-500/15 border border-amber-500/40 text-amber-300 hover:bg-amber-500/25">Pause</button>
                 <button type="button" onclick="setJudgeLifecycleStatus('${em}', 'revoked')" class="px-2 py-1 rounded-lg text-[10px] font-bold bg-red-500/15 border border-red-500/40 text-red-400 hover:bg-red-500/25">Revoke</button>
               ` : `
-                <button type="button" onclick="prefillJudgeRecreateForm('${em}', '${safeName}')" class="px-2 py-1 rounded-lg text-[10px] font-bold bg-brand-salmon/15 border border-brand-salmon/40 text-brand-salmon hover:bg-brand-salmon/25" title="Load into form above to overwrite password & re-create">
+                <button type="button" onclick="prefillJudgeRecreateForm('${em}', '${safeName}')" class="px-2 py-1 rounded-lg text-[10px] font-bold bg-brand-salmon/15 border border-brand-salmon/40 text-brand-salmon hover:bg-brand-salmon/25">
                   Re-Create
                 </button>
                 <button type="button" onclick="setJudgeLifecycleStatus('${em}', 'active')" class="px-2.5 py-1 rounded-lg text-[10px] font-bold bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 hover:bg-emerald-500/30">
-                  <i class="fa-solid fa-envelope mr-1"></i>Reactivate &amp; Email
+                  <i class="fa-solid fa-paper-plane mr-1"></i>Reactivate (SMTP)
                 </button>
               `}
             </div>
@@ -2365,7 +2360,6 @@ Grow Zambia Agenda`;
       judgeSelect.value = currentVal;
     }
 
-    // Create OR Overwrite Existing Paused/Revoked Judge Account & Email New Credentials
     document.getElementById('create-admin-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       if (!isCurrentUserOwner) return;
@@ -2379,40 +2373,119 @@ Grow Zambia Agenda`;
       const email = document.getElementById('new-admin-email').value.trim().toLowerCase();
       const password = document.getElementById('new-admin-password').value.trim();
 
-      const wasExisting = registeredJudgesCache.some(j => j.email.toLowerCase() === email);
-
-      const { data: fnData, error: fnError } = await supabaseClient.functions.invoke('manage-judge-access', {
-        body: {
-          email,
-          fullName,
-          newPassword: password,
-          isReactivation: wasExisting
-        }
+      // 1. Try Edge Function first (creates Auth user & sends email via Supabase SMTP)
+      const { error: fnError } = await supabaseClient.functions.invoke('manage-judge-access', {
+        body: { email, fullName, newPassword: password }
       });
+
+      // 2. Fallback to standard Supabase Auth signUp + SMTP trigger if Edge Function isn't deployed
+      if (fnError) {
+        const { error: signUpErr } = await supabaseClient.auth.signUp({
+          email,
+          password,
+          options: {
+            data: { full_name: fullName, role: 'judge' },
+            emailRedirectTo: 'https://msmentorshipzm.github.io/radicalsolutions/#admin'
+          }
+        });
+        if (signUpErr && !signUpErr.message.toLowerCase().includes('already registered')) {
+          btn.disabled = false;
+          msgBox.textContent = `Error: ${signUpErr.message}`;
+          msgBox.className = 'text-xs font-semibold text-red-400 block';
+          return;
+        }
+        await triggerSupabaseSmtpInvite(email);
+      }
+
+      // 3. Upsert judge record as Active in portal_judges
+      const { error: dbErr } = await supabaseClient
+        .from('portal_judges')
+        .upsert(
+          { email, full_name: fullName, active: true, status: 'active' },
+          { onConflict: 'email' }
+        );
 
       btn.disabled = false;
 
-      if (fnError) {
-        msgBox.textContent = `Error: ${fnError.message}`;
+      if (dbErr) {
+        msgBox.textContent = `Database Error: ${dbErr.message}`;
         msgBox.className = 'text-xs font-semibold text-red-400 block';
         return;
       }
 
-      const actionLabel = (fnData?.updatedExisting || wasExisting)
-        ? `Judge ${fullName} (${email}) account updated with new password!`
-        : `Judge ${fullName} (${email}) created!`;
-
-      msgBox.textContent = fnData?.emailSentAutomatically
-        ? `${actionLabel} Credentials emailed automatically.`
-        : `${actionLabel} Opening email with password...`;
+      msgBox.textContent = `Judge ${fullName} (${email}) saved and invitation dispatched via Supabase SMTP!`;
       msgBox.className = 'text-xs font-semibold text-emerald-400 block';
       document.getElementById('create-admin-form').reset();
 
       await fetchRegisteredJudges();
       renderAdminEssaysTable();
+    });
 
-      if (!fnData?.emailSentAutomatically) {
-        sendJudgeCredentialsEmail(fullName, email, password, Boolean(fnData?.updatedExisting || wasExisting));
+    // =====================================================================
+    // OWNER-ONLY: EQUALLY DISTRIBUTE SUBMISSIONS ACROSS ACTIVE JUDGES
+    // (Excludes Paused Judges, Revoked Judges, and Your Radical Engineer)
+    // =====================================================================
+    document.getElementById('auto-assign-equal-btn').addEventListener('click', async () => {
+      if (!isCurrentUserOwner) return;
+
+      const eligibleJudges = registeredJudgesCache.filter(j => {
+        const em = (j.email || '').trim().toLowerCase();
+        const st = j.status || (j.active === false ? 'paused' : 'active');
+        return em && em !== OWNER_EMAIL.toLowerCase() && st === 'active' && j.active !== false;
+      });
+
+      if (eligibleJudges.length === 0) {
+        alert('No active judges available to assign. Please ensure at least one judge is Active (not Paused or Revoked).');
+        return;
+      }
+
+      const eligibleEssays = allEssaysCache.filter(e => {
+        const st = getEssayWorkflowStatus(e);
+        return st !== 'disqualified' && st !== 'graded';
+      });
+
+      if (eligibleEssays.length === 0) {
+        alert('There are no ungraded, eligible essays to distribute right now.');
+        return;
+      }
+
+      const perJudgeApprox = Math.floor(eligibleEssays.length / eligibleJudges.length);
+      const remainder = eligibleEssays.length % eligibleJudges.length;
+
+      const confirmMsg =
+        `Equally distribute ${eligibleEssays.length} ungraded submission(s) across ${eligibleJudges.length} active judge(s)?\n\n` +
+        `• Approx. ${perJudgeApprox}${remainder > 0 ? `–${perJudgeApprox + 1}` : ''} essay(s) per active judge\n` +
+        `• Paused & Revoked judges excluded\n` +
+        `• Your Radical Engineer excluded (you can still mark or override any essay anytime)`;
+
+      if (!confirm(confirmMsg)) return;
+
+      const btn = document.getElementById('auto-assign-equal-btn');
+      btn.disabled = true;
+      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i><span>Distributing...</span>`;
+
+      try {
+        for (let i = 0; i < eligibleEssays.length; i++) {
+          const essay = eligibleEssays[i];
+          const assignedJudgeEmail = eligibleJudges[i % eligibleJudges.length].email.trim().toLowerCase();
+          const essayKey = getEssayPrimaryKey(essay);
+
+          const { error } = await supabaseClient
+            .from('essays')
+            .update({ assigned_judge_email: assignedJudgeEmail })
+            .eq('id', essayKey);
+
+          if (error) throw error;
+          essay.assigned_judge_email = assignedJudgeEmail;
+        }
+
+        renderAdminEssaysTable();
+        alert(`Done! ${eligibleEssays.length} submission(s) have been equally distributed across ${eligibleJudges.length} active judge(s).`);
+      } catch (err) {
+        alert('Auto-assignment failed: ' + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<i class="fa-solid fa-scale-balanced"></i><span>Auto-Assign Equally</span>`;
       }
     });
 
@@ -2999,8 +3072,15 @@ Grow Zambia Agenda`;
       document.getElementById('tab-count-graded').textContent = gradedCount;
       document.getElementById('tab-count-disqualified').textContent = disqualifiedCount;
 
-      const overallWinner = allEssaysCache.find(e => e.is_winner && !e.disqualified);
-      document.getElementById('stat-winners').textContent = overallWinner ? overallWinner.full_name : 'Not Selected';
+      if (isCurrentUserOwner) {
+        const overallWinner = allEssaysCache.find(e => e.is_winner && !e.disqualified);
+        document.getElementById('stat-winners').textContent = overallWinner ? overallWinner.full_name : 'Not Selected';
+      } else {
+        const assignedToMeCount = allEssaysCache.filter(
+          e => (e.assigned_judge_email || '').toLowerCase() === currentSessionEmail
+        ).length;
+        document.getElementById('stat-winners').textContent = `${assignedToMeCount} Essay${assignedToMeCount === 1 ? '' : 's'}`;
+      }
     }
 
     function renderAdminEssaysTable() {
@@ -3031,6 +3111,7 @@ Grow Zambia Agenda`;
 
         if (!searchQuery) return true;
         const refMatch = (e.reference_id || '').toLowerCase().includes(searchQuery);
+        if (!isCurrentUserOwner) return refMatch;
         const nameMatch = (e.full_name || '').toLowerCase().includes(searchQuery);
         return refMatch || nameMatch;
       });
@@ -3041,7 +3122,7 @@ Grow Zambia Agenda`;
       }
 
       const activeJudgesOnly = registeredJudgesCache.filter(
-        j => (j.status || 'active') === 'active' && j.active !== false
+        j => (j.status || 'active') === 'active' && j.active !== false && j.email.toLowerCase() !== OWNER_EMAIL.toLowerCase()
       );
 
       tbody.innerHTML = filtered.map((essay, idx) => {
@@ -3056,7 +3137,20 @@ Grow Zambia Agenda`;
           ? (isGraded && !isDisqualified
               ? `<span class="inline-flex items-center justify-center w-7 h-7 rounded-lg font-mono font-extrabold text-xs ${idx === 0 ? 'bg-brand-amber/20 text-brand-amber border border-brand-amber/40' : 'bg-brand-dark text-slate-300 border border-brand-border'}">#${idx + 1}</span>`
               : `<span class="text-[10px] font-mono text-slate-500">—</span>`)
-          : `<span class="text-[10px] font-mono text-slate-400 bg-brand-dark border border-brand-border px-2 py-1 rounded-lg">${essay.reference_id || 'Entry'}</span>`;
+          : `<span class="text-[10px] font-mono text-slate-400 bg-brand-dark border border-brand-border px-2 py-1 rounded-lg">#${idx + 1}</span>`;
+
+        // Blind Adjudication: Judges only see Reference ID (name, location, and contact are hidden)
+        const refAndAuthorCell = isCurrentUserOwner
+          ? `<span class="font-mono font-bold text-brand-salmon block">${essay.reference_id || 'N/A'}</span>
+             <strong class="text-white block mt-0.5">${essay.full_name}</strong>
+             <span class="text-[10px] text-slate-400">${essay.location || ''} • ${essay.phone}</span>
+             ${essay.is_winner && !isDisqualified ? `
+               <button type="button" onclick="sendWinnerCongratulationsEmail('${essayKey}')" class="mt-2 inline-flex items-center space-x-1.5 px-2.5 py-1 rounded-lg bg-brand-amber/20 hover:bg-brand-amber/30 border border-brand-amber/50 text-brand-amber font-extrabold text-[10px] transition-colors">
+                 <i class="fa-solid fa-envelope-open-text"></i><span>Congratulate &amp; Request Portrait</span>
+               </button>
+             ` : ''}`
+          : `<span class="font-mono font-extrabold text-brand-salmon block text-xs">${essay.reference_id || 'N/A'}</span>
+             <span class="inline-flex items-center space-x-1 text-[10px] text-slate-400 mt-1"><i class="fa-solid fa-eye-slash text-[9px]"></i><span>Identity Hidden (Blind)</span></span>`;
 
         let paymentBadgeHtml = '';
         if (essay.payment_status === 'verified') {
@@ -3085,8 +3179,11 @@ Grow Zambia Agenda`;
             ${essay.graded_by ? `<span class="block text-[10px] text-emerald-400 mt-1 truncate max-w-[165px]" title="Marked by ${essay.graded_by}">Marked: ${essay.graded_by}</span>` : ''}
           `;
         } else {
+          const isMine = (essay.assigned_judge_email || '').toLowerCase() === currentSessionEmail;
           judgeCellHtml = `
-            <span class="text-[11px] text-slate-300 block truncate max-w-[150px]">${essay.assigned_judge_email || 'Open Queue'}</span>
+            <span class="text-[11px] ${isMine ? 'text-brand-teal font-bold' : 'text-slate-300'} block truncate max-w-[150px]">
+              ${isMine ? 'Assigned to You' : (essay.assigned_judge_email || 'Open Queue')}
+            </span>
             ${essay.graded_by ? `<span class="text-[10px] text-emerald-400 block truncate max-w-[150px]">By: ${essay.graded_by}</span>` : ''}
           `;
         }
@@ -3131,11 +3228,7 @@ Grow Zambia Agenda`;
         return `
           <tr class="hover:bg-brand-dark/40 transition-colors ${isDisqualified ? 'bg-red-500/5 opacity-80' : (isCurrentUserOwner && essay.is_winner ? 'bg-emerald-500/5' : '')}">
             <td class="p-4">${firstColumnCell}</td>
-            <td class="p-4">
-              <span class="font-mono font-bold text-brand-salmon block">${essay.reference_id || 'N/A'}</span>
-              <strong class="text-white block mt-0.5">${essay.full_name}</strong>
-              <span class="text-[10px] text-slate-400">${essay.location || ''} • ${essay.phone}</span>
-            </td>
+            <td class="p-4">${refAndAuthorCell}</td>
             <td class="p-4 max-w-xs">
               <span class="text-[10px] uppercase font-bold text-brand-amber block">${essay.track}</span>
               <strong class="text-white block mt-0.5">${essay.essay_title}</strong>
@@ -3205,7 +3298,12 @@ Grow Zambia Agenda`;
       document.getElementById('grade-essay-id').value = resolvedKey;
       document.getElementById('modal-ref').textContent = `${essay.reference_id || 'N/A'} • ${essay.track}`;
       document.getElementById('modal-title').textContent = essay.essay_title;
-      document.getElementById('modal-meta').textContent = `By ${essay.full_name} (${essay.location || 'Zambia'}) • ${essay.email} • ${essay.word_count} words`;
+
+      // Blind Adjudication inside modal: hide contestant name, location, and email from judges
+      document.getElementById('modal-meta').textContent = isCurrentUserOwner
+        ? `By ${essay.full_name} (${essay.location || 'Zambia'}) • ${essay.email} • ${essay.word_count} words`
+        : `Reference ID: ${essay.reference_id || 'N/A'} • Blind Review (Author Identity Hidden) • ${essay.word_count} words`;
+
       document.getElementById('modal-question').textContent = essay.question;
       document.getElementById('modal-body-text').textContent = essay.essay_body;
       document.getElementById('grade-score').value = essay.score || essay.ai_score || 0;
