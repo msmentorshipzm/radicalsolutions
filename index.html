@@ -568,7 +568,7 @@
         <!-- JUDGE NOTICE BANNER (SHOWN ONLY FOR NON-OWNER JUDGES) -->
         <div id="judge-notice-banner" class="hidden bg-brand-amber/10 border border-brand-amber/30 p-4 rounded-2xl flex items-center space-x-3 text-xs text-brand-amber">
           <i class="fa-solid fa-gavel text-base"></i>
-          <span><strong>Judge Adjudication Mode:</strong> You can view submissions, track grading progress, search by Reference ID or Name, read essays, download attachments, and assign scores (/100) with notes. Ranked standings, website settings, cycle tracks, media, rules, judge invitations, and winner publication belong strictly to <strong>Your Radical Engineer</strong>.</span>
+          <span><strong>Judge Adjudication Mode:</strong> You can view submissions, track grading progress, filter by Pending / In Progress / Graded, search by Reference ID or Name, read essays, download attachments, and assign scores (/100) with notes. Ranked standings, website settings, cycle tracks, media, rules, judge invitations, and winner publication belong strictly to <strong>Your Radical Engineer</strong>.</span>
         </div>
 
         <!-- ACCOUNT SECURITY: CHANGE PASSWORD (AVAILABLE TO OWNER & JUDGES) -->
@@ -587,28 +587,32 @@
         </div>
 
         <!-- METRICS SUMMARY (VISIBLE TO BOTH OWNER & JUDGES) -->
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
           <div class="bg-brand-card border border-brand-border p-5 rounded-2xl">
             <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider block">Total Submissions</span>
             <span id="stat-total" class="font-display font-extrabold text-3xl text-white mt-1 block">0</span>
           </div>
           <div class="bg-brand-card border border-brand-border p-5 rounded-2xl">
+            <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider block">Pending</span>
+            <span id="stat-pending" class="font-display font-extrabold text-3xl text-slate-300 mt-1 block">0</span>
+          </div>
+          <div class="bg-brand-card border border-brand-border p-5 rounded-2xl">
+            <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider block">In Progress</span>
+            <span id="stat-in-progress" class="font-display font-extrabold text-3xl text-brand-salmon mt-1 block">0</span>
+          </div>
+          <div class="bg-brand-card border border-brand-border p-5 rounded-2xl">
             <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider block">Graded Essays</span>
             <span id="stat-graded" class="font-display font-extrabold text-3xl text-brand-amber mt-1 block">0</span>
           </div>
-          <div class="bg-brand-card border border-brand-border p-5 rounded-2xl">
+          <div class="bg-brand-card border border-brand-border p-5 rounded-2xl col-span-2 sm:col-span-1">
             <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider block">Overall Winner</span>
             <span id="stat-winners" class="font-display font-extrabold text-lg text-emerald-400 mt-2 block truncate">Not Selected</span>
-          </div>
-          <div class="bg-brand-card border border-brand-border p-5 rounded-2xl">
-            <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider block">Winner Showcase</span>
-            <span id="stat-publish-status" class="font-display font-extrabold text-lg text-brand-salmon mt-2 block">Hidden (Draft)</span>
           </div>
         </div>
 
         <!-- OWNER-ONLY CONTROLS (COMPLETELY HIDDEN FOR JUDGES) -->
         <div id="owner-only-controls" class="hidden space-y-8">
-          
+
           <div class="grid lg:grid-cols-12 gap-8">
             <!-- TIMELINE, WINNER PHOTO & PUBLISHING CONTROLS -->
             <div class="lg:col-span-7 bg-brand-card border border-brand-border p-6 sm:p-8 rounded-3xl shadow-xl">
@@ -661,7 +665,7 @@
                 <div class="p-4 rounded-2xl bg-brand-dark border border-brand-border flex items-center justify-between">
                   <div>
                     <strong class="text-xs text-white block">Publish Overall Winner on Main Website</strong>
-                    <span class="text-[11px] text-slate-400">When enabled, the Overall Winner's portrait, title, author, and your announcement appear on the public portal.</span>
+                    <span class="text-[11px] text-slate-400">Status: <strong id="stat-publish-status" class="text-brand-salmon">Hidden (Draft)</strong> — when enabled, the winner appears on the public portal.</span>
                   </div>
                   <input type="checkbox" id="set-publish-winners" class="w-5 h-5 accent-brand-salmon rounded cursor-pointer">
                 </div>
@@ -680,7 +684,7 @@
               <span class="text-brand-amber text-xs uppercase font-bold tracking-widest block">Owner Access Management</span>
               <h2 class="font-display text-xl font-extrabold text-white mt-1 mb-2">Create Judge Account</h2>
               <p class="text-xs text-slate-400 mb-5">Invite adjudicators to read and grade essays. Their confirmation email will include this temporary password.</p>
-              
+
               <form id="create-admin-form" class="space-y-4">
                 <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300">
                   Judge Email Address
@@ -771,29 +775,47 @@
 
         </div>
 
-        <!-- ESSAY SUBMISSIONS TABLE (RANKED STANDINGS SHOWN ONLY TO OWNER) -->
+        <!-- ESSAY SUBMISSIONS TABLE (RANKED STANDINGS SHOWN ONLY TO OWNER; WORKFLOW TABS FOR BOTH OWNER & JUDGES) -->
         <div class="bg-brand-card border border-brand-border rounded-3xl shadow-xl overflow-hidden">
-          <div class="p-6 sm:p-8 border-b border-brand-border flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
-            <div>
-              <span id="essays-card-badge" class="text-brand-salmon text-xs uppercase font-bold tracking-widest block">Adjudication Queue</span>
-              <h2 id="essays-card-heading" class="font-display text-2xl font-extrabold text-white mt-1">Submitted Student Essays</h2>
-            </div>
-            <div class="flex flex-wrap items-center gap-3 w-full lg:w-auto">
-              <div class="relative flex-grow sm:flex-grow-0">
-                <i class="fa-solid fa-magnifying-glass text-slate-400 text-xs absolute left-3.5 top-1/2 -translate-y-1/2"></i>
-                <input
-                  type="search"
-                  id="search-essays"
-                  placeholder="Search Ref ID or Name..."
-                  aria-label="Search submissions by reference ID or contestant name"
-                  class="w-full sm:w-56 bg-brand-dark border border-brand-border rounded-xl pl-9 pr-3.5 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-brand-salmon transition-colors"
-                >
+          <div class="p-6 sm:p-8 border-b border-brand-border space-y-4">
+            <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
+              <div>
+                <span id="essays-card-badge" class="text-brand-salmon text-xs uppercase font-bold tracking-widest block">Adjudication Queue</span>
+                <h2 id="essays-card-heading" class="font-display text-2xl font-extrabold text-white mt-1">Submitted Student Essays</h2>
               </div>
-              <select id="filter-track" aria-label="Filter submissions by track" class="bg-brand-dark border border-brand-border rounded-xl px-3 py-2 text-xs text-slate-300 focus:outline-none focus:border-brand-salmon">
-                <option value="ALL">All Tracks</option>
-              </select>
-              <button id="refresh-essays" type="button" class="text-xs bg-brand-dark hover:bg-slate-800 border border-brand-border text-slate-300 px-4 py-2 rounded-xl transition-colors font-semibold flex items-center space-x-2">
-                <i class="fa-solid fa-rotate"></i><span>Refresh</span>
+              <div class="flex flex-wrap items-center gap-3 w-full lg:w-auto">
+                <div class="relative flex-grow sm:flex-grow-0">
+                  <i class="fa-solid fa-magnifying-glass text-slate-400 text-xs absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+                  <input
+                    type="search"
+                    id="search-essays"
+                    placeholder="Search Ref ID or Name..."
+                    aria-label="Search submissions by reference ID or contestant name"
+                    class="w-full sm:w-56 bg-brand-dark border border-brand-border rounded-xl pl-9 pr-3.5 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-brand-salmon transition-colors"
+                  >
+                </div>
+                <select id="filter-track" aria-label="Filter submissions by track" class="bg-brand-dark border border-brand-border rounded-xl px-3 py-2 text-xs text-slate-300 focus:outline-none focus:border-brand-salmon">
+                  <option value="ALL">All Tracks</option>
+                </select>
+                <button id="refresh-essays" type="button" class="text-xs bg-brand-dark hover:bg-slate-800 border border-brand-border text-slate-300 px-4 py-2 rounded-xl transition-colors font-semibold flex items-center space-x-2">
+                  <i class="fa-solid fa-rotate"></i><span>Refresh</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- WORKFLOW STATUS FILTER TABS (ALL / PENDING / IN PROGRESS / GRADED) -->
+            <div class="flex flex-wrap items-center gap-2 pt-1" id="status-filter-tabs">
+              <button type="button" data-status="ALL" class="status-tab px-3.5 py-1.5 rounded-xl text-xs font-bold bg-brand-salmon text-brand-dark transition-colors">
+                All (<span id="tab-count-all">0</span>)
+              </button>
+              <button type="button" data-status="pending" class="status-tab px-3.5 py-1.5 rounded-xl text-xs font-bold bg-brand-dark border border-brand-border text-slate-300 hover:text-white transition-colors">
+                Pending (<span id="tab-count-pending">0</span>)
+              </button>
+              <button type="button" data-status="in_progress" class="status-tab px-3.5 py-1.5 rounded-xl text-xs font-bold bg-brand-dark border border-brand-border text-brand-salmon hover:border-brand-salmon/50 transition-colors">
+                In Progress (<span id="tab-count-in_progress">0</span>)
+              </button>
+              <button type="button" data-status="graded" class="status-tab px-3.5 py-1.5 rounded-xl text-xs font-bold bg-brand-dark border border-brand-border text-emerald-400 hover:border-emerald-500/50 transition-colors">
+                Graded (<span id="tab-count-graded">0</span>)
               </button>
             </div>
           </div>
@@ -807,7 +829,7 @@
                   <th class="p-4">Track & Title</th>
                   <th class="p-4">Document</th>
                   <th class="p-4">Score (/100)</th>
-                  <th class="p-4">Status</th>
+                  <th class="p-4">Workflow Status</th>
                   <th class="p-4 text-right">Action</th>
                 </tr>
               </thead>
@@ -918,7 +940,7 @@
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
       <div class="grid md:grid-cols-12 gap-10 pb-10 border-b border-brand-border/80">
-        
+
         <!-- BRAND & MISSION -->
         <div class="md:col-span-5 space-y-4">
           <div class="flex items-center space-x-3">
@@ -1003,6 +1025,7 @@
     });
 
     let isCurrentUserOwner = false;
+    let activeStatusFilter = 'ALL';
 
     // Default Cycle Tracks Structure
     const defaultTracksData = [
@@ -1565,7 +1588,8 @@
             essay_title: document.getElementById('essay-title').value.trim(),
             essay_body: essayBody.value.trim(),
             word_count: count,
-            file_url: publicUrlData.publicUrl
+            file_url: publicUrlData.publicUrl,
+            review_status: 'pending'
           };
 
           const { error } = await supabaseClient.from('essays').insert([payload]);
@@ -1657,7 +1681,7 @@
     }
 
     // =====================================================================
-    // ADMIN & JUDGE PANEL LOGIC (STRICT ROLE ISOLATION + OWNER-ONLY RANKINGS)
+    // ADMIN & JUDGE PANEL LOGIC (ROLE ISOLATION + WORKFLOW STATES + SEARCH)
     // =====================================================================
     const loginContainer = document.getElementById('login-container');
     const dashboardContainer = document.getElementById('dashboard-container');
@@ -1667,6 +1691,16 @@
     const loginError = document.getElementById('login-error');
 
     let allEssaysCache = [];
+
+    function getEssayWorkflowStatus(essay) {
+      if (essay.review_status === 'graded' || (typeof essay.score === 'number' && essay.score > 0)) {
+        return 'graded';
+      }
+      if (essay.review_status === 'in_progress') {
+        return 'in_progress';
+      }
+      return 'pending';
+    }
 
     function showAdminLogin() {
       isCurrentUserOwner = false;
@@ -2228,6 +2262,22 @@
       filterSelect.value = currentVal;
     }
 
+    // Status Filter Tab Clicks
+    document.querySelectorAll('.status-tab').forEach(btn => {
+      btn.addEventListener('click', () => {
+        activeStatusFilter = btn.dataset.status;
+        document.querySelectorAll('.status-tab').forEach(b => {
+          const isActive = b.dataset.status === activeStatusFilter;
+          b.classList.toggle('bg-brand-salmon', isActive);
+          b.classList.toggle('text-brand-dark', isActive);
+          b.classList.toggle('bg-brand-dark', !isActive);
+          b.classList.toggle('border', !isActive);
+          b.classList.toggle('border-brand-border', !isActive);
+        });
+        renderAdminEssaysTable();
+      });
+    });
+
     // Fetch Essays (Ordered by score for owner ranking; chronological for judges)
     async function fetchAdminEssays() {
       const tbody = document.getElementById('essays-table-body');
@@ -2249,8 +2299,20 @@
     }
 
     function updateAdminStats() {
+      const pendingCount = allEssaysCache.filter(e => getEssayWorkflowStatus(e) === 'pending').length;
+      const inProgressCount = allEssaysCache.filter(e => getEssayWorkflowStatus(e) === 'in_progress').length;
+      const gradedCount = allEssaysCache.filter(e => getEssayWorkflowStatus(e) === 'graded').length;
+
       document.getElementById('stat-total').textContent = allEssaysCache.length;
-      document.getElementById('stat-graded').textContent = allEssaysCache.filter(e => e.score && e.score > 0).length;
+      document.getElementById('stat-pending').textContent = pendingCount;
+      document.getElementById('stat-in-progress').textContent = inProgressCount;
+      document.getElementById('stat-graded').textContent = gradedCount;
+
+      document.getElementById('tab-count-all').textContent = allEssaysCache.length;
+      document.getElementById('tab-count-pending').textContent = pendingCount;
+      document.getElementById('tab-count-in_progress').textContent = inProgressCount;
+      document.getElementById('tab-count-graded').textContent = gradedCount;
+
       const overallWinner = allEssaysCache.find(e => e.is_winner);
       document.getElementById('stat-winners').textContent = overallWinner ? overallWinner.full_name : 'Not Selected';
     }
@@ -2264,10 +2326,13 @@
       const searchQuery = (searchInput ? searchInput.value : '').trim().toLowerCase();
 
       const filtered = allEssaysCache.filter(e => {
+        const workflowStatus = getEssayWorkflowStatus(e);
+        if (activeStatusFilter !== 'ALL' && workflowStatus !== activeStatusFilter) return false;
+
         const matchesTrack = trackFilter === 'ALL' || e.track === trackFilter;
         if (!matchesTrack) return false;
-        if (!searchQuery) return true;
 
+        if (!searchQuery) return true;
         const refMatch = (e.reference_id || '').toLowerCase().includes(searchQuery);
         const nameMatch = (e.full_name || '').toLowerCase().includes(searchQuery);
         return refMatch || nameMatch;
@@ -2279,7 +2344,9 @@
       }
 
       tbody.innerHTML = filtered.map((essay, idx) => {
-        const isGraded = essay.score && essay.score > 0;
+        const workflowStatus = getEssayWorkflowStatus(essay);
+        const isGraded = workflowStatus === 'graded';
+        const isInProgress = workflowStatus === 'in_progress';
 
         // Ranked standings (#1, #2, etc.) are visible ONLY to the Owner Admin
         const firstColumnCell = isCurrentUserOwner
@@ -2288,13 +2355,23 @@
               : `<span class="text-[10px] font-mono text-slate-500">—</span>`)
           : `<span class="text-[10px] font-mono text-slate-400 bg-brand-dark border border-brand-border px-2 py-1 rounded-lg">${essay.reference_id || 'Entry'}</span>`;
 
-        const statusBadgeText = essay.is_winner
-          ? (isCurrentUserOwner ? '🏆 Overall Winner' : 'Selected')
-          : (isGraded ? 'Graded' : 'Pending');
+        let statusBadgeText = 'Pending';
+        let statusBadgeStyle = 'bg-slate-800 text-slate-300 border border-slate-700';
 
-        const statusBadgeStyle = essay.is_winner
-          ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40'
-          : (isGraded ? 'bg-brand-amber/15 text-brand-amber' : 'bg-slate-800 text-slate-400');
+        if (isCurrentUserOwner && essay.is_winner) {
+          statusBadgeText = '🏆 Overall Winner';
+          statusBadgeStyle = 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40';
+        } else if (isGraded) {
+          statusBadgeText = 'Graded';
+          statusBadgeStyle = 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30';
+        } else if (isInProgress) {
+          statusBadgeText = 'In Progress';
+          statusBadgeStyle = 'bg-brand-salmon/15 text-brand-salmon border border-brand-salmon/40';
+        }
+
+        const reviewerNote = isInProgress && essay.reviewing_by
+          ? `<span class="block text-[10px] text-slate-400 mt-1 truncate max-w-[150px]" title="Opened by ${essay.reviewing_by}">Opened by ${essay.reviewing_by}</span>`
+          : '';
 
         return `
           <tr class="hover:bg-brand-dark/40 transition-colors ${isCurrentUserOwner && essay.is_winner ? 'bg-emerald-500/5' : ''}">
@@ -2324,9 +2401,10 @@
               ${essay.admin_comments ? `<span class="text-[10px] text-slate-400 block max-w-[140px] truncate" title="${essay.admin_comments}">${essay.admin_comments}</span>` : ''}
             </td>
             <td class="p-4">
-              <span class="px-2.5 py-1 rounded-full text-[10px] font-bold font-mono ${statusBadgeStyle}">
+              <span class="px-2.5 py-1 rounded-full text-[10px] font-bold font-mono inline-block ${statusBadgeStyle}">
                 ${statusBadgeText}
               </span>
+              ${reviewerNote}
             </td>
             <td class="p-4 text-right">
               <button type="button" onclick="openGradeModal('${essay.id}')" class="px-3.5 py-2 rounded-xl bg-brand-salmon hover:bg-brand-salmonLight text-brand-dark font-extrabold text-xs transition-colors">
@@ -2338,12 +2416,30 @@
       }).join('');
     }
 
-    // Grading Modal Controls
+    // Grading Modal Controls (Marks Pending essays as In Progress when opened)
     const gradeModal = document.getElementById('grade-modal');
 
-    window.openGradeModal = function(essayId) {
+    window.openGradeModal = async function(essayId) {
       const essay = allEssaysCache.find(e => String(e.id) === String(essayId));
       if (!essay) return;
+
+      const currentStatus = getEssayWorkflowStatus(essay);
+      if (currentStatus === 'pending') {
+        const { data: { session } } = await supabaseClient.auth.getSession();
+        const reviewerEmail = session?.user?.email || null;
+        essay.review_status = 'in_progress';
+        essay.reviewing_by = reviewerEmail;
+        updateAdminStats();
+        renderAdminEssaysTable();
+
+        await supabaseClient
+          .from('essays')
+          .update({
+            review_status: 'in_progress',
+            reviewing_by: reviewerEmail
+          })
+          .eq('id', essay.id);
+      }
 
       document.getElementById('grade-essay-id').value = essay.id;
       document.getElementById('modal-ref').textContent = `${essay.reference_id || 'N/A'} • ${essay.track}`;
@@ -2380,7 +2476,11 @@
       const score = Number(document.getElementById('grade-score').value);
       const admin_comments = document.getElementById('grade-comments').value.trim();
 
-      const updatePayload = { score, admin_comments };
+      const updatePayload = {
+        score,
+        admin_comments,
+        review_status: 'graded'
+      };
 
       if (isCurrentUserOwner) {
         const makeWinner = document.getElementById('grade-is-winner').checked;
