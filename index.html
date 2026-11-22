@@ -751,12 +751,12 @@
               </form>
             </div>
 
-            <!-- CREATE & MANAGE JUDGES (OWNER ONLY) -->
+            <!-- CREATE & MANAGE JUDGES (PAUSE / REVOKE / REACTIVATE & EMAIL CREDENTIALS) -->
             <div class="lg:col-span-5 bg-brand-card border border-brand-border p-6 sm:p-8 rounded-3xl shadow-xl flex flex-col justify-between space-y-6">
               <div>
                 <span class="text-brand-amber text-xs uppercase font-bold tracking-widest block">Owner Access Management</span>
-                <h2 class="font-display text-xl font-extrabold text-white mt-1 mb-2">Create & Register Judge</h2>
-                <p class="text-xs text-slate-400 mb-5">Invite adjudicators to read and grade essays. Registered judges appear in the <strong>Assign Judge</strong> dropdown.</p>
+                <h2 class="font-display text-xl font-extrabold text-white mt-1 mb-2">Create & Manage Judges</h2>
+                <p class="text-xs text-slate-400 mb-5">Invite adjudicators, or <strong>Pause</strong>, <strong>Revoke</strong>, and <strong>Reactivate &amp; Email</strong> access anytime.</p>
 
                 <form id="create-admin-form" class="space-y-3.5">
                   <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300">
@@ -773,14 +773,14 @@
                   </label>
                   <p id="create-admin-msg" class="hidden text-xs font-semibold"></p>
                   <button type="submit" id="create-admin-btn" class="w-full py-3 rounded-xl bg-brand-dark hover:bg-slate-800 border border-brand-salmon/50 text-brand-salmon font-bold text-xs transition-all">
-                    <i class="fa-solid fa-user-plus mr-1.5"></i> Create Judge & Add to Roster
+                    <i class="fa-solid fa-user-plus mr-1.5"></i> Create Judge & Email Credentials
                   </button>
                 </form>
               </div>
 
               <div class="pt-4 border-t border-brand-border/80">
                 <span class="text-[10px] uppercase font-bold text-slate-400 tracking-widest block mb-2">Registered Judges Roster</span>
-                <div id="judges-roster-list" class="space-y-1.5 max-h-36 overflow-y-auto custom-scrollbar text-xs text-slate-300">
+                <div id="judges-roster-list" class="space-y-2 max-h-48 overflow-y-auto custom-scrollbar text-xs text-slate-300">
                   <p class="text-slate-500 italic">Loading judges...</p>
                 </div>
               </div>
@@ -1980,6 +1980,38 @@
       return 'pending';
     }
 
+    function sendJudgeCredentialsEmail(judgeName, judgeEmail, password, isReactivation = false) {
+      const portalLink = 'https://msmentorshipzm.github.io/radicalsolutions/#admin';
+      const subject = encodeURIComponent(
+        isReactivation
+          ? 'Your Radical Engineer — Judge Portal Access Reactivated'
+          : 'Your Radical Engineer — Judge Adjudication Portal Credentials'
+      );
+      const bodyText =
+`Hello ${judgeName || judgeEmail},
+
+${isReactivation
+  ? 'Your adjudicator access to the Your Radical Engineer Essay Challenge Portal has been reactivated.'
+  : 'You have been appointed as an official Adjudicator / Judge for the Your Radical Engineer — Radical Solutions Essay Challenge.'}
+
+Use the credentials below to sign in and evaluate assigned essays:
+• Portal Login URL: ${portalLink}
+• Login Email: ${judgeEmail}
+• Temporary Password: ${password}
+
+For security, please change your password under "Account Security" once logged in.
+
+Best regards,
+Milimo Siabana
+Your Radical Engineer
+Grow Zambia Agenda`;
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(bodyText).catch(() => {});
+      }
+      window.location.href = `mailto:${judgeEmail}?subject=${subject}&body=${encodeURIComponent(bodyText)}`;
+    }
+
     // Live Supabase Realtime Presence for Online Judges
     async function joinPortalPresence(userEmail) {
       if (presenceChannel) {
@@ -2033,12 +2065,39 @@
     }
 
     async function showAdminDashboard(userEmail) {
+      currentSessionEmail = (userEmail || '').trim().toLowerCase();
+      isCurrentUserOwner = currentSessionEmail === OWNER_EMAIL.toLowerCase();
+
+      // Enforce Pause / Revoke access gate immediately on login for non-owner judges
+      if (!isCurrentUserOwner) {
+        const { data: judgeRecord, error: judgeCheckErr } = await supabaseClient
+          .from('portal_judges')
+          .select('active, status')
+          .eq('email', currentSessionEmail)
+          .maybeSingle();
+
+        const currentJudgeStatus = judgeRecord?.status || (judgeRecord?.active === false ? 'paused' : 'active');
+
+        if (judgeCheckErr || !judgeRecord || currentJudgeStatus === 'revoked') {
+          await supabaseClient.auth.signOut();
+          showAdminLogin();
+          loginError.textContent = 'Access revoked: Your judge account has been deactivated by the administrator.';
+          loginError.classList.remove('hidden');
+          return;
+        }
+
+        if (currentJudgeStatus === 'paused' || judgeRecord.active === false) {
+          await supabaseClient.auth.signOut();
+          showAdminLogin();
+          loginError.textContent = 'Access paused: Your judge access is temporarily paused by the administrator.';
+          loginError.classList.remove('hidden');
+          return;
+        }
+      }
+
       loginContainer.classList.add('hidden');
       dashboardContainer.classList.remove('hidden');
       logoutBtn.classList.remove('hidden');
-
-      currentSessionEmail = (userEmail || '').trim().toLowerCase();
-      isCurrentUserOwner = currentSessionEmail === OWNER_EMAIL.toLowerCase();
 
       const ownerControls = document.getElementById('owner-only-controls');
       const judgeBanner = document.getElementById('judge-notice-banner');
@@ -2158,18 +2217,86 @@
       }
     });
 
-    // Fetch & Manage Registered Judges Roster
+    // Fetch ALL Judges (Active, Paused & Revoked) for Owner Management
     async function fetchRegisteredJudges() {
       const { data } = await supabaseClient
         .from('portal_judges')
         .select('*')
-        .eq('active', true)
         .order('created_at', { ascending: true });
 
       registeredJudgesCache = data || [];
       renderJudgesRoster();
       populateJudgeFilterDropdown();
     }
+
+    // Owner Action: Pause, Revoke, or Reactivate & Email Judge
+    window.setJudgeLifecycleStatus = async function(email, nextStatus) {
+      if (!isCurrentUserOwner) return;
+      const cleanEmail = email.trim().toLowerCase();
+      const judge = registeredJudgesCache.find(j => j.email.toLowerCase() === cleanEmail);
+      const judgeName = judge?.full_name || cleanEmail;
+
+      if (nextStatus === 'revoked') {
+        if (!confirm(`Revoke access for ${judgeName} (${cleanEmail})? They will be blocked from logging in until you reactivate them.`)) {
+          return;
+        }
+      }
+
+      if (nextStatus === 'active') {
+        const generatePass = `YRE#${Math.floor(100000 + Math.random() * 900000)}`;
+        const chosenPass = prompt(
+          `Enter a temporary password for ${judgeName} (${cleanEmail}) to reactivate & email them:`,
+          generatePass
+        );
+        if (!chosenPass) return;
+        if (chosenPass.trim().length < 6) {
+          alert('Password must be at least 6 characters.');
+          return;
+        }
+
+        // Update Supabase Auth password via Edge Function if deployed, and update portal_judges
+        const { error: fnError } = await supabaseClient.functions.invoke('manage-judge-access', {
+          body: {
+            email: cleanEmail,
+            fullName: judgeName,
+            newPassword: chosenPass.trim()
+          }
+        });
+
+        const { error: dbErr } = await supabaseClient
+          .from('portal_judges')
+          .update({ active: true, status: 'active' })
+          .eq('email', cleanEmail);
+
+        if (dbErr) {
+          alert('Database error reactivating judge: ' + dbErr.message);
+          return;
+        }
+
+        if (fnError) {
+          alert('Judge marked Active in roster. Note: Ensure the "manage-judge-access" Edge Function is deployed so the Auth password resets automatically.');
+        }
+
+        await fetchRegisteredJudges();
+        renderAdminEssaysTable();
+        sendJudgeCredentialsEmail(judgeName, cleanEmail, chosenPass.trim(), true);
+        return;
+      }
+
+      // Pause ('paused') or Revoke ('revoked')
+      const { error } = await supabaseClient
+        .from('portal_judges')
+        .update({ active: false, status: nextStatus })
+        .eq('email', cleanEmail);
+
+      if (error) {
+        alert('Could not update judge status: ' + error.message);
+        return;
+      }
+
+      await fetchRegisteredJudges();
+      renderAdminEssaysTable();
+    };
 
     function renderJudgesRoster() {
       const rosterEl = document.getElementById('judges-roster-list');
@@ -2181,16 +2308,36 @@
       }
 
       rosterEl.innerHTML = registeredJudgesCache.map(j => {
-        const isOnline = onlineJudgeEmails.has(j.email.toLowerCase());
+        const em = j.email.toLowerCase();
+        const status = j.status || (j.active === false ? 'paused' : 'active');
+        const isOnline = onlineJudgeEmails.has(em);
+
+        let statusPill = `<span class="text-[9px] font-mono px-1.5 py-0.5 rounded ${isOnline ? 'bg-emerald-500/20 text-emerald-400' : 'bg-slate-800 text-slate-400'}">${isOnline ? 'Online' : 'Active'}</span>`;
+        if (status === 'paused') {
+          statusPill = `<span class="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-400 border border-amber-500/30">PAUSED</span>`;
+        } else if (status === 'revoked') {
+          statusPill = `<span class="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-red-500/20 text-red-400 border border-red-500/30">REVOKED</span>`;
+        }
+
         return `
-          <div class="flex items-center justify-between bg-brand-dark border border-brand-border/80 px-3 py-2 rounded-xl">
-            <div class="truncate pr-2">
-              <strong class="text-white block truncate">${j.full_name || j.email}</strong>
-              <span class="text-[10px] text-slate-400 font-mono block truncate">${j.email}</span>
+          <div class="flex items-center justify-between gap-2 bg-brand-dark border ${status === 'active' ? 'border-brand-border/80' : (status === 'paused' ? 'border-amber-500/40' : 'border-red-500/40 opacity-80')} px-3 py-2.5 rounded-xl">
+            <div class="min-w-0 flex-grow">
+              <div class="flex items-center gap-1.5">
+                <strong class="text-white truncate">${j.full_name || em}</strong>
+                ${statusPill}
+              </div>
+              <span class="text-[10px] text-slate-400 font-mono block truncate">${em}</span>
             </div>
-            <span class="text-[10px] font-mono px-2 py-0.5 rounded-full ${isOnline ? 'bg-emerald-500/20 text-emerald-400' : 'bg-slate-800 text-slate-400'}">
-              ${isOnline ? 'Online' : 'Offline'}
-            </span>
+            <div class="flex items-center gap-1.5 shrink-0">
+              ${status === 'active' ? `
+                <button type="button" onclick="setJudgeLifecycleStatus('${em}', 'paused')" class="px-2 py-1 rounded-lg text-[10px] font-bold bg-amber-500/15 border border-amber-500/40 text-amber-300 hover:bg-amber-500/25">Pause</button>
+                <button type="button" onclick="setJudgeLifecycleStatus('${em}', 'revoked')" class="px-2 py-1 rounded-lg text-[10px] font-bold bg-red-500/15 border border-red-500/40 text-red-400 hover:bg-red-500/25">Revoke</button>
+              ` : `
+                <button type="button" onclick="setJudgeLifecycleStatus('${em}', 'active')" class="px-2.5 py-1 rounded-lg text-[10px] font-bold bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 hover:bg-emerald-500/30">
+                  <i class="fa-solid fa-envelope mr-1"></i>Reactivate &amp; Email
+                </button>
+              `}
+            </div>
           </div>
         `;
       }).join('');
@@ -2215,7 +2362,7 @@
       judgeSelect.value = currentVal;
     }
 
-    // Create Judge Account & Save to portal_judges Roster (Owner Only)
+    // Create Judge Account, Save to portal_judges & Email Credentials (Owner Only)
     document.getElementById('create-admin-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       if (!isCurrentUserOwner) return;
@@ -2229,35 +2376,35 @@
       const email = document.getElementById('new-admin-email').value.trim().toLowerCase();
       const password = document.getElementById('new-admin-password').value;
 
-      const { error } = await secondaryAuthClient.auth.signUp({
-        email,
-        password,
-        options: {
-          emailRedirectTo: 'https://msmentorshipzm.github.io/radicalsolutions/#admin',
-          data: {
-            full_name: fullName,
-            temp_password: password,
-            role: 'judge'
-          }
-        }
+      // Try Edge Function first so email is auto-confirmed without requiring a separate link click
+      const { error: fnError } = await supabaseClient.functions.invoke('manage-judge-access', {
+        body: { email, fullName, newPassword: password }
       });
 
+      if (fnError) {
+        await secondaryAuthClient.auth.signUp({
+          email,
+          password,
+          options: {
+            emailRedirectTo: 'https://msmentorshipzm.github.io/radicalsolutions/#admin',
+            data: { full_name: fullName, role: 'judge' }
+          }
+        });
+      }
+
       await supabaseClient.from('portal_judges').upsert([
-        { email, full_name: fullName, active: true }
+        { email, full_name: fullName, active: true, status: 'active' }
       ]);
 
       btn.disabled = false;
 
-      if (error) {
-        msgBox.textContent = `Note: ${error.message} (Roster updated)`;
-        msgBox.className = 'text-xs font-semibold text-amber-400 block';
-      } else {
-        msgBox.textContent = `Judge ${fullName} (${email}) registered & invite sent!`;
-        msgBox.className = 'text-xs font-semibold text-emerald-400 block';
-        document.getElementById('create-admin-form').reset();
-      }
+      msgBox.textContent = `Judge ${fullName} (${email}) registered! Opening credentials email...`;
+      msgBox.className = 'text-xs font-semibold text-emerald-400 block';
+      document.getElementById('create-admin-form').reset();
+
       await fetchRegisteredJudges();
       renderAdminEssaysTable();
+      sendJudgeCredentialsEmail(fullName, email, password, false);
     });
 
     // Owner Assigns Essay to a Judge
@@ -2316,13 +2463,14 @@
           e => getEssayWorkflowStatus(e) === 'graded' && (e.graded_by || '').toLowerCase() === email
         ).length;
         const isOnline = onlineJudgeEmails.has(email);
+        const status = reg?.status || (reg?.active === false ? 'paused' : 'active');
 
         return `
           <tr class="hover:bg-brand-dark/50">
             <td class="p-3.5 font-semibold text-white">${label}</td>
             <td class="p-3.5">
-              <span class="px-2 py-0.5 rounded-full text-[10px] font-mono ${isOnline ? 'bg-emerald-500/20 text-emerald-400' : 'bg-slate-800 text-slate-400'}">
-                ${isOnline ? 'Online' : 'Offline'}
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-mono ${status !== 'active' ? 'bg-red-500/20 text-red-400' : (isOnline ? 'bg-emerald-500/20 text-emerald-400' : 'bg-slate-800 text-slate-400')}">
+                ${status !== 'active' ? status.toUpperCase() : (isOnline ? 'Online' : 'Offline')}
               </span>
             </td>
             <td class="p-3.5 text-center font-mono font-bold text-slate-200">${assignedCount}</td>
@@ -2890,6 +3038,10 @@
         return;
       }
 
+      const activeJudgesOnly = registeredJudgesCache.filter(
+        j => (j.status || 'active') === 'active' && j.active !== false
+      );
+
       tbody.innerHTML = filtered.map((essay, idx) => {
         const workflowStatus = getEssayWorkflowStatus(essay);
         const isGraded = workflowStatus === 'graded';
@@ -2925,7 +3077,7 @@
           judgeCellHtml = `
             <select onchange="assignEssayToJudge('${essay.id}', this.value)" aria-label="Assign judge" class="bg-brand-dark border border-brand-border rounded-lg px-2 py-1.5 text-[11px] text-slate-200 focus:outline-none focus:border-brand-salmon max-w-[165px]">
               <option value="">Unassigned</option>
-              ${registeredJudgesCache.map(j => {
+              ${activeJudgesOnly.map(j => {
                 const em = j.email.toLowerCase();
                 return `<option value="${em}" ${currentAssigned === em ? 'selected' : ''}>${j.full_name || em}</option>`;
               }).join('')}
@@ -3017,7 +3169,7 @@
             </td>
             <td class="p-4 text-right">
               <button type="button" onclick="openGradeModal('${essay.id}')" class="px-3.5 py-2 rounded-xl bg-brand-salmon hover:bg-brand-salmonLight text-brand-dark font-extrabold text-xs transition-colors whitespace-nowrap">
-                <i class="fa-solid fa-pen-to-square mr-1"></i> Read & Grade
+                <i class="fa-solid fa-pen-to-square mr-1"></i> Read &amp; Grade
               </button>
             </td>
           </tr>
