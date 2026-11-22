@@ -408,6 +408,30 @@
               <input type="text" id="essay-title" required placeholder="e.g. Solar Irrigation for Central Province Smallholders" class="mt-2 w-full bg-brand-dark border border-brand-border rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-salmon transition-colors">
             </label>
 
+            <!-- CONDITIONAL ENTRY FEE & PROOF OF PAYMENT SECTION (ONLY VISIBLE WHEN ENABLED BY OWNER) -->
+            <div id="public-payment-section" class="hidden p-5 rounded-2xl bg-brand-dark border border-brand-amber/40 space-y-4">
+              <div class="flex flex-wrap items-center justify-between gap-2 border-b border-brand-border pb-3">
+                <div class="flex items-center space-x-2">
+                  <i class="fa-solid fa-receipt text-brand-amber"></i>
+                  <span class="text-xs font-extrabold uppercase tracking-wider text-white">Entry Fee & Proof of Payment Required</span>
+                </div>
+                <span class="font-mono font-extrabold text-xs px-3 py-1 rounded-full bg-brand-amber/15 border border-brand-amber/40 text-brand-amber">
+                  Fee: <span id="public-payment-amount-display"></span>
+                </span>
+              </div>
+              <p id="public-payment-instructions-display" class="text-xs text-slate-300 leading-relaxed whitespace-pre-line"></p>
+              <div class="grid sm:grid-cols-2 gap-4 pt-1">
+                <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300">
+                  Transaction / Reference ID <span class="text-brand-salmon">*</span>
+                  <input type="text" id="payment-ref-input" placeholder="e.g. MP261122.1430.A9821" class="mt-2 w-full bg-brand-card border border-brand-border rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-brand-amber font-mono">
+                </label>
+                <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300">
+                  Upload Proof of Payment (.pdf, .jpg, .png) <span class="text-brand-salmon">*</span>
+                  <input type="file" id="payment-proof-file" accept=".pdf,.jpg,.jpeg,.png" class="mt-2 w-full bg-brand-card border border-brand-border rounded-xl px-3 py-2 text-xs text-slate-300 focus:outline-none focus:border-brand-amber file:mr-3 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-brand-amber/20 file:text-brand-amber">
+                </label>
+              </div>
+            </div>
+
             <!-- MANDATORY FILE UPLOAD FIELD -->
             <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300">
               Upload Essay Document (.pdf or .docx) <span class="text-brand-salmon">*</span> <span class="text-slate-500 font-normal lowercase">(mandatory, max 3 MB)</span>
@@ -439,7 +463,7 @@
             <div>
               <span class="text-brand-salmon font-mono text-xs font-bold uppercase tracking-widest">Radical Solutions</span>
               <h3 class="font-display text-2xl font-bold text-white mt-1">Submission Successful!</h3>
-              <p class="text-slate-300 text-sm mt-2">Your essay has been recorded for review. You will receive an update once results are published.</p>
+              <p id="submission-success-subtext" class="text-slate-300 text-sm mt-2">Your essay has been recorded for review. You will receive an update once results are published.</p>
             </div>
             <div class="bg-brand-dark border border-brand-border p-4 rounded-xl max-w-md mx-auto">
               <span class="text-xs text-slate-400 block mb-1">Your Submission Reference ID:</span>
@@ -568,7 +592,7 @@
         <!-- JUDGE NOTICE BANNER (SHOWN ONLY FOR NON-OWNER JUDGES) -->
         <div id="judge-notice-banner" class="hidden bg-brand-amber/10 border border-brand-amber/30 p-4 rounded-2xl flex items-center space-x-3 text-xs text-brand-amber">
           <i class="fa-solid fa-gavel text-base"></i>
-          <span><strong>Judge Adjudication Mode:</strong> You can view submissions, track grading progress, filter by Pending / In Progress / Graded, search by Reference ID or Name, read essays, download attachments, and assign scores (/100) with notes. Ranked standings, website settings, cycle tracks, media, rules, judge invitations, and winner publication belong strictly to <strong>Your Radical Engineer</strong>.</span>
+          <span><strong>Judge Adjudication Mode:</strong> You can view submissions, filter by Pending / In Progress / Needs Review / Graded, search by Reference ID or Name, read essays, use AI Pre-Mark, and assign scores (/100) with notes. Ranked standings, judge assignments, payment settings, cycle tracks, media, rules, and winner publication belong strictly to <strong>Your Radical Engineer</strong>.</span>
         </div>
 
         <!-- ACCOUNT SECURITY: CHANGE PASSWORD (AVAILABLE TO OWNER & JUDGES) -->
@@ -586,8 +610,8 @@
           </form>
         </div>
 
-        <!-- METRICS SUMMARY (VISIBLE TO BOTH OWNER & JUDGES) -->
-        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+        <!-- METRICS SUMMARY -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
           <div class="bg-brand-card border border-brand-border p-5 rounded-2xl">
             <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider block">Total Submissions</span>
             <span id="stat-total" class="font-display font-extrabold text-3xl text-white mt-1 block">0</span>
@@ -601,23 +625,46 @@
             <span id="stat-in-progress" class="font-display font-extrabold text-3xl text-brand-salmon mt-1 block">0</span>
           </div>
           <div class="bg-brand-card border border-brand-border p-5 rounded-2xl">
-            <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider block">Graded Essays</span>
-            <span id="stat-graded" class="font-display font-extrabold text-3xl text-brand-amber mt-1 block">0</span>
+            <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider block">Needs Review</span>
+            <span id="stat-needs-review" class="font-display font-extrabold text-3xl text-amber-400 mt-1 block">0</span>
           </div>
-          <div class="bg-brand-card border border-brand-border p-5 rounded-2xl col-span-2 sm:col-span-1">
+          <div class="bg-brand-card border border-brand-border p-5 rounded-2xl">
+            <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider block">Graded Essays</span>
+            <span id="stat-graded" class="font-display font-extrabold text-3xl text-emerald-400 mt-1 block">0</span>
+          </div>
+          <div class="bg-brand-card border border-brand-border p-5 rounded-2xl">
             <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider block">Overall Winner</span>
-            <span id="stat-winners" class="font-display font-extrabold text-lg text-emerald-400 mt-2 block truncate">Not Selected</span>
+            <span id="stat-winners" class="font-display font-extrabold text-base text-emerald-400 mt-2 block truncate">Not Selected</span>
           </div>
         </div>
 
         <!-- OWNER-ONLY CONTROLS (COMPLETELY HIDDEN FOR JUDGES) -->
         <div id="owner-only-controls" class="hidden space-y-8">
 
+          <!-- LIVE JUDGE PRESENCE & EVALUATION REPORT BAR -->
+          <div class="bg-brand-card border border-brand-border p-5 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div class="flex items-center space-x-3.5">
+              <div class="w-11 h-11 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 flex items-center justify-center text-lg">
+                <i class="fa-solid fa-users-viewfinder"></i>
+              </div>
+              <div>
+                <div class="flex items-center space-x-2">
+                  <span class="text-xs font-extrabold uppercase tracking-wider text-white">Live Judges Logged In</span>
+                  <span id="online-judges-count" class="px-2.5 py-0.5 rounded-full text-[11px] font-mono font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">0 Active</span>
+                </div>
+                <p id="online-judges-list" class="text-xs text-slate-400 mt-0.5">No judges currently active in portal</p>
+              </div>
+            </div>
+            <button type="button" id="open-judge-report-btn" class="px-4 py-2.5 rounded-xl bg-brand-dark hover:bg-slate-800 border border-brand-amber/50 text-brand-amber font-bold text-xs transition-colors flex items-center space-x-2">
+              <i class="fa-solid fa-chart-pie"></i><span>Judge Evaluation & Payout Report</span>
+            </button>
+          </div>
+
           <div class="grid lg:grid-cols-12 gap-8">
-            <!-- TIMELINE, WINNER PHOTO & PUBLISHING CONTROLS -->
+            <!-- TIMELINE, PAID ENTRIES TOGGLE, WINNER PHOTO & PUBLISHING CONTROLS -->
             <div class="lg:col-span-7 bg-brand-card border border-brand-border p-6 sm:p-8 rounded-3xl shadow-xl">
               <span class="text-brand-salmon text-xs uppercase font-bold tracking-widest block">Owner Cycle & Website Controls</span>
-              <h2 class="font-display text-xl font-extrabold text-white mt-1 mb-5">Deadlines, Winner Portrait & Publication</h2>
+              <h2 class="font-display text-xl font-extrabold text-white mt-1 mb-5">Deadlines, Entry Fees, Winner Portrait & Publication</h2>
               <form id="settings-form" class="space-y-5">
                 <div class="grid sm:grid-cols-3 gap-4">
                   <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300">
@@ -632,6 +679,31 @@
                     Winners Announcement
                     <input type="datetime-local" id="set-winners" required class="mt-2 w-full bg-brand-dark border border-brand-border rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-brand-salmon font-mono">
                   </label>
+                </div>
+
+                <!-- PAID ENTRIES & PROOF OF PAYMENT CONFIGURATION (ONLY ACTIVE WHEN CHECKED + AMOUNT SET) -->
+                <div class="p-4 rounded-2xl bg-brand-dark border border-brand-border space-y-3">
+                  <div class="flex items-center justify-between">
+                    <div>
+                      <strong class="text-xs text-white block">Payments Needed (Paid Entries Mode)</strong>
+                      <span class="text-[11px] text-slate-400">Takes effect only when checked AND an entry fee amount is specified below.</span>
+                    </div>
+                    <input type="checkbox" id="set-require-payment" class="w-5 h-5 accent-brand-amber rounded cursor-pointer">
+                  </div>
+                  <div id="payment-config-fields" class="grid sm:grid-cols-12 gap-3 pt-2 border-t border-brand-border/70">
+                    <div class="sm:col-span-5">
+                      <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-300">
+                        Entry Fee Amount
+                        <input type="text" id="set-entry-fee-amount" placeholder="e.g. ZMW 50" class="mt-1.5 w-full bg-brand-card border border-brand-border rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-amber font-mono">
+                      </label>
+                    </div>
+                    <div class="sm:col-span-7">
+                      <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-300">
+                        Payment Account / Instructions
+                        <input type="text" id="set-payment-instructions" placeholder="e.g. Airtel Money / MTN MoMo: 0976 452 281 (Milimo Siabana)" class="mt-1.5 w-full bg-brand-card border border-brand-border rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-amber">
+                      </label>
+                    </div>
+                  </div>
                 </div>
 
                 <!-- WINNER PHOTO UPLOAD -->
@@ -679,26 +751,39 @@
               </form>
             </div>
 
-            <!-- CREATE JUDGE ACCOUNT (OWNER ONLY) -->
-            <div class="lg:col-span-5 bg-brand-card border border-brand-border p-6 sm:p-8 rounded-3xl shadow-xl">
-              <span class="text-brand-amber text-xs uppercase font-bold tracking-widest block">Owner Access Management</span>
-              <h2 class="font-display text-xl font-extrabold text-white mt-1 mb-2">Create Judge Account</h2>
-              <p class="text-xs text-slate-400 mb-5">Invite adjudicators to read and grade essays. Their confirmation email will include this temporary password.</p>
+            <!-- CREATE & MANAGE JUDGES (OWNER ONLY) -->
+            <div class="lg:col-span-5 bg-brand-card border border-brand-border p-6 sm:p-8 rounded-3xl shadow-xl flex flex-col justify-between space-y-6">
+              <div>
+                <span class="text-brand-amber text-xs uppercase font-bold tracking-widest block">Owner Access Management</span>
+                <h2 class="font-display text-xl font-extrabold text-white mt-1 mb-2">Create & Register Judge</h2>
+                <p class="text-xs text-slate-400 mb-5">Invite adjudicators to read and grade essays. Registered judges appear in the <strong>Assign Judge</strong> dropdown.</p>
 
-              <form id="create-admin-form" class="space-y-4">
-                <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300">
-                  Judge Email Address
-                  <input type="email" id="new-admin-email" required placeholder="judge@yourradicalengineer.com" class="mt-1.5 w-full bg-brand-dark border border-brand-border rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-brand-salmon">
-                </label>
-                <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300">
-                  Temporary Password (min 6 chars)
-                  <input type="password" id="new-admin-password" required minlength="6" placeholder="••••••••" class="mt-1.5 w-full bg-brand-dark border border-brand-border rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-brand-salmon">
-                </label>
-                <p id="create-admin-msg" class="hidden text-xs font-semibold"></p>
-                <button type="submit" id="create-admin-btn" class="w-full py-3 rounded-xl bg-brand-dark hover:bg-slate-800 border border-brand-salmon/50 text-brand-salmon font-bold text-xs transition-all">
-                  <i class="fa-solid fa-user-plus mr-1.5"></i> Create Judge & Send Invite
-                </button>
-              </form>
+                <form id="create-admin-form" class="space-y-3.5">
+                  <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300">
+                    Judge Full Name
+                    <input type="text" id="new-admin-name" required placeholder="e.g. Eng. Chanda Mwale" class="mt-1.5 w-full bg-brand-dark border border-brand-border rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-brand-salmon">
+                  </label>
+                  <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300">
+                    Judge Email Address
+                    <input type="email" id="new-admin-email" required placeholder="judge@yourradicalengineer.com" class="mt-1.5 w-full bg-brand-dark border border-brand-border rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-brand-salmon">
+                  </label>
+                  <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300">
+                    Temporary Password (min 6 chars)
+                    <input type="password" id="new-admin-password" required minlength="6" placeholder="••••••••" class="mt-1.5 w-full bg-brand-dark border border-brand-border rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-brand-salmon">
+                  </label>
+                  <p id="create-admin-msg" class="hidden text-xs font-semibold"></p>
+                  <button type="submit" id="create-admin-btn" class="w-full py-3 rounded-xl bg-brand-dark hover:bg-slate-800 border border-brand-salmon/50 text-brand-salmon font-bold text-xs transition-all">
+                    <i class="fa-solid fa-user-plus mr-1.5"></i> Create Judge & Add to Roster
+                  </button>
+                </form>
+              </div>
+
+              <div class="pt-4 border-t border-brand-border/80">
+                <span class="text-[10px] uppercase font-bold text-slate-400 tracking-widest block mb-2">Registered Judges Roster</span>
+                <div id="judges-roster-list" class="space-y-1.5 max-h-36 overflow-y-auto custom-scrollbar text-xs text-slate-300">
+                  <p class="text-slate-500 italic">Loading judges...</p>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -708,7 +793,7 @@
               <div>
                 <span class="text-brand-salmon text-xs uppercase font-bold tracking-widest block">Media Content & Vlogs Manager</span>
                 <h2 class="font-display text-xl font-extrabold text-white mt-1">Manage Media & Engineering Tech Hub</h2>
-                <p class="text-xs text-slate-400 mt-1">Edit existing video titles, descriptions, categories, or upload MP4 videos / thumbnails directly to your Media Hub.</p>
+                <p class="text-xs text-slate-400 mt-1">Edit existing video titles, descriptions, categories, or upload MP4 videos directly to your Media Hub.</p>
               </div>
               <div class="flex items-center space-x-3">
                 <button type="button" id="add-media-btn" class="px-4 py-2.5 rounded-xl bg-brand-dark hover:bg-slate-800 border border-brand-salmon/50 text-brand-salmon font-bold text-xs transition-colors">
@@ -758,7 +843,7 @@
               <div>
                 <span class="text-brand-teal text-xs uppercase font-bold tracking-widest block">Cycle Curriculum & Prompts</span>
                 <h2 class="font-display text-xl font-extrabold text-white mt-1">Edit Competition Tracks & Essay Prompts</h2>
-                <p class="text-xs text-slate-400 mt-1">Customize track names, targets, and essay questions for each new competition cycle. Changes update both the public portal and submission dropdowns immediately.</p>
+                <p class="text-xs text-slate-400 mt-1">Customize track names, targets, and essay questions for each new competition cycle.</p>
               </div>
               <div class="flex items-center space-x-3">
                 <button type="button" id="add-new-track-btn" class="px-4 py-2.5 rounded-xl bg-brand-dark hover:bg-slate-800 border border-brand-teal/50 text-brand-teal font-bold text-xs transition-colors">
@@ -775,7 +860,7 @@
 
         </div>
 
-        <!-- ESSAY SUBMISSIONS TABLE (RANKED STANDINGS SHOWN ONLY TO OWNER; WORKFLOW TABS FOR BOTH OWNER & JUDGES) -->
+        <!-- ESSAY SUBMISSIONS TABLE (WORKFLOW TABS + NEEDS REVIEW COLUMN + JUDGE ASSIGNMENT + PAYMENT STATUS) -->
         <div class="bg-brand-card border border-brand-border rounded-3xl shadow-xl overflow-hidden">
           <div class="p-6 sm:p-8 border-b border-brand-border space-y-4">
             <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
@@ -791,9 +876,13 @@
                     id="search-essays"
                     placeholder="Search Ref ID or Name..."
                     aria-label="Search submissions by reference ID or contestant name"
-                    class="w-full sm:w-56 bg-brand-dark border border-brand-border rounded-xl pl-9 pr-3.5 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-brand-salmon transition-colors"
+                    class="w-full sm:w-52 bg-brand-dark border border-brand-border rounded-xl pl-9 pr-3.5 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-brand-salmon transition-colors"
                   >
                 </div>
+                <select id="filter-judge" aria-label="Filter by assigned or evaluating judge" class="bg-brand-dark border border-brand-border rounded-xl px-3 py-2 text-xs text-slate-300 focus:outline-none focus:border-brand-salmon">
+                  <option value="ALL">All Judges</option>
+                  <option value="UNASSIGNED">Unassigned</option>
+                </select>
                 <select id="filter-track" aria-label="Filter submissions by track" class="bg-brand-dark border border-brand-border rounded-xl px-3 py-2 text-xs text-slate-300 focus:outline-none focus:border-brand-salmon">
                   <option value="ALL">All Tracks</option>
                 </select>
@@ -803,7 +892,7 @@
               </div>
             </div>
 
-            <!-- WORKFLOW STATUS FILTER TABS (ALL / PENDING / IN PROGRESS / GRADED) -->
+            <!-- WORKFLOW STATUS FILTER TABS -->
             <div class="flex flex-wrap items-center gap-2 pt-1" id="status-filter-tabs">
               <button type="button" data-status="ALL" class="status-tab px-3.5 py-1.5 rounded-xl text-xs font-bold bg-brand-salmon text-brand-dark transition-colors">
                 All (<span id="tab-count-all">0</span>)
@@ -814,8 +903,14 @@
               <button type="button" data-status="in_progress" class="status-tab px-3.5 py-1.5 rounded-xl text-xs font-bold bg-brand-dark border border-brand-border text-brand-salmon hover:border-brand-salmon/50 transition-colors">
                 In Progress (<span id="tab-count-in_progress">0</span>)
               </button>
+              <button type="button" data-status="needs_review" class="status-tab px-3.5 py-1.5 rounded-xl text-xs font-bold bg-brand-dark border border-brand-border text-amber-400 hover:border-amber-500/50 transition-colors">
+                Needs Review (<span id="tab-count-needs_review">0</span>)
+              </button>
               <button type="button" data-status="graded" class="status-tab px-3.5 py-1.5 rounded-xl text-xs font-bold bg-brand-dark border border-brand-border text-emerald-400 hover:border-emerald-500/50 transition-colors">
                 Graded (<span id="tab-count-graded">0</span>)
+              </button>
+              <button type="button" data-status="disqualified" class="status-tab px-3.5 py-1.5 rounded-xl text-xs font-bold bg-brand-dark border border-brand-border text-red-400 hover:border-red-500/50 transition-colors">
+                Disqualified (<span id="tab-count-disqualified">0</span>)
               </button>
             </div>
           </div>
@@ -827,15 +922,17 @@
                   <th id="rank-col-header" class="p-4">Rank</th>
                   <th class="p-4">Ref & Author</th>
                   <th class="p-4">Track & Title</th>
-                  <th class="p-4">Document</th>
+                  <th class="p-4">Payment / Doc</th>
+                  <th class="p-4">Assigned / Judge</th>
+                  <th class="p-4">Needs Review</th>
                   <th class="p-4">Score (/100)</th>
-                  <th class="p-4">Workflow Status</th>
+                  <th class="p-4">Status</th>
                   <th class="p-4 text-right">Action</th>
                 </tr>
               </thead>
               <tbody id="essays-table-body" class="divide-y divide-brand-border/60">
                 <tr>
-                  <td colspan="7" class="p-8 text-center text-slate-500">Loading submissions from database...</td>
+                  <td colspan="9" class="p-8 text-center text-slate-500">Loading submissions from database...</td>
                 </tr>
               </tbody>
             </table>
@@ -845,21 +942,33 @@
       </div>
     </main>
 
-    <!-- GRADING & READING MODAL -->
+    <!-- GRADING, AI PRE-MARK, REGRADE & DISQUALIFICATION MODAL -->
     <div id="grade-modal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-      <div class="bg-brand-card border border-brand-border rounded-3xl max-w-4xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
-        <div class="p-6 border-b border-brand-border flex items-center justify-between">
+      <div class="bg-brand-card border border-brand-border rounded-3xl max-w-4xl w-full max-h-[92vh] flex flex-col shadow-2xl overflow-hidden">
+        <div class="p-6 border-b border-brand-border flex items-center justify-between gap-4">
           <div>
             <span id="modal-ref" class="font-mono text-xs font-bold text-brand-salmon"></span>
             <h3 id="modal-title" class="font-display font-bold text-lg text-white mt-0.5"></h3>
             <p id="modal-meta" class="text-xs text-slate-400"></p>
           </div>
-          <button type="button" id="close-modal-btn" class="w-9 h-9 rounded-xl bg-brand-dark border border-brand-border text-slate-400 hover:text-white flex items-center justify-center">
-            <i class="fa-solid fa-xmark"></i>
-          </button>
+          <div class="flex items-center gap-2">
+            <button type="button" id="ai-premark-btn" class="px-3.5 py-2 rounded-xl bg-brand-teal/15 hover:bg-brand-teal/25 border border-brand-teal/40 text-brand-teal font-bold text-xs transition-colors flex items-center space-x-1.5">
+              <i class="fa-solid fa-robot"></i><span>AI Pre-Mark</span>
+            </button>
+            <button type="button" id="close-modal-btn" class="w-9 h-9 rounded-xl bg-brand-dark border border-brand-border text-slate-400 hover:text-white flex items-center justify-center">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
         </div>
 
-        <div class="p-6 overflow-y-auto space-y-6 flex-grow custom-scrollbar">
+        <div class="p-6 overflow-y-auto space-y-5 flex-grow custom-scrollbar">
+          <!-- PAYMENT & PREVIOUS GRADE ALERT BANNERS -->
+          <div id="modal-payment-banner" class="hidden p-4 rounded-2xl bg-brand-dark border border-brand-amber/40 flex flex-wrap items-center justify-between gap-3 text-xs"></div>
+
+          <div id="modal-needs-review-banner" class="hidden p-4 rounded-2xl bg-amber-500/10 border border-amber-500/40 text-amber-300 text-xs flex items-center justify-between"></div>
+
+          <div id="modal-disqualified-banner" class="hidden p-4 rounded-2xl bg-red-500/10 border border-red-500/40 text-red-300 text-xs"></div>
+
           <div class="bg-brand-dark border border-brand-border p-4 rounded-2xl">
             <span class="text-[10px] uppercase font-bold text-brand-amber block mb-1">Selected Prompt</span>
             <p id="modal-question" class="text-xs text-slate-300"></p>
@@ -872,7 +981,7 @@
                 <i class="fa-solid fa-file-arrow-down mr-1"></i> Open Attached Document
               </a>
             </div>
-            <div id="modal-body-text" class="bg-brand-dark border border-brand-border p-5 rounded-2xl text-xs text-slate-200 leading-relaxed whitespace-pre-wrap max-h-64 overflow-y-auto custom-scrollbar"></div>
+            <div id="modal-body-text" class="bg-brand-dark border border-brand-border p-5 rounded-2xl text-xs text-slate-200 leading-relaxed whitespace-pre-wrap max-h-60 overflow-y-auto custom-scrollbar"></div>
           </div>
 
           <form id="grade-form" class="grid sm:grid-cols-12 gap-4 pt-2 border-t border-brand-border">
@@ -885,17 +994,87 @@
               <label class="block text-xs font-bold uppercase text-slate-300 mb-1.5">Internal Adjudication Notes (Private)</label>
               <input type="text" id="grade-comments" placeholder="e.g. Strong technical feasibility on solar grid sizing." class="w-full bg-brand-dark border border-brand-border rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-brand-salmon">
             </div>
-            <div class="sm:col-span-12 flex flex-wrap items-center justify-between gap-4 pt-2">
-              <!-- OWNER-ONLY OVERALL WINNER CHECKBOX -->
-              <label id="owner-winner-toggle-wrapper" class="hidden flex items-center space-x-2.5 cursor-pointer bg-emerald-500/10 border border-emerald-500/30 px-4 py-2.5 rounded-xl">
-                <input type="checkbox" id="grade-is-winner" class="w-4 h-4 accent-emerald-500 rounded">
-                <span class="text-xs font-bold text-emerald-400">🏆 Declare as Overall Winner (Owner Only)</span>
-              </label>
-              <button type="submit" id="save-grade-btn" class="ml-auto px-6 py-3 rounded-xl bg-brand-salmon hover:bg-brand-salmonLight text-brand-dark font-extrabold text-xs transition-all">
+
+            <div class="sm:col-span-12 flex flex-wrap items-center justify-between gap-3 pt-2">
+              <div class="flex flex-wrap items-center gap-2.5">
+                <!-- OWNER-ONLY OVERALL WINNER CHECKBOX -->
+                <label id="owner-winner-toggle-wrapper" class="hidden flex items-center space-x-2 cursor-pointer bg-emerald-500/10 border border-emerald-500/30 px-3.5 py-2 rounded-xl">
+                  <input type="checkbox" id="grade-is-winner" class="w-4 h-4 accent-emerald-500 rounded">
+                  <span class="text-xs font-bold text-emerald-400">🏆 Overall Winner</span>
+                </label>
+
+                <!-- OWNER-ONLY SEND BACK TO NEEDS REVIEW BUTTON -->
+                <button type="button" id="send-back-review-btn" class="hidden px-3.5 py-2 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 border border-amber-500/40 text-amber-300 font-bold text-xs transition-colors">
+                  <i class="fa-solid fa-rotate-left mr-1"></i>Send Back (Needs Review)
+                </button>
+
+                <!-- DISQUALIFY / REINSTATE BUTTON -->
+                <button type="button" id="toggle-disqualify-btn" class="px-3.5 py-2 rounded-xl bg-red-500/15 hover:bg-red-500/25 border border-red-500/40 text-red-400 font-bold text-xs transition-colors">
+                  <i class="fa-solid fa-ban mr-1"></i>Disqualify
+                </button>
+              </div>
+
+              <button type="submit" id="save-grade-btn" class="ml-auto px-6 py-2.5 rounded-xl bg-brand-salmon hover:bg-brand-salmonLight text-brand-dark font-extrabold text-xs transition-all">
                 Save Grade & Notes
               </button>
             </div>
           </form>
+
+          <!-- INLINE DISQUALIFICATION REASON PANEL -->
+          <div id="disqualify-panel" class="hidden p-4 rounded-2xl bg-red-500/10 border border-red-500/40 space-y-3">
+            <span class="text-xs font-extrabold uppercase tracking-wider text-red-400 block">Confirm Essay Disqualification</span>
+            <div class="grid sm:grid-cols-12 gap-3">
+              <div class="sm:col-span-5">
+                <select id="disqualify-preset" class="w-full bg-brand-dark border border-brand-border rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-red-400">
+                  <option value="AI-Generated Content Detected">AI-Generated Content Detected</option>
+                  <option value="Unpaid / Invalid Proof of Payment">Unpaid / Invalid Proof of Payment</option>
+                  <option value="Plagiarism / Uncited Material">Plagiarism / Uncited Material</option>
+                  <option value="Word Count / Document Format Violation">Word Count / Document Format Violation</option>
+                  <option value="Ethics / Contest Rules Breach">Ethics / Contest Rules Breach</option>
+                  <option value="Other">Other (Specify in Comment)</option>
+                </select>
+              </div>
+              <div class="sm:col-span-7">
+                <input type="text" id="disqualify-custom-comment" placeholder="Detailed explanation / evidence for disqualification..." class="w-full bg-brand-dark border border-brand-border rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-red-400">
+              </div>
+            </div>
+            <div class="flex items-center justify-end gap-2">
+              <button type="button" id="cancel-disqualify-btn" class="px-3.5 py-1.5 rounded-lg bg-brand-dark border border-brand-border text-xs text-slate-300">Cancel</button>
+              <button type="button" id="confirm-disqualify-btn" class="px-4 py-1.5 rounded-lg bg-red-500 hover:bg-red-600 text-white font-bold text-xs">Confirm Disqualification</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- JUDGE EVALUATION & PAYOUT REPORT MODAL (OWNER ONLY) -->
+    <div id="judge-report-modal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+      <div class="bg-brand-card border border-brand-border rounded-3xl max-w-3xl w-full max-h-[85vh] flex flex-col shadow-2xl overflow-hidden">
+        <div class="p-6 border-b border-brand-border flex items-center justify-between">
+          <div>
+            <span class="text-[10px] uppercase font-bold text-brand-amber tracking-widest block">Owner Adjudication Audit</span>
+            <h3 class="font-display font-extrabold text-xl text-white mt-0.5">Judge Evaluation & Payout Summary</h3>
+          </div>
+          <button type="button" id="close-judge-report-btn" class="w-9 h-9 rounded-xl bg-brand-dark border border-brand-border text-slate-400 hover:text-white flex items-center justify-center">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+        <div class="p-6 overflow-y-auto custom-scrollbar space-y-4">
+          <p class="text-xs text-slate-400">Breakdown of assigned essays and completed evaluations per judge/reviewer for workload balancing and honorarium/payout calculation.</p>
+          <div class="overflow-x-auto border border-brand-border rounded-2xl">
+            <table class="w-full text-left border-collapse text-xs">
+              <thead>
+                <tr class="bg-brand-dark text-slate-400 border-b border-brand-border uppercase tracking-wider">
+                  <th class="p-3.5">Judge / Reviewer</th>
+                  <th class="p-3.5">Status</th>
+                  <th class="p-3.5 text-center">Assigned</th>
+                  <th class="p-3.5 text-center">Evaluated (Graded)</th>
+                  <th class="p-3.5 text-right">Filter</th>
+                </tr>
+              </thead>
+              <tbody id="judge-report-tbody" class="divide-y divide-brand-border/60"></tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
@@ -930,7 +1109,6 @@
   <!-- EXECUTIVE FOOTER WITH ZAMBIAN NATIONAL ACCENT & GROW ZAMBIA AGENDA    -->
   <!-- ===================================================================== -->
   <footer class="bg-brand-dark border-t border-brand-border relative">
-    <!-- ZAMBIAN FLAG NATIONAL ACCENT STRIPE -->
     <div class="h-1.5 w-full grid grid-cols-12">
       <div class="col-span-9 bg-zambia-green"></div>
       <div class="col-span-1 bg-zambia-red"></div>
@@ -940,8 +1118,6 @@
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
       <div class="grid md:grid-cols-12 gap-10 pb-10 border-b border-brand-border/80">
-
-        <!-- BRAND & MISSION -->
         <div class="md:col-span-5 space-y-4">
           <div class="flex items-center space-x-3">
             <img src="radical_logo.jpeg" alt="Your Radical Engineer Logo" class="w-10 h-10 rounded-xl object-cover border border-brand-border">
@@ -953,7 +1129,6 @@
           <p class="text-xs text-slate-400 leading-relaxed max-w-md">
             Advancing practical engineering solutions, technical literacy, and youth-driven industrial prototypes across the Republic of Zambia.
           </p>
-          <!-- GROW ZAMBIA AGENDA PILL -->
           <div class="inline-flex items-center space-x-2.5 bg-brand-card border border-zambia-green/40 px-3.5 py-2 rounded-xl">
             <span class="flex space-x-1">
               <span class="w-2 h-2 rounded-full bg-zambia-green"></span>
@@ -964,7 +1139,6 @@
           </div>
         </div>
 
-        <!-- GROW ZAMBIA BENCHMARKS -->
         <div class="md:col-span-4 space-y-3">
           <span class="text-[11px] font-bold uppercase tracking-widest text-zambia-orange block">National Industrial Benchmarks</span>
           <ul class="text-xs text-slate-400 space-y-2 font-mono">
@@ -983,7 +1157,6 @@
           </ul>
         </div>
 
-        <!-- QUICK PORTAL & GOVERNANCE LINKS -->
         <div class="md:col-span-3 space-y-3">
           <span class="text-[11px] font-bold uppercase tracking-widest text-brand-salmon block">Portal & Governance</span>
           <ul class="text-xs text-slate-400 space-y-2">
@@ -994,10 +1167,8 @@
             <li class="text-slate-300 font-mono">+260 976 452 281 • Lusaka / Solwezi, ZM</li>
           </ul>
         </div>
-
       </div>
 
-      <!-- BOTTOM COPYRIGHT & ADMIN PORTAL BAR -->
       <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
         <p>&copy; 2026 Your Radical Engineer (Milimo Siabana). All rights reserved. Built for the <span class="text-slate-300 font-semibold">Grow Zambia Agenda</span>.</p>
         <div class="flex items-center space-x-4">
@@ -1025,7 +1196,22 @@
     });
 
     let isCurrentUserOwner = false;
+    let currentSessionEmail = '';
     let activeStatusFilter = 'ALL';
+    let registeredJudgesCache = [];
+    let onlineJudgeEmails = new Set();
+    let presenceChannel = null;
+
+    // Payment configuration state (only active when requirePayment === true && entryFeeAmount is non-empty)
+    let paymentConfig = {
+      requirePayment: false,
+      entryFeeAmount: '',
+      paymentInstructions: ''
+    };
+
+    function isPaidEntryRequired() {
+      return Boolean(paymentConfig.requirePayment && paymentConfig.entryFeeAmount.trim().length > 0);
+    }
 
     // Default Cycle Tracks Structure
     const defaultTracksData = [
@@ -1096,10 +1282,9 @@
       }
     ];
 
-    // Default Contest Rules & How-To-Submit Guide
     const defaultContestRulesText = `1. ELIGIBILITY: Open to Zambian students, technical trainees, and young innovators across all 10 provinces.\n\n2. WORD COUNT & FORMAT: Each essay must be between 750 and 1,500 words (excluding references) and must be submitted as both an attached .pdf or .docx file (max 3 MB) and pasted plain text.\n\n3. SINGLE SUBMISSION RULE: Each participant may submit only one (1) essay per competition cycle under a single chosen track and prompt.\n\n4. STRICT ACADEMIC INTEGRITY: Essays must be original work. Automated AI-generation detectors are integrated into the adjudication workflow; any submission generated by AI or containing unattributed plagiarism will be disqualified immediately.\n\n5. PROTOTYPE & INSTITUTIONAL PITCH: Selected winners and top finalists will be invited to collaborate with Your Radical Engineer to build working prototypes for presentation to relevant national institutions.`;
 
-    const defaultHowToSubmitText = `STEP 1 — CHOOSE YOUR TRACK & PROMPT:\nBrowse the 4 Grow Zambia Agenda tracks and select one specific essay prompt that matches your engineering or policy solution.\n\nSTEP 2 — DRAFT YOUR MANUSCRIPT (750–1,500 WORDS):\nPrepare your structured essay in Microsoft Word or Google Docs. Include a clear problem statement, technical design/methodology, economic feasibility, and references. Save a copy as a .pdf or .docx file under 3 MB.\n\nSTEP 3 — COMPLETE THE UPLOAD FORM:\nNavigate to the "Submit Your Radical Solution" section, enter your full name, WhatsApp number, email address, and institution/town, and select your track and prompt.\n\nSTEP 4 — ATTACH DOCUMENT & PASTE ESSAY TEXT:\nUpload your .pdf or .docx file, paste the exact matching essay body into the text box (verify the live word counter reads between 750 and 1,500 words), tick the originality declaration, and click Submit Essay.\n\nSTEP 5 — SAVE YOUR REFERENCE ID:\nRecord the unique reference code (e.g., YRE-2026-XXXX) displayed upon submission for tracking your entry.`;
+    const defaultHowToSubmitText = `STEP 1 — CHOOSE YOUR TRACK & PROMPT:\nBrowse the 4 Grow Zambia Agenda tracks and select one specific essay prompt that matches your engineering or policy solution.\n\nSTEP 2 — DRAFT YOUR MANUSCRIPT (750–1,500 WORDS):\nPrepare your structured essay in Microsoft Word or Google Docs. Include a clear problem statement, technical design/methodology, economic feasibility, and references. Save a copy as a .pdf or .docx file under 3 MB.\n\nSTEP 3 — COMPLETE THE UPLOAD FORM:\nNavigate to the "Submit Your Radical Solution" section, enter your full name, WhatsApp number, email address, and institution/town, and select your track and prompt.\n\nSTEP 4 — ATTACH DOCUMENT & PASTE ESSAY TEXT:\nUpload your .pdf or .docx file (and Proof of Payment if required for the active cycle), paste the exact matching essay body into the text box (verify the live word counter reads between 750 and 1,500 words), tick the originality declaration, and click Submit Essay.\n\nSTEP 5 — SAVE YOUR REFERENCE ID:\nRecord the unique reference code (e.g., YRE-2026-XXXX) displayed upon submission for tracking your entry.`;
 
     let activeTracksData = JSON.parse(JSON.stringify(defaultTracksData));
     let activeMediaData = JSON.parse(JSON.stringify(defaultMediaData));
@@ -1217,10 +1402,37 @@
     let isLaunched = false;
     let isClosed = false;
 
+    function syncPublicPaymentSection() {
+      const paySec = document.getElementById('public-payment-section');
+      const amtEl = document.getElementById('public-payment-amount-display');
+      const instEl = document.getElementById('public-payment-instructions-display');
+      const refInput = document.getElementById('payment-ref-input');
+      const proofInput = document.getElementById('payment-proof-file');
+
+      if (!paySec) return;
+
+      if (isPaidEntryRequired()) {
+        paySec.classList.remove('hidden');
+        if (amtEl) amtEl.textContent = paymentConfig.entryFeeAmount.trim();
+        if (instEl) {
+          instEl.textContent = paymentConfig.paymentInstructions.trim() ||
+            'Complete payment using the official competition account and upload your receipt below.';
+        }
+        if (refInput) refInput.required = true;
+        if (proofInput) proofInput.required = true;
+      } else {
+        paySec.classList.add('hidden');
+        if (refInput) refInput.required = false;
+        if (proofInput) proofInput.required = false;
+      }
+    }
+
     async function loadDatabaseSettings() {
       let publishWinners = false;
       let customWinnerMessage = '';
       let winnerPhotoUrl = '';
+
+      paymentConfig = { requirePayment: false, entryFeeAmount: '', paymentInstructions: '' };
 
       try {
         const { data } = await supabaseClient.from('admin_settings').select('*');
@@ -1234,6 +1446,9 @@
             if (row.key === 'winner_photo_url') winnerPhotoUrl = row.value || '';
             if (row.key === 'contest_rules_text' && row.value) activeContestRules = row.value;
             if (row.key === 'howto_submit_text' && row.value) activeHowToSubmit = row.value;
+            if (row.key === 'require_payment') paymentConfig.requirePayment = row.value === 'true';
+            if (row.key === 'entry_fee_amount') paymentConfig.entryFeeAmount = row.value || '';
+            if (row.key === 'payment_instructions') paymentConfig.paymentInstructions = row.value || '';
             if (row.key === 'competition_tracks' && row.value) {
               try {
                 const parsed = JSON.parse(row.value);
@@ -1256,6 +1471,7 @@
       isLaunched = nowTimestamp >= targetDates.launch;
       isClosed = nowTimestamp > targetDates.deadline;
 
+      syncPublicPaymentSection();
       renderPublicMediaCards();
       initPortalStates();
       await loadPublishedWinners(publishWinners, customWinnerMessage, winnerPhotoUrl);
@@ -1275,6 +1491,7 @@
         .from('essays')
         .select('full_name, location, track, essay_title')
         .eq('is_winner', true)
+        .eq('disqualified', false)
         .order('score', { ascending: false })
         .limit(1);
 
@@ -1497,7 +1714,7 @@
     loadDatabaseSettings();
 
     // =====================================================================
-    // ESSAY SUBMISSION & WORD COUNTER
+    // ESSAY SUBMISSION & WORD COUNTER (WITH CONDITIONAL PROOF OF PAYMENT)
     // =====================================================================
     const essayBody = document.getElementById('essay-body');
     const wordCountDisplay = document.getElementById('word-count-display');
@@ -1548,9 +1765,31 @@
 
         const file = fileInput.files[0];
         if (file.size > 3 * 1024 * 1024) {
-          formError.textContent = 'File exceeds the 3 MB maximum limit. Please compress your file and try again.';
+          formError.textContent = 'Essay file exceeds the 3 MB maximum limit. Please compress your file and try again.';
           formError.classList.remove('hidden');
           return;
+        }
+
+        const paidRequired = isPaidEntryRequired();
+        const paymentRefVal = document.getElementById('payment-ref-input')?.value.trim() || '';
+        const paymentFileInput = document.getElementById('payment-proof-file');
+
+        if (paidRequired) {
+          if (!paymentRefVal) {
+            formError.textContent = 'Please enter your payment Transaction / Reference ID.';
+            formError.classList.remove('hidden');
+            return;
+          }
+          if (!paymentFileInput || !paymentFileInput.files || paymentFileInput.files.length === 0) {
+            formError.textContent = `Entry fee (${paymentConfig.entryFeeAmount}) is active. Please upload your Proof of Payment receipt.`;
+            formError.classList.remove('hidden');
+            return;
+          }
+          if (paymentFileInput.files[0].size > 3 * 1024 * 1024) {
+            formError.textContent = 'Proof of payment file must be under 3 MB.';
+            formError.classList.remove('hidden');
+            return;
+          }
         }
 
         formError.classList.add('hidden');
@@ -1560,6 +1799,7 @@
         const refId = `YRE-2026-${Math.floor(1000 + Math.random() * 9000)}`;
 
         try {
+          // 1. Upload Essay File
           const fileExt = file.name.split('.').pop();
           const filePath = `${refId}_${Date.now()}.${fileExt}`;
 
@@ -1569,13 +1809,37 @@
             .upload(filePath, file);
 
           if (storageError) {
-            throw new Error('File upload failed: ' + storageError.message);
+            throw new Error('Essay file upload failed: ' + storageError.message);
           }
 
           const { data: publicUrlData } = supabaseClient
             .storage
             .from('essays')
             .getPublicUrl(filePath);
+
+          // 2. Upload Proof of Payment if paid entries are enabled
+          let paymentProofUrl = null;
+          if (paidRequired && paymentFileInput.files.length > 0) {
+            const popFile = paymentFileInput.files[0];
+            const popExt = popFile.name.split('.').pop();
+            const popPath = `${refId}_pop_${Date.now()}.${popExt}`;
+
+            const { error: popStorageErr } = await supabaseClient
+              .storage
+              .from('payments')
+              .upload(popPath, popFile);
+
+            if (popStorageErr) {
+              throw new Error('Proof of payment upload failed: ' + popStorageErr.message);
+            }
+
+            const { data: popPub } = supabaseClient
+              .storage
+              .from('payments')
+              .getPublicUrl(popPath);
+
+            paymentProofUrl = popPub.publicUrl;
+          }
 
           const payload = {
             reference_id: refId,
@@ -1589,7 +1853,11 @@
             essay_body: essayBody.value.trim(),
             word_count: count,
             file_url: publicUrlData.publicUrl,
-            review_status: 'pending'
+            review_status: 'pending',
+            payment_status: paidRequired ? 'pending_verification' : 'not_required',
+            payment_amount: paidRequired ? paymentConfig.entryFeeAmount.trim() : null,
+            payment_ref: paidRequired ? paymentRefVal : null,
+            payment_proof_url: paymentProofUrl
           };
 
           const { error } = await supabaseClient.from('essays').insert([payload]);
@@ -1599,6 +1867,9 @@
           document.getElementById('receipt-email').textContent = payload.email;
           document.getElementById('receipt-track').textContent = payload.track;
           document.getElementById('receipt-title').textContent = payload.essay_title;
+          document.getElementById('submission-success-subtext').textContent = paidRequired
+            ? 'Your essay and Proof of Payment have been recorded. Your entry will enter adjudication once payment is verified.'
+            : 'Your essay has been recorded for review. You will receive an update once results are published.';
 
           form.classList.add('hidden');
           successBox.classList.remove('hidden');
@@ -1618,6 +1889,7 @@
         wordCountDisplay.textContent = '0';
         successBox.classList.add('hidden');
         form.classList.remove('hidden');
+        syncPublicPaymentSection();
       });
     }
 
@@ -1681,7 +1953,7 @@
     }
 
     // =====================================================================
-    // ADMIN & JUDGE PANEL LOGIC (ROLE ISOLATION + WORKFLOW STATES + SEARCH)
+    // ADMIN & JUDGE PANEL LOGIC
     // =====================================================================
     const loginContainer = document.getElementById('login-container');
     const dashboardContainer = document.getElementById('dashboard-container');
@@ -1693,6 +1965,12 @@
     let allEssaysCache = [];
 
     function getEssayWorkflowStatus(essay) {
+      if (essay.disqualified || essay.review_status === 'disqualified') {
+        return 'disqualified';
+      }
+      if (essay.review_status === 'needs_review') {
+        return 'needs_review';
+      }
       if (essay.review_status === 'graded' || (typeof essay.score === 'number' && essay.score > 0)) {
         return 'graded';
       }
@@ -1702,8 +1980,52 @@
       return 'pending';
     }
 
+    // Live Supabase Realtime Presence for Online Judges
+    async function joinPortalPresence(userEmail) {
+      if (presenceChannel) {
+        await supabaseClient.removeChannel(presenceChannel);
+      }
+
+      presenceChannel = supabaseClient.channel('radical-portal-presence', {
+        config: { presence: { key: userEmail.toLowerCase() } }
+      });
+
+      presenceChannel
+        .on('presence', { event: 'sync' }, () => {
+          const state = presenceChannel.presenceState();
+          const emails = Object.keys(state).filter(
+            em => em.toLowerCase() !== OWNER_EMAIL.toLowerCase()
+          );
+          onlineJudgeEmails = new Set(emails);
+          updateOnlineJudgesUI();
+          renderJudgesRoster();
+        })
+        .subscribe(async (status) => {
+          if (status === 'SUBSCRIBED') {
+            await presenceChannel.track({
+              email: userEmail.toLowerCase(),
+              role: isCurrentUserOwner ? 'owner' : 'judge',
+              online_at: new Date().toISOString()
+            });
+          }
+        });
+    }
+
+    function updateOnlineJudgesUI() {
+      const countEl = document.getElementById('online-judges-count');
+      const listEl = document.getElementById('online-judges-list');
+      if (!countEl || !listEl) return;
+
+      const list = Array.from(onlineJudgeEmails);
+      countEl.textContent = `${list.length} Active`;
+      listEl.textContent = list.length > 0
+        ? `Online: ${list.join(', ')}`
+        : 'No judges currently active in portal';
+    }
+
     function showAdminLogin() {
       isCurrentUserOwner = false;
+      currentSessionEmail = '';
       loginContainer.classList.remove('hidden');
       dashboardContainer.classList.add('hidden');
       logoutBtn.classList.add('hidden');
@@ -1715,11 +2037,13 @@
       dashboardContainer.classList.remove('hidden');
       logoutBtn.classList.remove('hidden');
 
-      isCurrentUserOwner = (userEmail || '').toLowerCase() === OWNER_EMAIL.toLowerCase();
+      currentSessionEmail = (userEmail || '').trim().toLowerCase();
+      isCurrentUserOwner = currentSessionEmail === OWNER_EMAIL.toLowerCase();
 
       const ownerControls = document.getElementById('owner-only-controls');
       const judgeBanner = document.getElementById('judge-notice-banner');
       const ownerWinnerToggle = document.getElementById('owner-winner-toggle-wrapper');
+      const sendBackBtn = document.getElementById('send-back-review-btn');
       const panelRoleTitle = document.getElementById('panel-role-title');
       const essaysCardBadge = document.getElementById('essays-card-badge');
       const essaysCardHeading = document.getElementById('essays-card-heading');
@@ -1729,6 +2053,7 @@
         ownerControls.classList.remove('hidden');
         judgeBanner.classList.add('hidden');
         ownerWinnerToggle.classList.remove('hidden');
+        sendBackBtn.classList.remove('hidden');
         panelRoleTitle.textContent = 'Radical Engineer • Owner Admin Control Panel';
         essaysCardBadge.textContent = 'Adjudication Ranking';
         essaysCardHeading.textContent = 'Submitted Student Essays (Ranked by Score)';
@@ -1738,6 +2063,7 @@
         ownerControls.classList.add('hidden');
         judgeBanner.classList.remove('hidden');
         ownerWinnerToggle.classList.add('hidden');
+        sendBackBtn.classList.add('hidden');
         panelRoleTitle.textContent = 'Radical Engineer • Judge Adjudication Portal';
         essaysCardBadge.textContent = 'Adjudication Queue';
         essaysCardHeading.textContent = 'Submitted Student Essays';
@@ -1746,7 +2072,10 @@
       }
       loggedInUserLabel.classList.remove('hidden');
 
+      await joinPortalPresence(currentSessionEmail);
       await fetchAdminSettings();
+      await fetchRegisteredJudges();
+
       if (isCurrentUserOwner) {
         renderMediaEditor();
         renderTracksEditor();
@@ -1795,11 +2124,15 @@
     });
 
     logoutBtn.addEventListener('click', async () => {
+      if (presenceChannel) {
+        await supabaseClient.removeChannel(presenceChannel);
+        presenceChannel = null;
+      }
       await supabaseClient.auth.signOut();
       showAdminLogin();
     });
 
-    // Change Logged-In User Password (Owner or Judge)
+    // Change Logged-In User Password
     document.getElementById('change-password-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       const msgEl = document.getElementById('password-change-msg');
@@ -1825,7 +2158,64 @@
       }
     });
 
-    // Create Judge Account & Pass Temporary Password to Email Template (Owner Only)
+    // Fetch & Manage Registered Judges Roster
+    async function fetchRegisteredJudges() {
+      const { data } = await supabaseClient
+        .from('portal_judges')
+        .select('*')
+        .eq('active', true)
+        .order('created_at', { ascending: true });
+
+      registeredJudgesCache = data || [];
+      renderJudgesRoster();
+      populateJudgeFilterDropdown();
+    }
+
+    function renderJudgesRoster() {
+      const rosterEl = document.getElementById('judges-roster-list');
+      if (!rosterEl) return;
+
+      if (registeredJudgesCache.length === 0) {
+        rosterEl.innerHTML = `<p class="text-slate-500 italic">No judges registered yet. Create one above.</p>`;
+        return;
+      }
+
+      rosterEl.innerHTML = registeredJudgesCache.map(j => {
+        const isOnline = onlineJudgeEmails.has(j.email.toLowerCase());
+        return `
+          <div class="flex items-center justify-between bg-brand-dark border border-brand-border/80 px-3 py-2 rounded-xl">
+            <div class="truncate pr-2">
+              <strong class="text-white block truncate">${j.full_name || j.email}</strong>
+              <span class="text-[10px] text-slate-400 font-mono block truncate">${j.email}</span>
+            </div>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded-full ${isOnline ? 'bg-emerald-500/20 text-emerald-400' : 'bg-slate-800 text-slate-400'}">
+              ${isOnline ? 'Online' : 'Offline'}
+            </span>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function populateJudgeFilterDropdown() {
+      const judgeSelect = document.getElementById('filter-judge');
+      if (!judgeSelect) return;
+      const currentVal = judgeSelect.value || 'ALL';
+      judgeSelect.innerHTML = `
+        <option value="ALL">All Judges</option>
+        <option value="UNASSIGNED">Unassigned</option>
+      `;
+      if (!isCurrentUserOwner && currentSessionEmail) {
+        judgeSelect.add(new Option('Assigned to Me', currentSessionEmail));
+      }
+      registeredJudgesCache.forEach(j => {
+        if (j.email.toLowerCase() !== currentSessionEmail) {
+          judgeSelect.add(new Option(j.full_name ? `${j.full_name} (${j.email})` : j.email, j.email.toLowerCase()));
+        }
+      });
+      judgeSelect.value = currentVal;
+    }
+
+    // Create Judge Account & Save to portal_judges Roster (Owner Only)
     document.getElementById('create-admin-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       if (!isCurrentUserOwner) return;
@@ -1835,7 +2225,8 @@
       msgBox.classList.add('hidden');
       btn.disabled = true;
 
-      const email = document.getElementById('new-admin-email').value.trim();
+      const fullName = document.getElementById('new-admin-name').value.trim();
+      const email = document.getElementById('new-admin-email').value.trim().toLowerCase();
       const password = document.getElementById('new-admin-password').value;
 
       const { error } = await secondaryAuthClient.auth.signUp({
@@ -1844,22 +2235,136 @@
         options: {
           emailRedirectTo: 'https://msmentorshipzm.github.io/radicalsolutions/#admin',
           data: {
+            full_name: fullName,
             temp_password: password,
             role: 'judge'
           }
         }
       });
+
+      await supabaseClient.from('portal_judges').upsert([
+        { email, full_name: fullName, active: true }
+      ]);
+
       btn.disabled = false;
 
       if (error) {
-        msgBox.textContent = `Error: ${error.message}`;
-        msgBox.className = 'text-xs font-semibold text-red-400 block';
+        msgBox.textContent = `Note: ${error.message} (Roster updated)`;
+        msgBox.className = 'text-xs font-semibold text-amber-400 block';
       } else {
-        msgBox.textContent = `Invitation sent to ${email} with their temporary password!`;
+        msgBox.textContent = `Judge ${fullName} (${email}) registered & invite sent!`;
         msgBox.className = 'text-xs font-semibold text-emerald-400 block';
         document.getElementById('create-admin-form').reset();
       }
+      await fetchRegisteredJudges();
+      renderAdminEssaysTable();
     });
+
+    // Owner Assigns Essay to a Judge
+    window.assignEssayToJudge = async function(essayId, judgeEmail) {
+      if (!isCurrentUserOwner) return;
+      const cleanEmail = judgeEmail ? judgeEmail.trim().toLowerCase() : null;
+
+      const { error } = await supabaseClient
+        .from('essays')
+        .update({ assigned_judge_email: cleanEmail || null })
+        .eq('id', essayId);
+
+      if (error) {
+        alert('Could not assign judge: ' + error.message);
+        return;
+      }
+
+      const target = allEssaysCache.find(e => String(e.id) === String(essayId));
+      if (target) target.assigned_judge_email = cleanEmail || null;
+      renderAdminEssaysTable();
+    };
+
+    // Owner Verifies Proof of Payment
+    window.verifyEssayPayment = async function(essayId) {
+      if (!isCurrentUserOwner) return;
+      const { error } = await supabaseClient
+        .from('essays')
+        .update({ payment_status: 'verified' })
+        .eq('id', essayId);
+
+      if (error) {
+        alert('Failed to verify payment: ' + error.message);
+        return;
+      }
+      const target = allEssaysCache.find(e => String(e.id) === String(essayId));
+      if (target) target.payment_status = 'verified';
+      renderAdminEssaysTable();
+    };
+
+    // Judge Evaluation & Payout Report Modal (Owner Only)
+    document.getElementById('open-judge-report-btn').addEventListener('click', () => {
+      if (!isCurrentUserOwner) return;
+      const tbody = document.getElementById('judge-report-tbody');
+
+      const judgeEmailsSet = new Set(registeredJudgesCache.map(j => j.email.toLowerCase()));
+      allEssaysCache.forEach(e => {
+        if (e.assigned_judge_email) judgeEmailsSet.add(e.assigned_judge_email.toLowerCase());
+        if (e.graded_by) judgeEmailsSet.add(e.graded_by.toLowerCase());
+      });
+
+      const rows = Array.from(judgeEmailsSet).map(email => {
+        const reg = registeredJudgesCache.find(j => j.email.toLowerCase() === email);
+        const label = reg?.full_name ? `${reg.full_name} (${email})` : email;
+        const assignedCount = allEssaysCache.filter(e => (e.assigned_judge_email || '').toLowerCase() === email).length;
+        const gradedCount = allEssaysCache.filter(
+          e => getEssayWorkflowStatus(e) === 'graded' && (e.graded_by || '').toLowerCase() === email
+        ).length;
+        const isOnline = onlineJudgeEmails.has(email);
+
+        return `
+          <tr class="hover:bg-brand-dark/50">
+            <td class="p-3.5 font-semibold text-white">${label}</td>
+            <td class="p-3.5">
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-mono ${isOnline ? 'bg-emerald-500/20 text-emerald-400' : 'bg-slate-800 text-slate-400'}">
+                ${isOnline ? 'Online' : 'Offline'}
+              </span>
+            </td>
+            <td class="p-3.5 text-center font-mono font-bold text-slate-200">${assignedCount}</td>
+            <td class="p-3.5 text-center font-mono font-extrabold text-brand-amber">${gradedCount}</td>
+            <td class="p-3.5 text-right">
+              <button type="button" onclick="filterByJudgeFromReport('${email}')" class="px-3 py-1 rounded-lg bg-brand-dark border border-brand-border hover:border-brand-salmon text-brand-salmon font-bold text-[11px]">
+                View Entries
+              </button>
+            </td>
+          </tr>
+        `;
+      });
+
+      tbody.innerHTML = rows.length > 0
+        ? rows.join('')
+        : `<tr><td colspan="5" class="p-6 text-center text-slate-500">No judge assignments or graded entries recorded yet.</td></tr>`;
+
+      document.getElementById('judge-report-modal').classList.remove('hidden');
+    });
+
+    window.filterByJudgeFromReport = function(email) {
+      document.getElementById('judge-report-modal').classList.add('hidden');
+      const judgeSelect = document.getElementById('filter-judge');
+      if (judgeSelect) {
+        judgeSelect.value = email.toLowerCase();
+      }
+      renderAdminEssaysTable();
+    };
+
+    document.getElementById('close-judge-report-btn').addEventListener('click', () => {
+      document.getElementById('judge-report-modal').classList.add('hidden');
+    });
+
+    // Toggle visibility of Entry Fee inputs when Payments Needed checkbox changes
+    const reqPaymentCheckbox = document.getElementById('set-require-payment');
+    const paymentConfigFields = document.getElementById('payment-config-fields');
+
+    function syncAdminPaymentFieldsUI() {
+      const checked = reqPaymentCheckbox.checked;
+      paymentConfigFields.style.opacity = checked ? '1' : '0.45';
+    }
+    reqPaymentCheckbox.addEventListener('change', syncAdminPaymentFieldsUI);
 
     // Fetch & Save Website Settings (Owner Only)
     async function fetchAdminSettings() {
@@ -1872,6 +2377,18 @@
           if (row.key === 'winner_announcement_message') document.getElementById('set-winner-message').value = row.value || '';
           if (row.key === 'contest_rules_text' && row.value) activeContestRules = row.value;
           if (row.key === 'howto_submit_text' && row.value) activeHowToSubmit = row.value;
+          if (row.key === 'require_payment') {
+            paymentConfig.requirePayment = row.value === 'true';
+            document.getElementById('set-require-payment').checked = paymentConfig.requirePayment;
+          }
+          if (row.key === 'entry_fee_amount') {
+            paymentConfig.entryFeeAmount = row.value || '';
+            document.getElementById('set-entry-fee-amount').value = paymentConfig.entryFeeAmount;
+          }
+          if (row.key === 'payment_instructions') {
+            paymentConfig.paymentInstructions = row.value || '';
+            document.getElementById('set-payment-instructions').value = paymentConfig.paymentInstructions;
+          }
           if (row.key === 'winner_photo_url') {
             const url = row.value || '';
             document.getElementById('set-winner-photo-url').value = url;
@@ -1896,6 +2413,7 @@
           }
         });
       }
+      syncAdminPaymentFieldsUI();
     }
 
     function updateWinnerPhotoPreview(url) {
@@ -1929,6 +2447,16 @@
     document.getElementById('settings-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       if (!isCurrentUserOwner) return;
+
+      const reqPay = document.getElementById('set-require-payment').checked;
+      const feeAmt = document.getElementById('set-entry-fee-amount').value.trim();
+      const payInst = document.getElementById('set-payment-instructions').value.trim();
+
+      if (reqPay && !feeAmt) {
+        alert('Please specify the Entry Fee Amount before enabling Payments Needed.');
+        document.getElementById('set-entry-fee-amount').focus();
+        return;
+      }
 
       const saveBtn = document.getElementById('save-settings-btn');
       const successBox = document.getElementById('settings-success');
@@ -1977,10 +2505,19 @@
           { key: 'winners_date', value: winnersVal },
           { key: 'publish_winners', value: publishWinnersVal },
           { key: 'winner_announcement_message', value: winnerMessageVal },
-          { key: 'winner_photo_url', value: photoUrl }
+          { key: 'winner_photo_url', value: photoUrl },
+          { key: 'require_payment', value: reqPay ? 'true' : 'false' },
+          { key: 'entry_fee_amount', value: feeAmt },
+          { key: 'payment_instructions', value: payInst }
         ]);
 
         if (error) throw error;
+
+        paymentConfig = {
+          requirePayment: reqPay,
+          entryFeeAmount: feeAmt,
+          paymentInstructions: payInst
+        };
 
         successBox.classList.remove('hidden');
         document.getElementById('stat-publish-status').textContent = publishWinnersVal === 'true' ? 'Live on Portal' : 'Hidden (Draft)';
@@ -1993,7 +2530,7 @@
     });
 
     // =====================================================================
-    // MEDIA & ENGINEERING TECH HUB EDITOR (OWNER ONLY)
+    // MEDIA, RULES & TRACKS EDITORS (OWNER ONLY)
     // =====================================================================
     function renderMediaEditor() {
       const container = document.getElementById('media-editor-container');
@@ -2121,9 +2658,6 @@
       }
     });
 
-    // =====================================================================
-    // CONTEST RULES & HOW-TO-SUBMIT EDITOR (OWNER ONLY)
-    // =====================================================================
     document.getElementById('save-rules-btn').addEventListener('click', async () => {
       if (!isCurrentUserOwner) return;
       const btn = document.getElementById('save-rules-btn');
@@ -2152,9 +2686,6 @@
       }
     });
 
-    // =====================================================================
-    // CYCLE TRACKS & PROMPTS EDITOR (OWNER ONLY)
-    // =====================================================================
     function renderTracksEditor() {
       const container = document.getElementById('tracks-editor-container');
       if (!container) return;
@@ -2278,10 +2809,10 @@
       });
     });
 
-    // Fetch Essays (Ordered by score for owner ranking; chronological for judges)
+    // Fetch Essays
     async function fetchAdminEssays() {
       const tbody = document.getElementById('essays-table-body');
-      tbody.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-slate-500">Loading submissions...</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="9" class="p-8 text-center text-slate-500">Loading submissions...</td></tr>`;
 
       const queryBuilder = supabaseClient.from('essays').select('*');
       const { data, error } = isCurrentUserOwner
@@ -2289,7 +2820,7 @@
         : await queryBuilder.order('created_at', { ascending: true });
 
       if (error) {
-        tbody.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-red-400">Error loading essays: ${error.message}</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="9" class="p-8 text-center text-red-400">Error loading essays: ${error.message}</td></tr>`;
         return;
       }
 
@@ -2301,19 +2832,24 @@
     function updateAdminStats() {
       const pendingCount = allEssaysCache.filter(e => getEssayWorkflowStatus(e) === 'pending').length;
       const inProgressCount = allEssaysCache.filter(e => getEssayWorkflowStatus(e) === 'in_progress').length;
+      const needsReviewCount = allEssaysCache.filter(e => getEssayWorkflowStatus(e) === 'needs_review').length;
       const gradedCount = allEssaysCache.filter(e => getEssayWorkflowStatus(e) === 'graded').length;
+      const disqualifiedCount = allEssaysCache.filter(e => getEssayWorkflowStatus(e) === 'disqualified').length;
 
       document.getElementById('stat-total').textContent = allEssaysCache.length;
       document.getElementById('stat-pending').textContent = pendingCount;
       document.getElementById('stat-in-progress').textContent = inProgressCount;
+      document.getElementById('stat-needs-review').textContent = needsReviewCount;
       document.getElementById('stat-graded').textContent = gradedCount;
 
       document.getElementById('tab-count-all').textContent = allEssaysCache.length;
       document.getElementById('tab-count-pending').textContent = pendingCount;
       document.getElementById('tab-count-in_progress').textContent = inProgressCount;
+      document.getElementById('tab-count-needs_review').textContent = needsReviewCount;
       document.getElementById('tab-count-graded').textContent = gradedCount;
+      document.getElementById('tab-count-disqualified').textContent = disqualifiedCount;
 
-      const overallWinner = allEssaysCache.find(e => e.is_winner);
+      const overallWinner = allEssaysCache.find(e => e.is_winner && !e.disqualified);
       document.getElementById('stat-winners').textContent = overallWinner ? overallWinner.full_name : 'Not Selected';
     }
 
@@ -2322,6 +2858,7 @@
 
       const tbody = document.getElementById('essays-table-body');
       const trackFilter = document.getElementById('filter-track').value;
+      const judgeFilter = document.getElementById('filter-judge').value;
       const searchInput = document.getElementById('search-essays');
       const searchQuery = (searchInput ? searchInput.value : '').trim().toLowerCase();
 
@@ -2332,6 +2869,16 @@
         const matchesTrack = trackFilter === 'ALL' || e.track === trackFilter;
         if (!matchesTrack) return false;
 
+        if (judgeFilter !== 'ALL') {
+          const assigned = (e.assigned_judge_email || '').toLowerCase();
+          const gradedBy = (e.graded_by || '').toLowerCase();
+          if (judgeFilter === 'UNASSIGNED') {
+            if (assigned) return false;
+          } else if (assigned !== judgeFilter && gradedBy !== judgeFilter) {
+            return false;
+          }
+        }
+
         if (!searchQuery) return true;
         const refMatch = (e.reference_id || '').toLowerCase().includes(searchQuery);
         const nameMatch = (e.full_name || '').toLowerCase().includes(searchQuery);
@@ -2339,7 +2886,7 @@
       });
 
       if (filtered.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-slate-500">No matching essay submissions found.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="9" class="p-8 text-center text-slate-500">No matching essay submissions found.</td></tr>`;
         return;
       }
 
@@ -2347,34 +2894,92 @@
         const workflowStatus = getEssayWorkflowStatus(essay);
         const isGraded = workflowStatus === 'graded';
         const isInProgress = workflowStatus === 'in_progress';
+        const isNeedsReview = workflowStatus === 'needs_review';
+        const isDisqualified = workflowStatus === 'disqualified';
 
-        // Ranked standings (#1, #2, etc.) are visible ONLY to the Owner Admin
+        // Ranked standings (#1, #2, etc.) are visible ONLY to the Owner Admin (excluding disqualified)
         const firstColumnCell = isCurrentUserOwner
-          ? (isGraded
+          ? (isGraded && !isDisqualified
               ? `<span class="inline-flex items-center justify-center w-7 h-7 rounded-lg font-mono font-extrabold text-xs ${idx === 0 ? 'bg-brand-amber/20 text-brand-amber border border-brand-amber/40' : 'bg-brand-dark text-slate-300 border border-brand-border'}">#${idx + 1}</span>`
               : `<span class="text-[10px] font-mono text-slate-500">—</span>`)
           : `<span class="text-[10px] font-mono text-slate-400 bg-brand-dark border border-brand-border px-2 py-1 rounded-lg">${essay.reference_id || 'Entry'}</span>`;
 
+        // Payment & Document Cell
+        let paymentBadgeHtml = '';
+        if (essay.payment_status === 'verified') {
+          paymentBadgeHtml = `<span class="inline-flex items-center space-x-1 text-[10px] font-mono font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 rounded-full mb-1"><i class="fa-solid fa-circle-check"></i><span>Paid Verified</span></span>`;
+        } else if (essay.payment_status === 'pending_verification') {
+          paymentBadgeHtml = `
+            <div class="mb-1.5 space-y-1">
+              <span class="inline-flex items-center space-x-1 text-[10px] font-mono font-bold text-amber-400 bg-amber-500/15 border border-amber-500/40 px-2 py-0.5 rounded-full"><i class="fa-solid fa-clock"></i><span>PoP Pending</span></span>
+              ${essay.payment_proof_url ? `<a href="${essay.payment_proof_url}" target="_blank" class="block text-[10px] text-brand-amber hover:underline font-semibold">View Receipt (${essay.payment_ref || 'PoP'})</a>` : ''}
+              ${isCurrentUserOwner ? `<button type="button" onclick="verifyEssayPayment('${essay.id}')" class="px-2 py-0.5 rounded bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 text-[10px] font-bold">Verify Paid</button>` : ''}
+            </div>
+          `;
+        }
+
+        // Judge Assignment & Attribution Cell
+        let judgeCellHtml = '';
+        if (isCurrentUserOwner) {
+          const currentAssigned = (essay.assigned_judge_email || '').toLowerCase();
+          judgeCellHtml = `
+            <select onchange="assignEssayToJudge('${essay.id}', this.value)" aria-label="Assign judge" class="bg-brand-dark border border-brand-border rounded-lg px-2 py-1.5 text-[11px] text-slate-200 focus:outline-none focus:border-brand-salmon max-w-[165px]">
+              <option value="">Unassigned</option>
+              ${registeredJudgesCache.map(j => {
+                const em = j.email.toLowerCase();
+                return `<option value="${em}" ${currentAssigned === em ? 'selected' : ''}>${j.full_name || em}</option>`;
+              }).join('')}
+            </select>
+            ${essay.graded_by ? `<span class="block text-[10px] text-emerald-400 mt-1 truncate max-w-[165px]" title="Marked by ${essay.graded_by}">Marked: ${essay.graded_by}</span>` : ''}
+          `;
+        } else {
+          judgeCellHtml = `
+            <span class="text-[11px] text-slate-300 block truncate max-w-[150px]">${essay.assigned_judge_email || 'Open Queue'}</span>
+            ${essay.graded_by ? `<span class="text-[10px] text-emerald-400 block truncate max-w-[150px]">By: ${essay.graded_by}</span>` : ''}
+          `;
+        }
+
+        // Needs Review Column (Shows Old Grade when sent back)
+        const needsReviewCellHtml = isNeedsReview
+          ? `<div class="space-y-1">
+               <span class="px-2 py-0.5 rounded-full text-[10px] font-bold font-mono bg-amber-500/20 text-amber-300 border border-amber-500/40 inline-block">Needs Review</span>
+               <span class="block font-mono text-[11px] text-slate-300">Old Grade: <strong class="text-amber-400">${essay.previous_score ?? 0}/100</strong></span>
+             </div>`
+          : (essay.previous_score !== null && essay.previous_score !== undefined
+              ? `<span class="text-[10px] font-mono text-slate-400">Prev: ${essay.previous_score}/100</span>`
+              : `<span class="text-[10px] font-mono text-slate-600">—</span>`);
+
+        // Workflow Status Pill
         let statusBadgeText = 'Pending';
         let statusBadgeStyle = 'bg-slate-800 text-slate-300 border border-slate-700';
 
-        if (isCurrentUserOwner && essay.is_winner) {
+        if (isDisqualified) {
+          statusBadgeText = 'Disqualified';
+          statusBadgeStyle = 'bg-red-500/20 text-red-400 border border-red-500/40';
+        } else if (isCurrentUserOwner && essay.is_winner) {
           statusBadgeText = '🏆 Overall Winner';
           statusBadgeStyle = 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40';
         } else if (isGraded) {
           statusBadgeText = 'Graded';
           statusBadgeStyle = 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30';
+        } else if (isNeedsReview) {
+          statusBadgeText = 'Regrade Pending';
+          statusBadgeStyle = 'bg-amber-500/15 text-amber-300 border border-amber-500/40';
         } else if (isInProgress) {
           statusBadgeText = 'In Progress';
           statusBadgeStyle = 'bg-brand-salmon/15 text-brand-salmon border border-brand-salmon/40';
         }
 
-        const reviewerNote = isInProgress && essay.reviewing_by
-          ? `<span class="block text-[10px] text-slate-400 mt-1 truncate max-w-[150px]" title="Opened by ${essay.reviewing_by}">Opened by ${essay.reviewing_by}</span>`
-          : '';
+        const extraStatusNote = isDisqualified && essay.disqualification_reason
+          ? `<span class="block text-[10px] text-red-400 mt-1 max-w-[140px] truncate" title="${essay.disqualification_reason}">${essay.disqualification_reason}</span>`
+          : (isInProgress && essay.reviewing_by
+              ? `<span class="block text-[10px] text-slate-400 mt-1 max-w-[140px] truncate" title="Opened by ${essay.reviewing_by}">Opened: ${essay.reviewing_by}</span>`
+              : (essay.ai_flagged && !isDisqualified
+                  ? `<span class="block text-[10px] text-amber-400 mt-1"><i class="fa-solid fa-triangle-exclamation mr-0.5"></i>AI Flagged</span>`
+                  : ''));
 
         return `
-          <tr class="hover:bg-brand-dark/40 transition-colors ${isCurrentUserOwner && essay.is_winner ? 'bg-emerald-500/5' : ''}">
+          <tr class="hover:bg-brand-dark/40 transition-colors ${isDisqualified ? 'bg-red-500/5 opacity-80' : (isCurrentUserOwner && essay.is_winner ? 'bg-emerald-500/5' : '')}">
             <td class="p-4">${firstColumnCell}</td>
             <td class="p-4">
               <span class="font-mono font-bold text-brand-salmon block">${essay.reference_id || 'N/A'}</span>
@@ -2387,27 +2992,31 @@
               <span class="text-[10px] text-slate-400 block mt-0.5">${essay.word_count} words</span>
             </td>
             <td class="p-4">
+              ${paymentBadgeHtml}
               ${essay.file_url
-                ? `<a href="${essay.file_url}" target="_blank" class="inline-flex items-center space-x-1.5 bg-brand-salmon/10 border border-brand-salmon/30 text-brand-salmon px-3 py-1.5 rounded-lg hover:bg-brand-salmon/20 font-semibold">
-                     <i class="fa-solid fa-file-arrow-down"></i><span>File</span>
+                ? `<a href="${essay.file_url}" target="_blank" class="inline-flex items-center space-x-1.5 bg-brand-salmon/10 border border-brand-salmon/30 text-brand-salmon px-2.5 py-1 rounded-lg hover:bg-brand-salmon/20 font-semibold">
+                     <i class="fa-solid fa-file-arrow-down"></i><span>Essay</span>
                    </a>`
                 : `<span class="text-slate-500 italic">Text Only</span>`
               }
             </td>
+            <td class="p-4">${judgeCellHtml}</td>
+            <td class="p-4">${needsReviewCellHtml}</td>
             <td class="p-4">
               <span class="font-mono font-extrabold text-sm ${isGraded ? 'text-brand-amber' : 'text-slate-500'}">
                 ${essay.score || 0}/100
               </span>
-              ${essay.admin_comments ? `<span class="text-[10px] text-slate-400 block max-w-[140px] truncate" title="${essay.admin_comments}">${essay.admin_comments}</span>` : ''}
+              ${essay.ai_score !== null && essay.ai_score !== undefined ? `<span class="text-[10px] font-mono text-brand-teal block">AI Draft: ${essay.ai_score}/100</span>` : ''}
+              ${essay.admin_comments ? `<span class="text-[10px] text-slate-400 block max-w-[130px] truncate" title="${essay.admin_comments}">${essay.admin_comments}</span>` : ''}
             </td>
             <td class="p-4">
               <span class="px-2.5 py-1 rounded-full text-[10px] font-bold font-mono inline-block ${statusBadgeStyle}">
                 ${statusBadgeText}
               </span>
-              ${reviewerNote}
+              ${extraStatusNote}
             </td>
             <td class="p-4 text-right">
-              <button type="button" onclick="openGradeModal('${essay.id}')" class="px-3.5 py-2 rounded-xl bg-brand-salmon hover:bg-brand-salmonLight text-brand-dark font-extrabold text-xs transition-colors">
+              <button type="button" onclick="openGradeModal('${essay.id}')" class="px-3.5 py-2 rounded-xl bg-brand-salmon hover:bg-brand-salmonLight text-brand-dark font-extrabold text-xs transition-colors whitespace-nowrap">
                 <i class="fa-solid fa-pen-to-square mr-1"></i> Read & Grade
               </button>
             </td>
@@ -2416,7 +3025,9 @@
       }).join('');
     }
 
-    // Grading Modal Controls (Marks Pending essays as In Progress when opened)
+    // =====================================================================
+    // GRADING, AI PRE-MARK, NEEDS REVIEW & DISQUALIFICATION MODAL
+    // =====================================================================
     const gradeModal = document.getElementById('grade-modal');
 
     window.openGradeModal = async function(essayId) {
@@ -2425,10 +3036,8 @@
 
       const currentStatus = getEssayWorkflowStatus(essay);
       if (currentStatus === 'pending') {
-        const { data: { session } } = await supabaseClient.auth.getSession();
-        const reviewerEmail = session?.user?.email || null;
         essay.review_status = 'in_progress';
-        essay.reviewing_by = reviewerEmail;
+        essay.reviewing_by = currentSessionEmail || null;
         updateAdminStats();
         renderAdminEssaysTable();
 
@@ -2436,7 +3045,7 @@
           .from('essays')
           .update({
             review_status: 'in_progress',
-            reviewing_by: reviewerEmail
+            reviewing_by: currentSessionEmail || null
           })
           .eq('id', essay.id);
       }
@@ -2447,9 +3056,59 @@
       document.getElementById('modal-meta').textContent = `By ${essay.full_name} (${essay.location || 'Zambia'}) • ${essay.email} • ${essay.word_count} words`;
       document.getElementById('modal-question').textContent = essay.question;
       document.getElementById('modal-body-text').textContent = essay.essay_body;
-      document.getElementById('grade-score').value = essay.score || 0;
-      document.getElementById('grade-comments').value = essay.admin_comments || '';
+      document.getElementById('grade-score').value = essay.score || essay.ai_score || 0;
+      document.getElementById('grade-comments').value = essay.admin_comments || essay.ai_notes || '';
       document.getElementById('grade-is-winner').checked = Boolean(essay.is_winner);
+      document.getElementById('disqualify-panel').classList.add('hidden');
+
+      // Payment Banner inside Modal
+      const payBanner = document.getElementById('modal-payment-banner');
+      if (essay.payment_status && essay.payment_status !== 'not_required') {
+        payBanner.classList.remove('hidden');
+        const isVerified = essay.payment_status === 'verified';
+        payBanner.innerHTML = `
+          <div>
+            <strong class="${isVerified ? 'text-emerald-400' : 'text-amber-400'} block">
+              Payment Status: ${isVerified ? 'Verified Paid' : 'Pending Verification'} (${essay.payment_amount || ''})
+            </strong>
+            <span class="text-slate-300 font-mono text-[11px]">Ref: ${essay.payment_ref || 'N/A'}</span>
+          </div>
+          <div class="flex items-center gap-2">
+            ${essay.payment_proof_url ? `<a href="${essay.payment_proof_url}" target="_blank" class="px-3 py-1.5 rounded-lg bg-brand-card border border-brand-border text-brand-amber font-bold hover:underline">Open PoP Receipt</a>` : ''}
+            ${isCurrentUserOwner && !isVerified ? `<button type="button" onclick="verifyEssayPayment('${essay.id}'); openGradeModal('${essay.id}');" class="px-3 py-1.5 rounded-lg bg-emerald-500 text-brand-dark font-extrabold">Mark Paid Verified</button>` : ''}
+          </div>
+        `;
+      } else {
+        payBanner.classList.add('hidden');
+      }
+
+      // Needs Review Banner inside Modal
+      const nrBanner = document.getElementById('modal-needs-review-banner');
+      if (currentStatus === 'needs_review') {
+        nrBanner.classList.remove('hidden');
+        nrBanner.innerHTML = `
+          <span><i class="fa-solid fa-rotate-left mr-1.5"></i><strong>Sent Back for Regrading:</strong> Enter the new verified score below and save.</span>
+          <span class="font-mono font-extrabold">Old Grade: ${essay.previous_score ?? 0}/100</span>
+        `;
+      } else {
+        nrBanner.classList.add('hidden');
+      }
+
+      // Disqualified / Flagged Banner inside Modal
+      const dqBanner = document.getElementById('modal-disqualified-banner');
+      const dqBtn = document.getElementById('toggle-disqualify-btn');
+      if (essay.disqualified) {
+        dqBanner.classList.remove('hidden');
+        dqBanner.innerHTML = `<strong><i class="fa-solid fa-ban mr-1"></i>Disqualified:</strong> ${essay.disqualification_reason || 'Rule violation'}`;
+        dqBtn.innerHTML = `<i class="fa-solid fa-rotate-right mr-1"></i>Reinstate Entry`;
+      } else if (essay.ai_flagged) {
+        dqBanner.classList.remove('hidden');
+        dqBanner.innerHTML = `<strong><i class="fa-solid fa-triangle-exclamation mr-1"></i>AI Integrity Flag:</strong> ${essay.ai_flag_reason || 'Flagged for manual verification'}`;
+        dqBtn.innerHTML = `<i class="fa-solid fa-ban mr-1"></i>Disqualify`;
+      } else {
+        dqBanner.classList.add('hidden');
+        dqBtn.innerHTML = `<i class="fa-solid fa-ban mr-1"></i>Disqualify`;
+      }
 
       const dlLink = document.getElementById('modal-download-link');
       if (essay.file_url) {
@@ -2466,6 +3125,118 @@
       gradeModal.classList.add('hidden');
     });
 
+    // AI Pre-Mark Invocation via Supabase Edge Function ('score-essay')
+    document.getElementById('ai-premark-btn').addEventListener('click', async () => {
+      const essayId = document.getElementById('grade-essay-id').value;
+      const btn = document.getElementById('ai-premark-btn');
+      btn.disabled = true;
+      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i><span>AI Analyzing...</span>`;
+
+      try {
+        const { data, error } = await supabaseClient.functions.invoke('score-essay', {
+          body: { essayId }
+        });
+
+        if (error) throw error;
+        if (data?.essay) {
+          const idx = allEssaysCache.findIndex(e => String(e.id) === String(essayId));
+          if (idx !== -1) allEssaysCache[idx] = data.essay;
+          updateAdminStats();
+          renderAdminEssaysTable();
+          await openGradeModal(essayId);
+        }
+      } catch (err) {
+        alert('AI Pre-Mark notice: ' + (err.message || 'Ensure the score-essay Edge Function and GEMINI_API_KEY secret are deployed in Supabase.'));
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<i class="fa-solid fa-robot"></i><span>AI Pre-Mark</span>`;
+      }
+    });
+
+    // Owner Action: Send Graded Essay Back to "Needs Review" (Preserves Old Grade)
+    document.getElementById('send-back-review-btn').addEventListener('click', async () => {
+      if (!isCurrentUserOwner) return;
+      const essayId = document.getElementById('grade-essay-id').value;
+      const essay = allEssaysCache.find(e => String(e.id) === String(essayId));
+      if (!essay) return;
+
+      const oldScore = Number(document.getElementById('grade-score').value) || essay.score || 0;
+      const { error } = await supabaseClient
+        .from('essays')
+        .update({
+          previous_score: oldScore,
+          review_status: 'needs_review',
+          is_winner: false
+        })
+        .eq('id', essayId);
+
+      if (error) {
+        alert('Failed to send back for review: ' + error.message);
+        return;
+      }
+
+      gradeModal.classList.add('hidden');
+      await fetchAdminEssays();
+    });
+
+    // Disqualify / Reinstate Handlers
+    document.getElementById('toggle-disqualify-btn').addEventListener('click', async () => {
+      const essayId = document.getElementById('grade-essay-id').value;
+      const essay = allEssaysCache.find(e => String(e.id) === String(essayId));
+      if (!essay) return;
+
+      if (essay.disqualified) {
+        const { error } = await supabaseClient
+          .from('essays')
+          .update({
+            disqualified: false,
+            disqualification_reason: null,
+            review_status: (essay.score && essay.score > 0) ? 'graded' : 'pending'
+          })
+          .eq('id', essayId);
+
+        if (error) {
+          alert('Failed to reinstate entry: ' + error.message);
+          return;
+        }
+        gradeModal.classList.add('hidden');
+        await fetchAdminEssays();
+      } else {
+        document.getElementById('disqualify-panel').classList.remove('hidden');
+        document.getElementById('disqualify-custom-comment').value = essay.ai_flag_reason || '';
+      }
+    });
+
+    document.getElementById('cancel-disqualify-btn').addEventListener('click', () => {
+      document.getElementById('disqualify-panel').classList.add('hidden');
+    });
+
+    document.getElementById('confirm-disqualify-btn').addEventListener('click', async () => {
+      const essayId = document.getElementById('grade-essay-id').value;
+      const preset = document.getElementById('disqualify-preset').value;
+      const customNote = document.getElementById('disqualify-custom-comment').value.trim();
+      const fullReason = customNote ? `${preset}: ${customNote}` : preset;
+
+      const { error } = await supabaseClient
+        .from('essays')
+        .update({
+          disqualified: true,
+          disqualification_reason: fullReason,
+          review_status: 'disqualified',
+          is_winner: false
+        })
+        .eq('id', essayId);
+
+      if (error) {
+        alert('Disqualification failed: ' + error.message);
+        return;
+      }
+
+      gradeModal.classList.add('hidden');
+      await fetchAdminEssays();
+    });
+
+    // Save Verified Grade & Record Evaluating Judge Email
     document.getElementById('grade-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       const saveBtn = document.getElementById('save-grade-btn');
@@ -2479,7 +3250,9 @@
       const updatePayload = {
         score,
         admin_comments,
-        review_status: 'graded'
+        review_status: 'graded',
+        graded_by: currentSessionEmail || null,
+        graded_at: new Date().toISOString()
       };
 
       if (isCurrentUserOwner) {
@@ -2511,6 +3284,7 @@
     });
 
     document.getElementById('search-essays').addEventListener('input', renderAdminEssaysTable);
+    document.getElementById('filter-judge').addEventListener('change', renderAdminEssaysTable);
     document.getElementById('filter-track').addEventListener('change', renderAdminEssaysTable);
     document.getElementById('refresh-essays').addEventListener('click', fetchAdminEssays);
   </script>
