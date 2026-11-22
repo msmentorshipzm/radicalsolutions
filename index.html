@@ -21,6 +21,12 @@
               dark: '#0f1115', card: '#161920', border: '#242935',
               salmon: '#FA7052', salmonLight: '#FF8A70', salmonDark: '#D95336',
               amber: '#F59E0B', teal: '#14B8A6'
+            },
+            zambia: {
+              green: '#198A00',
+              red: '#DE2010',
+              black: '#0A0B0D',
+              orange: '#EF7D00'
             }
           },
           fontFamily: {
@@ -58,10 +64,10 @@
           </a>
           <div class="hidden lg:flex items-center space-x-6 text-sm font-medium">
             <a href="#about" class="text-slate-300 hover:text-brand-salmon transition-colors">About</a>
-            <a href="#pillars" class="text-slate-300 hover:text-brand-salmon transition-colors">Pillars</a>
+            <a href="#methodology" class="text-slate-300 hover:text-brand-salmon transition-colors">Framework</a>
             <a href="#media" class="text-slate-300 hover:text-brand-salmon transition-colors">Media</a>
             <a href="#tracks" class="text-slate-300 hover:text-brand-salmon transition-colors">Essay Tracks</a>
-            <a href="#timeline" class="text-slate-300 hover:text-brand-salmon transition-colors">Timeline</a>
+            <a href="#rules" class="text-slate-300 hover:text-brand-salmon transition-colors">Rules & Guide</a>
             <a href="#contact" class="text-slate-300 hover:text-brand-salmon transition-colors">Contact</a>
             <a href="#submit" class="bg-brand-salmon hover:bg-brand-salmonLight text-brand-dark font-bold px-5 py-2.5 rounded-xl transition-all shadow-md shadow-brand-salmon/20 flex items-center space-x-2">
               <i class="fa-solid fa-pen-nib text-xs"></i><span>Submit Essay</span>
@@ -77,10 +83,10 @@
       </div>
       <div id="mobile-menu" class="hidden lg:hidden bg-brand-card border-b border-brand-border px-4 py-4 space-y-3">
         <a href="#about" class="block text-slate-300 hover:text-brand-salmon py-1">About</a>
-        <a href="#pillars" class="block text-slate-300 hover:text-brand-salmon py-1">Core Pillars</a>
+        <a href="#methodology" class="block text-slate-300 hover:text-brand-salmon py-1">Execution Framework</a>
         <a href="#media" class="block text-slate-300 hover:text-brand-salmon py-1">Media Hub</a>
         <a href="#tracks" class="block text-slate-300 hover:text-brand-salmon py-1">Grow Zambia Tracks</a>
-        <a href="#timeline" class="block text-slate-300 hover:text-brand-salmon py-1">Timeline</a>
+        <a href="#rules" class="block text-slate-300 hover:text-brand-salmon py-1">Rules & How to Submit</a>
         <a href="#contact" class="block text-slate-300 hover:text-brand-salmon py-1">Contact Us</a>
         <a href="#submit" class="block bg-brand-salmon text-brand-dark text-center font-bold py-2.5 rounded-xl">Submit Essay Challenge</a>
         <button type="button" onclick="openAdminPortal()" class="w-full text-left text-slate-300 hover:text-brand-salmon py-2 border-t border-brand-border/60 flex items-center space-x-2 text-sm font-semibold">
@@ -112,7 +118,9 @@
               <a href="#tracks" class="bg-brand-salmon hover:bg-brand-salmonLight text-brand-dark font-extrabold px-6 py-3.5 rounded-xl transition-all shadow-lg shadow-brand-salmon/25 flex items-center space-x-2">
                 <span>Explore Essay Questions</span><i class="fa-solid fa-arrow-down text-xs"></i>
               </a>
-              <a href="#contact" class="bg-brand-card hover:bg-slate-800 border border-brand-border text-white font-semibold px-6 py-3.5 rounded-xl transition-colors">Get In Touch</a>
+              <button type="button" onclick="openInfoModal('rules')" class="bg-brand-card hover:bg-slate-800 border border-brand-border text-white font-semibold px-6 py-3.5 rounded-xl transition-colors flex items-center space-x-2">
+                <i class="fa-solid fa-scale-balanced text-brand-salmon text-xs"></i><span>Contest Rules</span>
+              </button>
             </div>
           </div>
 
@@ -161,7 +169,7 @@
       </div>
     </section>
 
-    <!-- PUBLISHED OVERALL WINNER SHOWCASE (EXECUTIVE LAYOUT WITH PORTRAIT) -->
+    <!-- PUBLISHED OVERALL WINNER SHOWCASE -->
     <section id="winners-showcase" class="hidden py-24 bg-gradient-to-b from-brand-card via-brand-dark to-brand-dark border-b border-brand-border/40 relative overflow-hidden">
       <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="text-center mb-10">
@@ -212,41 +220,41 @@
       </div>
     </section>
 
-    <!-- CORE PILLARS SECTION -->
-    <section id="pillars" class="py-20 bg-brand-dark/50 border-b border-brand-border/40">
+    <!-- EXECUTION FRAMEWORK SECTION (REPLACED OAR VS BED) -->
+    <section id="methodology" class="py-20 bg-brand-dark/50 border-b border-brand-border/40">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center max-w-3xl mx-auto mb-16">
-          <span class="text-brand-salmon text-xs uppercase font-bold tracking-widest block">Operational Mindset</span>
-          <h2 class="font-display text-3xl sm:text-4xl font-extrabold text-white mt-1">Above-The-Line Leadership (OAR vs BED)</h2>
-          <p class="text-slate-400 text-sm mt-3">Engineering excellence requires taking full ownership of our national challenges rather than making excuses.</p>
+          <span class="text-brand-salmon text-xs uppercase font-bold tracking-widest block">Engineering Methodology</span>
+          <h2 class="font-display text-3xl sm:text-4xl font-extrabold text-white mt-1">From Concept to Working Prototype</h2>
+          <p class="text-slate-400 text-sm mt-3">Every proposal evaluated on this platform is judged against rigorous engineering standards designed to move ideas off paper and into Zambian industry.</p>
         </div>
         <div class="grid md:grid-cols-3 gap-8">
           <div class="bg-brand-card border border-brand-border p-8 rounded-3xl hover:border-brand-salmon/60 transition-colors">
             <div class="w-12 h-12 rounded-2xl bg-brand-salmon/10 border border-brand-salmon/30 text-brand-salmon flex items-center justify-center text-xl mb-6">
-              <i class="fa-solid fa-shield-halved"></i>
+              <i class="fa-solid fa-compass-drafting"></i>
             </div>
-            <h3 class="font-display font-bold text-xl text-white mb-2">Ownership</h3>
-            <p class="text-xs text-slate-400 leading-relaxed">Refusing to wait for external solutions. Taking personal responsibility for building infrastructure, agricultural security, and technological independence across Zambia.</p>
+            <h3 class="font-display font-bold text-xl text-white mb-2">First-Principles Design</h3>
+            <p class="text-xs text-slate-400 leading-relaxed">Breaking down complex infrastructure, agricultural, and energy bottlenecks to their fundamental physics and economics—designing locally maintainable solutions rather than importing unadapted models.</p>
           </div>
           <div class="bg-brand-card border border-brand-border p-8 rounded-3xl hover:border-brand-salmon/60 transition-colors">
             <div class="w-12 h-12 rounded-2xl bg-brand-amber/10 border border-brand-amber/30 text-brand-amber flex items-center justify-center text-xl mb-6">
               <i class="fa-solid fa-chart-line"></i>
             </div>
-            <h3 class="font-display font-bold text-xl text-white mb-2">Accountability</h3>
-            <p class="text-xs text-slate-400 leading-relaxed">Measuring engineered outcomes against concrete metrics: 3M tonnes copper, 10M tonnes maize, 10,000 MW installed clean power, and zero unverified assumptions.</p>
+            <h3 class="font-display font-bold text-xl text-white mb-2">Empirical Feasibility</h3>
+            <p class="text-xs text-slate-400 leading-relaxed">Grounding proposals in verifiable national targets: 3 million tonnes of copper, 10 million tonnes of maize, and 10,000 MW of installed clean power—backed by realistic unit costs and resource constraints.</p>
           </div>
           <div class="bg-brand-card border border-brand-border p-8 rounded-3xl hover:border-brand-salmon/60 transition-colors">
             <div class="w-12 h-12 rounded-2xl bg-brand-teal/10 border border-brand-teal/30 text-brand-teal flex items-center justify-center text-xl mb-6">
-              <i class="fa-solid fa-handshake"></i>
+              <i class="fa-solid fa-gears"></i>
             </div>
-            <h3 class="font-display font-bold text-xl text-white mb-2">Responsibility</h3>
-            <p class="text-xs text-slate-400 leading-relaxed">Fostering collaboration across academia, TVET institutions, and industry to empower youth.</p>
+            <h3 class="font-display font-bold text-xl text-white mb-2">Prototype & Institutional Pitch</h3>
+            <p class="text-xs text-slate-400 leading-relaxed">Top authors join Your Radical Engineer to build functional proof-of-concept prototypes and present validated engineering demonstrations directly to industrial and public stakeholders.</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- MEDIA SECTION -->
+    <!-- MEDIA SECTION (DYNAMICALLY POPULATED FROM DATABASE OR FALLBACK) -->
     <section id="media" class="py-20 bg-brand-dark border-b border-brand-border/40">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center max-w-2xl mx-auto mb-16">
@@ -258,13 +266,13 @@
       </div>
     </section>
 
-    <!-- TRACKS SECTION (DYNAMICALLY POPULATED FROM DATABASE OR FALLBACK) -->
+    <!-- TRACKS SECTION -->
     <section id="tracks" class="py-20 bg-brand-dark/50 border-b border-brand-border/40">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center max-w-3xl mx-auto mb-16">
-          <span class="text-brand-salmon text-xs uppercase font-bold tracking-widest block">Competition Tracks</span>
+          <span class="text-brand-salmon text-xs uppercase font-bold tracking-widest block">Grow Zambia Agenda</span>
           <h2 id="tracks-section-heading" class="font-display text-3xl sm:text-4xl font-extrabold text-white mt-1">4 Competition Tracks & 16 Prompts</h2>
-          <p class="text-slate-400 text-sm mt-3">Grounded in the motto <strong>"One Zambia, One Nation"</strong>. Select a track below to view its essay questions. Pick 1 question for your 750 to 1,500-word submission.</p>
+          <p class="text-slate-400 text-sm mt-3">Aligned with the national industrialization targets of the <strong>Grow Zambia Agenda</strong>. Select a track below to view its essay questions and choose 1 prompt for your 750 to 1,500-word submission.</p>
         </div>
         <div id="track-grid" class="grid lg:grid-cols-2 gap-8"></div>
       </div>
@@ -281,7 +289,7 @@
           <div class="bg-brand-card border border-brand-border p-6 rounded-2xl relative">
             <span class="text-brand-salmon font-mono font-bold text-sm block">Phase 01: Launch</span>
             <h4 class="font-bold text-white text-base mt-1">Portal Launch</h4>
-            <p class="text-xs text-slate-400 mt-2">Submissions open across all 10 provinces for all active tracks. Participants pick any prompt aligned with the challenge agenda.</p>
+            <p class="text-xs text-slate-400 mt-2">Submissions open across all 10 provinces for all active tracks. Participants pick any prompt aligned with the Grow Zambia Agenda.</p>
           </div>
           <div class="bg-brand-card border border-brand-border p-6 rounded-2xl relative">
             <span class="text-brand-salmon font-mono font-bold text-sm block">Phase 02: Writing Window</span>
@@ -302,31 +310,46 @@
       </div>
     </section>
 
-    <!-- RULES SECTION -->
+    <!-- SUBMISSION INTEGRITY, CONTEST RULES & HOW TO SUBMIT SECTION -->
     <section id="rules" class="py-20 bg-brand-dark/50 border-b border-brand-border/40">
       <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12">
-          <span class="text-brand-salmon text-xs uppercase font-bold tracking-widest block">Submission Integrity</span>
-          <h2 class="font-display text-3xl font-extrabold text-white">Ethical AI Policy & Writing Guidelines</h2>
+          <span class="text-brand-salmon text-xs uppercase font-bold tracking-widest block">Governance & Academic Standards</span>
+          <h2 class="font-display text-3xl sm:text-4xl font-extrabold text-white mt-1">Submission Integrity, Contest Rules & Guide</h2>
+          <p class="text-slate-400 text-sm mt-2 max-w-2xl mx-auto">Review our academic integrity standards, official competition rules, and step-by-step submission instructions before uploading your manuscript.</p>
+
+          <!-- INTERACTIVE MODAL TRIGGERS FOR CONTEST RULES & HOW TO SUBMIT -->
+          <div class="flex flex-wrap items-center justify-center gap-4 mt-6">
+            <button type="button" onclick="openInfoModal('rules')" class="px-5 py-3 rounded-xl bg-brand-salmon hover:bg-brand-salmonLight text-brand-dark font-extrabold text-xs transition-all shadow-lg shadow-brand-salmon/20 flex items-center space-x-2">
+              <i class="fa-solid fa-gavel"></i><span>Read Official Contest Rules</span>
+            </button>
+            <button type="button" onclick="openInfoModal('howto')" class="px-5 py-3 rounded-xl bg-brand-card hover:bg-slate-800 border border-brand-border text-white font-bold text-xs transition-colors flex items-center space-x-2">
+              <i class="fa-solid fa-list-check text-brand-teal"></i><span>How to Submit (Step-by-Step Guide)</span>
+            </button>
+          </div>
         </div>
+
         <div class="grid sm:grid-cols-2 gap-6">
-          <div class="bg-brand-card border border-brand-border p-6 rounded-2xl">
-            <div class="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 flex items-center justify-center mb-4"><i class="fa-solid fa-check"></i></div>
-            <h4 class="font-bold text-white text-base">Permitted AI Usage (Research)</h4>
-            <ul class="text-xs text-slate-400 mt-3 space-y-2 list-disc list-inside leading-relaxed">
-              <li>Brainstorming initial perspectives or structural outlines.</li>
-              <li>Researching data points, statistics, and industrial references.</li>
-              <li>Checking grammar and sentence structure after writing.</li>
+          <div class="bg-brand-card border border-brand-border p-7 rounded-3xl">
+            <div class="flex items-center space-x-3 mb-4">
+              <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 flex items-center justify-center"><i class="fa-solid fa-check-double"></i></div>
+              <h4 class="font-display font-bold text-white text-base">Permitted Research & Drafting Tools</h4>
+            </div>
+            <ul class="text-xs text-slate-300 space-y-2.5 leading-relaxed">
+              <li class="flex items-start space-x-2"><i class="fa-solid fa-circle-check text-emerald-400 mt-0.5"></i><span>Using digital tools to gather publicly available industrial statistics, ZESCO grid figures, or agricultural production data with proper citations.</span></li>
+              <li class="flex items-start space-x-2"><i class="fa-solid fa-circle-check text-emerald-400 mt-0.5"></i><span>Structuring engineering calculations, cost estimates, and technical outlines prior to authoring your original prose.</span></li>
+              <li class="flex items-start space-x-2"><i class="fa-solid fa-circle-check text-emerald-400 mt-0.5"></i><span>Performing post-draft spelling and punctuation checks while preserving your authentic technical voice.</span></li>
             </ul>
           </div>
-          <div class="bg-brand-card border border-brand-border p-6 rounded-2xl">
-            <div class="w-10 h-10 rounded-lg bg-red-500/10 border border-red-500/30 text-red-400 flex items-center justify-center mb-4"><i class="fa-solid fa-xmark"></i></div>
-            <h4 class="font-bold text-white text-base">Strictly Forbidden (Zero Tolerance)</h4>
-            <ul class="text-xs text-slate-400 mt-3 space-y-2 list-disc list-inside leading-relaxed">
-              <li>WARNING: AI detectors are incorporated in the submission portal. Attach both the PDF or Word Document and paste your whole Essay in the space provided.</li>
-              <li>Copying and pasting fully AI-generated prose or essays.</li>
-              <li>Submitting plagiarized content from existing journals or blogs.</li>
-              <li>Exceeding the strict maximum limit of 1,500 words.</li>
+          <div class="bg-brand-card border border-brand-border p-7 rounded-3xl">
+            <div class="flex items-center space-x-3 mb-4">
+              <div class="w-10 h-10 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 flex items-center justify-center"><i class="fa-solid fa-shield-virus"></i></div>
+              <h4 class="font-display font-bold text-white text-base">Academic Disqualification Criteria</h4>
+            </div>
+            <ul class="text-xs text-slate-300 space-y-2.5 leading-relaxed">
+              <li class="flex items-start space-x-2"><i class="fa-solid fa-circle-xmark text-red-400 mt-0.5"></i><span><strong>Zero-Tolerance AI Generation:</strong> Automated AI-detection screening is active on all submissions; AI-generated manuscripts are automatically disqualified.</span></li>
+              <li class="flex items-start space-x-2"><i class="fa-solid fa-circle-xmark text-red-400 mt-0.5"></i><span><strong>Plagiarism & Uncited Work:</strong> Reproducing text from journals, policy papers, or articles without explicit academic attribution.</span></li>
+              <li class="flex items-start space-x-2"><i class="fa-solid fa-circle-xmark text-red-400 mt-0.5"></i><span><strong>Format & Word Bounds:</strong> Manuscripts outside the strict 750–1,500 word window or mismatched between the uploaded document and pasted body text.</span></li>
             </ul>
           </div>
         </div>
@@ -339,7 +362,7 @@
         <div class="text-center mb-10">
           <span class="text-brand-salmon text-xs uppercase font-bold tracking-widest block">Upload Portal</span>
           <h2 class="font-display text-3xl sm:text-4xl font-extrabold text-white mt-1">Submit Your Radical Solution</h2>
-          <p class="text-slate-400 text-sm mt-2">Choose 1 track and Prompt and write your well-reasoned essay. Fill out the details below to complete your submission.</p>
+          <p class="text-slate-400 text-sm mt-2">Choose 1 track and Prompt and write your well-reasoned essay. Need help? <button type="button" onclick="openInfoModal('howto')" class="text-brand-salmon hover:underline font-semibold">View How to Submit Guide</button>.</p>
         </div>
         <div class="bg-brand-card border border-brand-border rounded-3xl p-6 sm:p-10 shadow-2xl relative">
 
@@ -402,7 +425,7 @@
             </div>
             <div class="flex items-start space-x-3 pt-1">
               <input type="checkbox" id="ai-agreement" required class="mt-1 accent-brand-salmon rounded">
-              <label for="ai-agreement" class="text-xs text-slate-400">I declare that this essay is my own original work and adheres strictly to the Ethical AI Policy.</label>
+              <label for="ai-agreement" class="text-xs text-slate-400">I declare that this essay is my own original work and adheres strictly to the <button type="button" onclick="openInfoModal('rules')" class="text-brand-salmon hover:underline font-semibold">Official Contest Rules & Integrity Policy</button>.</label>
             </div>
             <button type="submit" id="submit-btn" class="w-full py-4 rounded-xl bg-brand-salmon hover:bg-brand-salmonLight text-brand-dark font-extrabold text-base transition-all shadow-lg shadow-brand-salmon/20 flex items-center justify-center space-x-2">
               <i class="fa-solid fa-paper-plane text-sm"></i>
@@ -546,7 +569,7 @@
         <!-- JUDGE NOTICE BANNER (SHOWN ONLY FOR NON-OWNER JUDGES) -->
         <div id="judge-notice-banner" class="hidden bg-brand-amber/10 border border-brand-amber/30 p-4 rounded-2xl flex items-center space-x-3 text-xs text-brand-amber">
           <i class="fa-solid fa-gavel text-base"></i>
-          <span><strong>Judge Adjudication Mode:</strong> You can view submissions, track grading progress, read essays, download attachments, and assign scores (/100) with notes. Website settings, cycle tracks, judge invitations, and winner publication belong strictly to <strong>Your Radical Engineer</strong>.</span>
+          <span><strong>Judge Adjudication Mode:</strong> You can view submissions, track grading progress, read essays, download attachments, and assign scores (/100) with notes. Website settings, cycle tracks, media, rules, judge invitations, and winner publication belong strictly to <strong>Your Radical Engineer</strong>.</span>
         </div>
 
         <!-- ACCOUNT SECURITY: CHANGE PASSWORD (AVAILABLE TO OWNER & JUDGES) -->
@@ -676,6 +699,56 @@
             </div>
           </div>
 
+          <!-- MEDIA & ENGINEERING TECH HUB MANAGER (OWNER ONLY) -->
+          <div class="bg-brand-card border border-brand-border p-6 sm:p-8 rounded-3xl shadow-xl">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+              <div>
+                <span class="text-brand-salmon text-xs uppercase font-bold tracking-widest block">Media Content & Vlogs Manager</span>
+                <h2 class="font-display text-xl font-extrabold text-white mt-1">Manage Media & Engineering Tech Hub</h2>
+                <p class="text-xs text-slate-400 mt-1">Edit existing video titles, descriptions, categories, or upload MP4 videos / thumbnails directly to your Media Hub.</p>
+              </div>
+              <div class="flex items-center space-x-3">
+                <button type="button" id="add-media-btn" class="px-4 py-2.5 rounded-xl bg-brand-dark hover:bg-slate-800 border border-brand-salmon/50 text-brand-salmon font-bold text-xs transition-colors">
+                  <i class="fa-solid fa-plus mr-1.5"></i>Add Video
+                </button>
+                <button type="button" id="save-media-btn" class="px-5 py-2.5 rounded-xl bg-brand-salmon hover:bg-brand-salmonLight text-brand-dark font-extrabold text-xs transition-colors">
+                  <i class="fa-solid fa-floppy-disk mr-1.5"></i>Save Media Hub
+                </button>
+              </div>
+            </div>
+            <p id="media-save-msg" class="hidden text-xs font-semibold mb-4"></p>
+            <div id="media-editor-container" class="grid lg:grid-cols-3 gap-6"></div>
+          </div>
+
+          <!-- CONTEST RULES & HOW-TO-SUBMIT MODAL CONTENT EDITOR (OWNER ONLY) -->
+          <div class="bg-brand-card border border-brand-border p-6 sm:p-8 rounded-3xl shadow-xl">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+              <div>
+                <span class="text-brand-amber text-xs uppercase font-bold tracking-widest block">Rules & Applicant Guidance</span>
+                <h2 class="font-display text-xl font-extrabold text-white mt-1">Edit Contest Rules & How to Submit Prompts</h2>
+                <p class="text-xs text-slate-400 mt-1">Customize the text that pops up when visitors click <strong>Read Official Contest Rules</strong> or <strong>How to Submit</strong>.</p>
+              </div>
+              <button type="button" id="save-rules-btn" class="px-5 py-2.5 rounded-xl bg-brand-salmon hover:bg-brand-salmonLight text-brand-dark font-extrabold text-xs transition-colors">
+                <i class="fa-solid fa-floppy-disk mr-1.5"></i>Save Rules & Guide
+              </button>
+            </div>
+            <p id="rules-save-msg" class="hidden text-xs font-semibold mb-4"></p>
+            <div class="grid lg:grid-cols-2 gap-6">
+              <div>
+                <label for="edit-contest-rules" class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">
+                  Official Contest Rules (Pop-Up Prompt Content)
+                </label>
+                <textarea id="edit-contest-rules" rows="8" class="w-full bg-brand-dark border border-brand-border rounded-xl p-4 text-xs text-slate-200 focus:outline-none focus:border-brand-salmon leading-relaxed custom-scrollbar"></textarea>
+              </div>
+              <div>
+                <label for="edit-howto-submit" class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">
+                  How to Submit Guide (Pop-Up Prompt Content)
+                </label>
+                <textarea id="edit-howto-submit" rows="8" class="w-full bg-brand-dark border border-brand-border rounded-xl p-4 text-xs text-slate-200 focus:outline-none focus:border-brand-salmon leading-relaxed custom-scrollbar"></textarea>
+              </div>
+            </div>
+          </div>
+
           <!-- CYCLE TRACKS & PROMPTS EDITOR (OWNER ONLY) -->
           <div class="bg-brand-card border border-brand-border p-6 sm:p-8 rounded-3xl shadow-xl">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
@@ -798,23 +871,108 @@
 
   </div>
 
-  <!-- SHARED FOOTER -->
-  <footer class="bg-brand-dark border-t border-brand-border py-12">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex flex-col md:flex-row items-center justify-between gap-6">
-        <div class="flex items-center space-x-3">
-          <img src="radical_logo.jpeg" alt="Logo" class="w-9 h-9 rounded-lg object-cover">
-          <div>
-            <span class="font-display font-extrabold text-white text-base block">YOUR RADICAL ENGINEER</span>
-            <span class="text-[10px] text-slate-400">Milimo Siabana • One Zambia, One Nation</span>
+  <!-- ===================================================================== -->
+  <!-- PUBLIC INFO MODAL (CONTEST RULES, HOW TO SUBMIT & VIDEO PLAYER)       -->
+  <!-- ===================================================================== -->
+  <div id="public-info-modal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-brand-card border border-brand-border rounded-3xl max-w-2xl w-full max-h-[85vh] flex flex-col shadow-2xl overflow-hidden">
+      <div class="p-6 border-b border-brand-border flex items-center justify-between">
+        <div>
+          <span id="info-modal-badge" class="text-[10px] uppercase font-bold text-brand-salmon tracking-widest block">Official Documentation</span>
+          <h3 id="info-modal-title" class="font-display font-extrabold text-xl text-white mt-0.5"></h3>
+        </div>
+        <button type="button" onclick="closeInfoModal()" class="w-9 h-9 rounded-xl bg-brand-dark border border-brand-border text-slate-400 hover:text-white flex items-center justify-center">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <div id="info-modal-body" class="p-6 overflow-y-auto text-xs sm:text-sm text-slate-200 leading-relaxed whitespace-pre-line custom-scrollbar space-y-4"></div>
+      <div class="p-4 border-t border-brand-border bg-brand-dark/60 flex items-center justify-between">
+        <span class="text-[11px] text-slate-400">Grow Zambia Agenda • Radical Solutions Challenge</span>
+        <button type="button" onclick="closeInfoModal()" class="px-5 py-2 rounded-xl bg-brand-salmon hover:bg-brand-salmonLight text-brand-dark font-extrabold text-xs transition-colors">
+          Close Window
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- EXECUTIVE FOOTER WITH ZAMBIAN NATIONAL ACCENT & GROW ZAMBIA AGENDA    -->
+  <!-- ===================================================================== -->
+  <footer class="bg-brand-dark border-t border-brand-border relative">
+    <!-- ZAMBIAN FLAG NATIONAL ACCENT STRIPE -->
+    <div class="h-1.5 w-full grid grid-cols-12">
+      <div class="col-span-9 bg-zambia-green"></div>
+      <div class="col-span-1 bg-zambia-red"></div>
+      <div class="col-span-1 bg-zambia-black"></div>
+      <div class="col-span-1 bg-zambia-orange"></div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+      <div class="grid md:grid-cols-12 gap-10 pb-10 border-b border-brand-border/80">
+        
+        <!-- BRAND & MISSION -->
+        <div class="md:col-span-5 space-y-4">
+          <div class="flex items-center space-x-3">
+            <img src="radical_logo.jpeg" alt="Your Radical Engineer Logo" class="w-10 h-10 rounded-xl object-cover border border-brand-border">
+            <div>
+              <span class="font-display font-extrabold text-white text-base tracking-tight block leading-none">YOUR RADICAL ENGINEER</span>
+              <span class="text-[10px] text-brand-salmon font-bold uppercase tracking-widest mt-1 block">Milimo Siabana • Industrialization & Innovation</span>
+            </div>
+          </div>
+          <p class="text-xs text-slate-400 leading-relaxed max-w-md">
+            Advancing practical engineering solutions, technical literacy, and youth-driven industrial prototypes across the Republic of Zambia.
+          </p>
+          <!-- GROW ZAMBIA AGENDA PILL -->
+          <div class="inline-flex items-center space-x-2.5 bg-brand-card border border-zambia-green/40 px-3.5 py-2 rounded-xl">
+            <span class="flex space-x-1">
+              <span class="w-2 h-2 rounded-full bg-zambia-green"></span>
+              <span class="w-2 h-2 rounded-full bg-zambia-red"></span>
+              <span class="w-2 h-2 rounded-full bg-zambia-orange"></span>
+            </span>
+            <span class="text-[11px] font-mono font-bold text-slate-200 tracking-wide">GROW ZAMBIA AGENDA • GZA-2030</span>
           </div>
         </div>
-        <div class="text-xs text-slate-400 text-center md:text-right space-y-1">
-          <p>Official Contact: <a href="mailto:yourradicalengineer@gmail.com" class="text-brand-salmon hover:underline font-mono">yourradicalengineer@gmail.com</a> | +260 976 452 281</p>
-          <p>
-            &copy; 2026 Your Radical Engineer. All rights reserved. • 
-            <button type="button" onclick="openAdminPortal()" class="text-slate-500 hover:text-brand-salmon underline ml-1">Admin / Judge Portal</button>
-          </p>
+
+        <!-- GROW ZAMBIA BENCHMARKS -->
+        <div class="md:col-span-4 space-y-3">
+          <span class="text-[11px] font-bold uppercase tracking-widest text-zambia-orange block">National Industrial Benchmarks</span>
+          <ul class="text-xs text-slate-400 space-y-2 font-mono">
+            <li class="flex items-center justify-between border-b border-brand-border/50 pb-1.5">
+              <span>Copper Production Target</span>
+              <strong class="text-white">3.0M Tonnes / Yr</strong>
+            </li>
+            <li class="flex items-center justify-between border-b border-brand-border/50 pb-1.5">
+              <span>Agricultural Output</span>
+              <strong class="text-white">10M Maize • $1B Beef</strong>
+            </li>
+            <li class="flex items-center justify-between">
+              <span>Clean Power Capacity</span>
+              <strong class="text-white">10,000 MW Grid</strong>
+            </li>
+          </ul>
+        </div>
+
+        <!-- QUICK PORTAL & GOVERNANCE LINKS -->
+        <div class="md:col-span-3 space-y-3">
+          <span class="text-[11px] font-bold uppercase tracking-widest text-brand-salmon block">Portal & Governance</span>
+          <ul class="text-xs text-slate-400 space-y-2">
+            <li><button type="button" onclick="openInfoModal('rules')" class="hover:text-brand-salmon transition-colors">Official Contest Rules</button></li>
+            <li><button type="button" onclick="openInfoModal('howto')" class="hover:text-brand-salmon transition-colors">How to Submit Guide</button></li>
+            <li><a href="#tracks" class="hover:text-brand-salmon transition-colors">Competition Tracks</a></li>
+            <li><a href="mailto:yourradicalengineer@gmail.com" class="hover:text-brand-salmon transition-colors font-mono">yourradicalengineer@gmail.com</a></li>
+            <li class="text-slate-300 font-mono">+260 976 452 281 • Lusaka / Solwezi, ZM</li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- BOTTOM COPYRIGHT & ADMIN PORTAL BAR -->
+      <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+        <p>&copy; 2026 Your Radical Engineer (Milimo Siabana). All rights reserved. Built for the <span class="text-slate-300 font-semibold">Grow Zambia Agenda</span>.</p>
+        <div class="flex items-center space-x-4">
+          <button type="button" onclick="openAdminPortal()" class="text-slate-400 hover:text-brand-salmon transition-colors font-semibold flex items-center space-x-1.5">
+            <i class="fa-solid fa-lock text-[10px]"></i><span>Admin & Adjudication Portal</span>
+          </button>
         </div>
       </div>
     </div>
@@ -837,7 +995,7 @@
 
     let isCurrentUserOwner = false;
 
-    // Default Cycle Tracks Structure (Fallback if no custom tracks saved in DB yet)
+    // Default Cycle Tracks Structure
     const defaultTracksData = [
       {
         name: 'Track 1: Agri-Tech & Climate Resilience',
@@ -876,12 +1034,111 @@
           'Identify the primary gaps between current university/TVET engineering curricula in Zambia and modern industrial demands. Propose a hands-on apprenticeship model giving students equal practical access.',
           'High-budget infrastructure projects often suffer from delays. Propose a digital tracking or open-data transparency platform that allows citizens to monitor government development projects in real time.',
           'Design a national incubation framework that takes high-potential youth engineering prototypes, from university projects or JETS fairs, and converts them into commercially viable businesses.',
-          'Under the banner of “One Zambia, One Nation,” how can digital platforms and civic technology be leveraged to combat misinformation, reduce regional divisions, and foster national economic unity?'
+          'Under the Grow Zambia Agenda, how can digital platforms and civic technology be leveraged to combat misinformation, increase public accountability, and accelerate national economic unity?'
         ]
       }
     ];
 
+    // Default Media Hub Items
+    const defaultMediaData = [
+      {
+        category: 'Mining & Value Addition',
+        title: 'How Zambia Can Process 3M Tonnes of Copper Locally',
+        description: 'Breakdown of heavy equipment maintenance, copper wire fabrication, and supply chain retention.',
+        duration: '08:45',
+        video_url: ''
+      },
+      {
+        category: 'Energy Resilience',
+        title: 'Beyond Hydro: Engineering 10,000 MW Solar Grids',
+        description: 'Analyzing decentralized solar micro-grids to keep small businesses powered during load shedding.',
+        duration: '12:15',
+        video_url: ''
+      },
+      {
+        category: 'Youth & TVET Skills',
+        title: 'Fixing the Gap: Tertiary Engineering to Industry',
+        description: 'Why technical curricula must shift from textbook theories to hands-on industrial apprenticeships.',
+        duration: '10:30',
+        video_url: ''
+      }
+    ];
+
+    // Default Contest Rules & How-To-Submit Guide
+    const defaultContestRulesText = `1. ELIGIBILITY: Open to Zambian students, technical trainees, and young innovators across all 10 provinces.\n\n2. WORD COUNT & FORMAT: Each essay must be between 750 and 1,500 words (excluding references) and must be submitted as both an attached .pdf or .docx file (max 3 MB) and pasted plain text.\n\n3. SINGLE SUBMISSION RULE: Each participant may submit only one (1) essay per competition cycle under a single chosen track and prompt.\n\n4. STRICT ACADEMIC INTEGRITY: Essays must be original work. Automated AI-generation detectors are integrated into the adjudication workflow; any submission generated by AI or containing unattributed plagiarism will be disqualified immediately.\n\n5. PROTOTYPE & INSTITUTIONAL PITCH: Selected winners and top finalists will be invited to collaborate with Your Radical Engineer to build working prototypes for presentation to relevant national institutions.`;
+
+    const defaultHowToSubmitText = `STEP 1 — CHOOSE YOUR TRACK & PROMPT:\nBrowse the 4 Grow Zambia Agenda tracks and select one specific essay prompt that matches your engineering or policy solution.\n\nSTEP 2 — DRAFT YOUR MANUSCRIPT (750–1,500 WORDS):\nPrepare your structured essay in Microsoft Word or Google Docs. Include a clear problem statement, technical design/methodology, economic feasibility, and references. Save a copy as a .pdf or .docx file under 3 MB.\n\nSTEP 3 — COMPLETE THE UPLOAD FORM:\nNavigate to the "Submit Your Radical Solution" section, enter your full name, WhatsApp number, email address, and institution/town, and select your track and prompt.\n\nSTEP 4 — ATTACH DOCUMENT & PASTE ESSAY TEXT:\nUpload your .pdf or .docx file, paste the exact matching essay body into the text box (verify the live word counter reads between 750 and 1,500 words), tick the originality declaration, and click Submit Essay.\n\nSTEP 5 — SAVE YOUR REFERENCE ID:\nRecord the unique reference code (e.g., YRE-2026-XXXX) displayed upon submission for tracking your entry.`;
+
     let activeTracksData = JSON.parse(JSON.stringify(defaultTracksData));
+    let activeMediaData = JSON.parse(JSON.stringify(defaultMediaData));
+    let activeContestRules = defaultContestRulesText;
+    let activeHowToSubmit = defaultHowToSubmitText;
+
+    // =====================================================================
+    // PUBLIC INFO & VIDEO MODAL HANDLER
+    // =====================================================================
+    window.openInfoModal = function(type, mediaIdx = null) {
+      const modal = document.getElementById('public-info-modal');
+      const badge = document.getElementById('info-modal-badge');
+      const title = document.getElementById('info-modal-title');
+      const body = document.getElementById('info-modal-body');
+
+      if (type === 'rules') {
+        badge.textContent = 'Governance & Compliance';
+        title.textContent = 'Official Radical Solutions Contest Rules';
+        body.textContent = activeContestRules;
+      } else if (type === 'howto') {
+        badge.textContent = 'Applicant Walkthrough';
+        title.textContent = 'How to Submit Your Essay (Step-by-Step)';
+        body.textContent = activeHowToSubmit;
+      } else if (type === 'video' && mediaIdx !== null) {
+        const item = activeMediaData[mediaIdx];
+        if (!item) return;
+        badge.textContent = item.category;
+        title.textContent = item.title;
+
+        if (item.video_url && item.video_url.trim().length > 0) {
+          const url = item.video_url.trim();
+          const isDirectVideo = /\.(mp4|webm|ogg)(\?.*)?$/i.test(url) || url.includes('/storage/v1/object/public/media/');
+          if (isDirectVideo) {
+            body.innerHTML = `
+              <video controls autoplay class="w-full rounded-2xl border border-brand-border bg-black max-h-80">
+                <source src="${url}">
+                Your browser does not support embedded video playback.
+              </video>
+              <p class="text-xs text-slate-300 mt-3">${item.description}</p>
+            `;
+          } else {
+            body.innerHTML = `
+              <div class="p-6 rounded-2xl bg-brand-dark border border-brand-border text-center space-y-4">
+                <i class="fa-solid fa-up-right-from-square text-3xl text-brand-salmon"></i>
+                <p class="text-xs text-slate-300">${item.description}</p>
+                <a href="${url}" target="_blank" rel="noreferrer" class="inline-block px-5 py-2.5 rounded-xl bg-brand-salmon text-brand-dark font-extrabold text-xs">
+                  Watch External Video Now
+                </a>
+              </div>
+            `;
+          }
+        } else {
+          body.innerHTML = `
+            <div class="p-6 rounded-2xl bg-brand-dark border border-brand-border text-center space-y-3">
+              <i class="fa-solid fa-film text-3xl text-brand-amber"></i>
+              <p class="text-xs text-slate-300">${item.description}</p>
+              <span class="inline-block text-[11px] font-mono text-slate-400 bg-brand-card px-3 py-1 rounded-full border border-brand-border">Duration: ${item.duration || 'TBD'} • Video Episode Upcoming</span>
+            </div>
+          `;
+        }
+      }
+
+      modal.classList.remove('hidden');
+    };
+
+    window.closeInfoModal = function() {
+      const modal = document.getElementById('public-info-modal');
+      const body = document.getElementById('info-modal-body');
+      body.innerHTML = '';
+      modal.classList.add('hidden');
+    };
 
     // =====================================================================
     // VIEW SWITCHING (PUBLIC PORTAL <-> ADMIN PANEL)
@@ -943,15 +1200,19 @@
             if (row.key === 'publish_winners' && row.value === 'true') publishWinners = true;
             if (row.key === 'winner_announcement_message') customWinnerMessage = row.value || '';
             if (row.key === 'winner_photo_url') winnerPhotoUrl = row.value || '';
+            if (row.key === 'contest_rules_text' && row.value) activeContestRules = row.value;
+            if (row.key === 'howto_submit_text' && row.value) activeHowToSubmit = row.value;
             if (row.key === 'competition_tracks' && row.value) {
               try {
                 const parsed = JSON.parse(row.value);
-                if (Array.isArray(parsed) && parsed.length > 0) {
-                  activeTracksData = parsed;
-                }
-              } catch (e) {
-                console.warn('Invalid custom tracks JSON, falling back to defaults.');
-              }
+                if (Array.isArray(parsed) && parsed.length > 0) activeTracksData = parsed;
+              } catch (e) {}
+            }
+            if (row.key === 'media_hub_items' && row.value) {
+              try {
+                const parsedMedia = JSON.parse(row.value);
+                if (Array.isArray(parsedMedia) && parsedMedia.length > 0) activeMediaData = parsedMedia;
+              } catch (e) {}
             }
           });
         }
@@ -963,6 +1224,7 @@
       isLaunched = nowTimestamp >= targetDates.launch;
       isClosed = nowTimestamp > targetDates.deadline;
 
+      renderPublicMediaCards();
       initPortalStates();
       await loadPublishedWinners(publishWinners, customWinnerMessage, winnerPhotoUrl);
     }
@@ -1081,26 +1343,23 @@
     updateCountdown();
 
     // =====================================================================
-    // MEDIA & DYNAMIC TRACKS RENDERING
+    // DYNAMIC MEDIA HUB RENDERING
     // =====================================================================
-    const mediaItems = [
-      ['Mining & Value Addition', 'How Zambia Can Process 3M Tonnes of Copper Locally', 'Breakdown of heavy equipment maintenance, copper wire fabrication, and supply chain retention.', '08:45'],
-      ['Energy Resilience', 'Beyond Hydro: Engineering 10,000 MW Solar Grids', 'Analyzing decentralized solar micro-grids to keep small businesses powered during load shedding.', '12:15'],
-      ['Youth & TVET Skills', 'Fixing the Gap: Tertiary Engineering to Industry', 'Why technical curricula must shift from textbook theories to hands-on industrial apprenticeships.', '10:30']
-    ];
+    function renderPublicMediaCards() {
+      const mediaCards = document.getElementById('media-cards');
+      if (!mediaCards) return;
 
-    const mediaCards = document.getElementById('media-cards');
-    if (mediaCards) {
-      mediaCards.innerHTML = mediaItems.map(([category, title, description, duration]) =>
-        `<article class="bg-brand-card border border-brand-border rounded-2xl overflow-hidden hover:border-brand-salmon transition-colors group">
+      mediaCards.innerHTML = activeMediaData.map((item, idx) =>
+        `<article onclick="openInfoModal('video', ${idx})" class="cursor-pointer bg-brand-card border border-brand-border rounded-2xl overflow-hidden hover:border-brand-salmon transition-colors group">
           <div class="aspect-video bg-slate-900 relative flex items-center justify-center">
             <i class="fa-solid fa-circle-play text-4xl text-brand-salmon group-hover:scale-110 transition-transform"></i>
-            <span class="absolute bottom-3 right-3 bg-black/80 text-[10px] text-slate-300 font-mono px-2 py-0.5 rounded">${duration}</span>
+            ${item.video_url ? `<span class="absolute top-3 left-3 bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-[9px] font-mono font-bold px-2 py-0.5 rounded">WATCHABLE</span>` : ''}
+            <span class="absolute bottom-3 right-3 bg-black/80 text-[10px] text-slate-300 font-mono px-2 py-0.5 rounded">${item.duration || '05:00'}</span>
           </div>
           <div class="p-5">
-            <span class="text-[10px] text-brand-salmon font-bold uppercase tracking-wider block">${category}</span>
-            <h4 class="font-bold text-white mt-1 text-sm">${title}</h4>
-            <p class="text-xs text-slate-400 mt-2 leading-relaxed">${description}</p>
+            <span class="text-[10px] text-brand-salmon font-bold uppercase tracking-wider block">${item.category}</span>
+            <h4 class="font-bold text-white mt-1 text-sm group-hover:text-brand-salmon transition-colors">${item.title}</h4>
+            <p class="text-xs text-slate-400 mt-2 leading-relaxed">${item.description}</p>
           </div>
         </article>`
       ).join('');
@@ -1389,7 +1648,7 @@
     }
 
     // =====================================================================
-    // ADMIN & JUDGE PANEL LOGIC (STRICT ROLE ISOLATION + TRACKS EDITOR)
+    // ADMIN & JUDGE PANEL LOGIC (STRICT ROLE ISOLATION + CMS EDITORS)
     // =====================================================================
     const loginContainer = document.getElementById('login-container');
     const dashboardContainer = document.getElementById('dashboard-container');
@@ -1437,7 +1696,10 @@
 
       await fetchAdminSettings();
       if (isCurrentUserOwner) {
+        renderMediaEditor();
         renderTracksEditor();
+        document.getElementById('edit-contest-rules').value = activeContestRules;
+        document.getElementById('edit-howto-submit').value = activeHowToSubmit;
       }
       populateAdminTrackFilter();
       await fetchAdminEssays();
@@ -1556,6 +1818,8 @@
           if (row.key === 'deadline_date') document.getElementById('set-deadline').value = row.value.slice(0, 16);
           if (row.key === 'winners_date') document.getElementById('set-winners').value = row.value.slice(0, 16);
           if (row.key === 'winner_announcement_message') document.getElementById('set-winner-message').value = row.value || '';
+          if (row.key === 'contest_rules_text' && row.value) activeContestRules = row.value;
+          if (row.key === 'howto_submit_text' && row.value) activeHowToSubmit = row.value;
           if (row.key === 'winner_photo_url') {
             const url = row.value || '';
             document.getElementById('set-winner-photo-url').value = url;
@@ -1569,9 +1833,13 @@
           if (row.key === 'competition_tracks' && row.value) {
             try {
               const parsed = JSON.parse(row.value);
-              if (Array.isArray(parsed) && parsed.length > 0) {
-                activeTracksData = parsed;
-              }
+              if (Array.isArray(parsed) && parsed.length > 0) activeTracksData = parsed;
+            } catch (e) {}
+          }
+          if (row.key === 'media_hub_items' && row.value) {
+            try {
+              const parsedMedia = JSON.parse(row.value);
+              if (Array.isArray(parsedMedia) && parsedMedia.length > 0) activeMediaData = parsedMedia;
             } catch (e) {}
           }
         });
@@ -1598,7 +1866,6 @@
       updateWinnerPhotoPreview('');
     });
 
-    // 1-Click Professional Announcement Template Button
     document.getElementById('fill-template-msg').addEventListener('click', () => {
       const winner = allEssaysCache.find(e => e.is_winner);
       const winnerName = winner ? winner.full_name : '[Winner Name]';
@@ -1670,6 +1937,166 @@
       } finally {
         saveBtn.disabled = false;
         saveBtn.textContent = 'Save Website Settings';
+      }
+    });
+
+    // =====================================================================
+    // MEDIA & ENGINEERING TECH HUB EDITOR (OWNER ONLY)
+    // =====================================================================
+    function renderMediaEditor() {
+      const container = document.getElementById('media-editor-container');
+      if (!container) return;
+
+      container.innerHTML = activeMediaData.map((item, idx) => `
+        <div class="bg-brand-dark border border-brand-border p-5 rounded-2xl space-y-3" data-media-idx="${idx}">
+          <div class="flex items-center justify-between border-b border-brand-border/80 pb-2.5">
+            <span class="text-xs font-mono font-bold text-brand-salmon">Video #0${idx + 1}</span>
+            ${activeMediaData.length > 1
+              ? `<button type="button" onclick="removeMediaItem(${idx})" class="text-[11px] text-red-400 hover:underline"><i class="fa-solid fa-trash mr-1"></i>Delete</button>`
+              : ''
+            }
+          </div>
+          <label class="block text-[11px] font-semibold uppercase text-slate-400">
+            Category Tag
+            <input type="text" class="media-cat-input mt-1 w-full bg-brand-card border border-brand-border rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-salmon" value="${(item.category || '').replace(/"/g, '&quot;')}">
+          </label>
+          <label class="block text-[11px] font-semibold uppercase text-slate-400">
+            Video Title
+            <input type="text" class="media-title-input mt-1 w-full bg-brand-card border border-brand-border rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-salmon" value="${(item.title || '').replace(/"/g, '&quot;')}">
+          </label>
+          <label class="block text-[11px] font-semibold uppercase text-slate-400">
+            Description
+            <textarea rows="2" class="media-desc-input mt-1 w-full bg-brand-card border border-brand-border rounded-xl p-2.5 text-xs text-slate-200 focus:outline-none focus:border-brand-salmon">${item.description || ''}</textarea>
+          </label>
+          <div class="grid grid-cols-2 gap-2">
+            <label class="block text-[11px] font-semibold uppercase text-slate-400">
+              Duration
+              <input type="text" class="media-dur-input mt-1 w-full bg-brand-card border border-brand-border rounded-xl px-3 py-1.5 text-xs text-white font-mono" value="${(item.duration || '08:00').replace(/"/g, '&quot;')}">
+            </label>
+            <label class="block text-[11px] font-semibold uppercase text-slate-400">
+              Video Link (YouTube/URL)
+              <input type="url" placeholder="https://..." class="media-url-input mt-1 w-full bg-brand-card border border-brand-border rounded-xl px-3 py-1.5 text-xs text-slate-300" value="${(item.video_url || '').replace(/"/g, '&quot;')}">
+            </label>
+          </div>
+          <label class="block text-[11px] font-semibold uppercase text-slate-400 pt-1">
+            Or Upload Video File (.mp4 / .webm)
+            <input type="file" accept="video/mp4,video/webm" class="media-file-input mt-1 w-full text-[11px] text-slate-300 file:mr-2 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:text-[11px] file:font-semibold file:bg-brand-salmon/20 file:text-brand-salmon">
+          </label>
+        </div>
+      `).join('');
+    }
+
+    window.removeMediaItem = function(idx) {
+      if (!isCurrentUserOwner) return;
+      activeMediaData.splice(idx, 1);
+      renderMediaEditor();
+    };
+
+    document.getElementById('add-media-btn').addEventListener('click', () => {
+      if (!isCurrentUserOwner) return;
+      activeMediaData.push({
+        category: 'Engineering Breakdown',
+        title: 'New Video Episode Title',
+        description: 'Summary of the technical concepts and practical solutions covered in this episode.',
+        duration: '10:00',
+        video_url: ''
+      });
+      renderMediaEditor();
+    });
+
+    document.getElementById('save-media-btn').addEventListener('click', async () => {
+      if (!isCurrentUserOwner) return;
+      const btn = document.getElementById('save-media-btn');
+      const msgEl = document.getElementById('media-save-msg');
+      msgEl.classList.add('hidden');
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1.5"></i>Saving...';
+
+      try {
+        const cards = document.querySelectorAll('#media-editor-container > div');
+        const updatedMedia = [];
+
+        for (let i = 0; i < cards.length; i++) {
+          const card = cards[i];
+          const category = card.querySelector('.media-cat-input').value.trim();
+          const title = card.querySelector('.media-title-input').value.trim();
+          const description = card.querySelector('.media-desc-input').value.trim();
+          const duration = card.querySelector('.media-dur-input').value.trim();
+          let video_url = card.querySelector('.media-url-input').value.trim();
+          const fileInput = card.querySelector('.media-file-input');
+
+          if (fileInput && fileInput.files && fileInput.files.length > 0) {
+            const vidFile = fileInput.files[0];
+            const ext = vidFile.name.split('.').pop();
+            const vidPath = `hub_video_${Date.now()}_${i}.${ext}`;
+
+            const { error: upErr } = await supabaseClient
+              .storage
+              .from('media')
+              .upload(vidPath, vidFile);
+
+            if (upErr) throw new Error(`Video #${i + 1} upload failed: ${upErr.message}`);
+
+            const { data: pubUrl } = supabaseClient
+              .storage
+              .from('media')
+              .getPublicUrl(vidPath);
+
+            video_url = pubUrl.publicUrl;
+          }
+
+          if (title) {
+            updatedMedia.push({ category, title, description, duration, video_url });
+          }
+        }
+
+        const { error } = await supabaseClient.from('admin_settings').upsert([
+          { key: 'media_hub_items', value: JSON.stringify(updatedMedia) }
+        ]);
+
+        if (error) throw error;
+
+        activeMediaData = updatedMedia;
+        renderMediaEditor();
+        msgEl.textContent = 'Media & Engineering Tech Hub updated successfully!';
+        msgEl.className = 'text-xs font-semibold text-emerald-400 block mb-4';
+      } catch (err) {
+        msgEl.textContent = `Error: ${err.message}`;
+        msgEl.className = 'text-xs font-semibold text-red-400 block mb-4';
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fa-solid fa-floppy-disk mr-1.5"></i>Save Media Hub';
+      }
+    });
+
+    // =====================================================================
+    // CONTEST RULES & HOW-TO-SUBMIT EDITOR (OWNER ONLY)
+    // =====================================================================
+    document.getElementById('save-rules-btn').addEventListener('click', async () => {
+      if (!isCurrentUserOwner) return;
+      const btn = document.getElementById('save-rules-btn');
+      const msgEl = document.getElementById('rules-save-msg');
+      msgEl.classList.add('hidden');
+      btn.disabled = true;
+
+      const rulesVal = document.getElementById('edit-contest-rules').value.trim();
+      const howtoVal = document.getElementById('edit-howto-submit').value.trim();
+
+      const { error } = await supabaseClient.from('admin_settings').upsert([
+        { key: 'contest_rules_text', value: rulesVal },
+        { key: 'howto_submit_text', value: howtoVal }
+      ]);
+
+      btn.disabled = false;
+
+      if (error) {
+        msgEl.textContent = `Error saving rules: ${error.message}`;
+        msgEl.className = 'text-xs font-semibold text-red-400 block mb-4';
+      } else {
+        activeContestRules = rulesVal;
+        activeHowToSubmit = howtoVal;
+        msgEl.textContent = 'Contest Rules & How-to-Submit pop-up guides updated!';
+        msgEl.className = 'text-xs font-semibold text-emerald-400 block mb-4';
       }
     });
 
