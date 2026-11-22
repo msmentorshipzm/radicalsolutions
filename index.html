@@ -100,7 +100,7 @@
           <div class="lg:col-span-7 space-y-6">
             <div class="inline-flex items-center space-x-2 bg-brand-salmon/10 border border-brand-salmon/30 px-3.5 py-1.5 rounded-full text-brand-salmon text-xs font-semibold tracking-wide uppercase">
               <span class="w-2 h-2 rounded-full bg-brand-salmon animate-pulse"></span>
-              <span>Inaugural Radical Solutions Challenge</span>
+              <span>Radical Solutions Essay Challenge</span>
             </div>
             <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight">
               Engineering Practical Solutions for <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-salmon to-brand-amber">Zambia & Africa</span>.
@@ -161,12 +161,12 @@
       </div>
     </section>
 
-    <!-- PUBLISHED OVERALL WINNER SHOWCASE (EXECUTIVE CENTERED LAYOUT) -->
+    <!-- PUBLISHED OVERALL WINNER SHOWCASE (EXECUTIVE LAYOUT WITH PORTRAIT) -->
     <section id="winners-showcase" class="hidden py-24 bg-gradient-to-b from-brand-card via-brand-dark to-brand-dark border-b border-brand-border/40 relative overflow-hidden">
       <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="text-center mb-10">
           <span class="inline-flex items-center space-x-2 bg-brand-amber/10 border border-brand-amber/30 px-4 py-1.5 rounded-full text-brand-amber text-xs font-bold uppercase tracking-widest mb-4">
-            <i class="fa-solid fa-award"></i><span>Official Results • Edition 1</span>
+            <i class="fa-solid fa-award"></i><span>Official Challenge Result</span>
           </span>
           <h2 class="font-display text-3xl sm:text-5xl font-extrabold text-white tracking-tight">Radical Solutions Laureate</h2>
         </div>
@@ -204,7 +204,7 @@
             </p>
             <div class="grid sm:grid-cols-3 gap-4 pt-4">
               <div class="bg-brand-card border border-brand-border p-4 rounded-xl text-center"><span class="block text-2xl font-bold font-display text-brand-salmon">100%</span><span class="text-xs text-slate-400">Actionable Solutions</span></div>
-              <div class="bg-brand-card border border-brand-border p-4 rounded-xl text-center"><span class="block text-2xl font-bold font-display text-brand-salmon">16</span><span class="text-xs text-slate-400">Essay Prompts</span></div>
+              <div class="bg-brand-card border border-brand-border p-4 rounded-xl text-center"><span id="stat-prompt-count" class="block text-2xl font-bold font-display text-brand-salmon">16</span><span class="text-xs text-slate-400">Essay Prompts</span></div>
               <div class="bg-brand-card border border-brand-border p-4 rounded-xl text-center"><span class="block text-2xl font-bold font-display text-brand-salmon">10</span><span class="text-xs text-slate-400">Provinces Covered</span></div>
             </div>
           </div>
@@ -258,13 +258,13 @@
       </div>
     </section>
 
-    <!-- TRACKS SECTION -->
+    <!-- TRACKS SECTION (DYNAMICALLY POPULATED FROM DATABASE OR FALLBACK) -->
     <section id="tracks" class="py-20 bg-brand-dark/50 border-b border-brand-border/40">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center max-w-3xl mx-auto mb-16">
-          <span class="text-brand-salmon text-xs uppercase font-bold tracking-widest block">Grow Zambia Agenda</span>
-          <h2 class="font-display text-3xl sm:text-4xl font-extrabold text-white mt-1">4 Competition Tracks & 16 Prompts</h2>
-          <p class="text-slate-400 text-sm mt-3">Grounded in the motto <strong>"One Zambia, One Nation"</strong>. Select a track below to view its 4 specific essay questions. Pick 1 question for your 750 to 1,500-word submission.</p>
+          <span class="text-brand-salmon text-xs uppercase font-bold tracking-widest block">Competition Tracks</span>
+          <h2 id="tracks-section-heading" class="font-display text-3xl sm:text-4xl font-extrabold text-white mt-1">4 Competition Tracks & 16 Prompts</h2>
+          <p class="text-slate-400 text-sm mt-3">Grounded in the motto <strong>"One Zambia, One Nation"</strong>. Select a track below to view its essay questions. Pick 1 question for your 750 to 1,500-word submission.</p>
         </div>
         <div id="track-grid" class="grid lg:grid-cols-2 gap-8"></div>
       </div>
@@ -279,24 +279,24 @@
         </div>
         <div class="grid md:grid-cols-4 gap-6">
           <div class="bg-brand-card border border-brand-border p-6 rounded-2xl relative">
-            <span class="text-brand-salmon font-mono font-bold text-sm block">Phase 01: 1 January, 2027.</span>
+            <span class="text-brand-salmon font-mono font-bold text-sm block">Phase 01: Launch</span>
             <h4 class="font-bold text-white text-base mt-1">Portal Launch</h4>
-            <p class="text-xs text-slate-400 mt-2">Submissions open across all 10 provinces for all 4 tracks. Participants are free to pick any question of their choice from any of the 4 Tracks aligned with the Grow Zambia Agenda.</p>
+            <p class="text-xs text-slate-400 mt-2">Submissions open across all 10 provinces for all active tracks. Participants pick any prompt aligned with the challenge agenda.</p>
           </div>
           <div class="bg-brand-card border border-brand-border p-6 rounded-2xl relative">
-            <span class="text-brand-salmon font-mono font-bold text-sm block">Phase 02: 1st - 15th January, 2027.</span>
-            <h4 class="font-bold text-white text-base mt-1">Writing Window: 2 Weeks</h4>
-            <p class="text-xs text-slate-400 mt-2">Draft and submit your 750 – 1,500 word actionable solution online before the deadline; any submission after the last date will not be considered.</p>
+            <span class="text-brand-salmon font-mono font-bold text-sm block">Phase 02: Writing Window</span>
+            <h4 class="font-bold text-white text-base mt-1">Submission Period</h4>
+            <p class="text-xs text-slate-400 mt-2">Draft and submit your 750 – 1,500 word actionable solution online before the countdown deadline; late entries are automatically locked out.</p>
           </div>
           <div class="bg-brand-card border border-brand-border p-6 rounded-2xl relative">
-            <span class="text-brand-salmon font-mono font-bold text-sm block">Phase 03: 15th January - 5th February, 2027.</span>
-            <h4 class="font-bold text-white text-base mt-1">Adjudication</h4>
-            <p class="text-xs text-slate-400 mt-2">Panel evaluation of technical feasibility, originality, and impact.</p>
+            <span class="text-brand-salmon font-mono font-bold text-sm block">Phase 03: Adjudication</span>
+            <h4 class="font-bold text-white text-base mt-1">Panel Review</h4>
+            <p class="text-xs text-slate-400 mt-2">Independent evaluation of technical feasibility, originality, and national impact by assigned judges.</p>
           </div>
           <div class="bg-brand-card border border-brand-border p-6 rounded-2xl relative">
-            <span class="text-brand-salmon font-mono font-bold text-sm block">Phase 04: 7th February, 2027</span>
-            <h4 class="font-bold text-white text-base mt-1">Winners & Publication</h4>
-            <p class="text-xs text-slate-400 mt-2">Announcement of the overall radical solution, Prize Giving and media showcases.</p>
+            <span class="text-brand-salmon font-mono font-bold text-sm block">Phase 04: Publication</span>
+            <h4 class="font-bold text-white text-base mt-1">Winners & Prototyping</h4>
+            <p class="text-xs text-slate-400 mt-2">Announcement of the overall radical solution, prize giving, and prototype development.</p>
           </div>
         </div>
       </div>
@@ -339,7 +339,7 @@
         <div class="text-center mb-10">
           <span class="text-brand-salmon text-xs uppercase font-bold tracking-widest block">Upload Portal</span>
           <h2 class="font-display text-3xl sm:text-4xl font-extrabold text-white mt-1">Submit Your Radical Solution</h2>
-          <p class="text-slate-400 text-sm mt-2">Edition 1 is free to enter. Choose 1 track and Prompt and then write your well-reasoned essay. Fill out the details below to complete your submission.</p>
+          <p class="text-slate-400 text-sm mt-2">Choose 1 track and Prompt and write your well-reasoned essay. Fill out the details below to complete your submission.</p>
         </div>
         <div class="bg-brand-card border border-brand-border rounded-3xl p-6 sm:p-10 shadow-2xl relative">
 
@@ -417,7 +417,7 @@
             <div>
               <span class="text-brand-salmon font-mono text-xs font-bold uppercase tracking-widest">Radical Solutions</span>
               <h3 class="font-display text-2xl font-bold text-white mt-1">Submission Successful!</h3>
-              <p class="text-slate-300 text-sm mt-2">Your essay has been recorded for review. Wait for results day on the 7th of February, 2027. You will receive an email whether or not you won the contest.</p>
+              <p class="text-slate-300 text-sm mt-2">Your essay has been recorded for review. You will receive an update once results are published.</p>
             </div>
             <div class="bg-brand-dark border border-brand-border p-4 rounded-xl max-w-md mx-auto">
               <span class="text-xs text-slate-400 block mb-1">Your Submission Reference ID:</span>
@@ -546,7 +546,7 @@
         <!-- JUDGE NOTICE BANNER (SHOWN ONLY FOR NON-OWNER JUDGES) -->
         <div id="judge-notice-banner" class="hidden bg-brand-amber/10 border border-brand-amber/30 p-4 rounded-2xl flex items-center space-x-3 text-xs text-brand-amber">
           <i class="fa-solid fa-gavel text-base"></i>
-          <span><strong>Judge Adjudication Mode:</strong> You can read all submitted essays, download attachments, assign scores (/100), and add feedback comments. Final overall winner selection and site controls are reserved for <strong>Your Radical Engineer</strong>.</span>
+          <span><strong>Judge Adjudication Mode:</strong> You can view submissions, track grading progress, read essays, download attachments, and assign scores (/100) with notes. Website settings, cycle tracks, judge invitations, and winner publication belong strictly to <strong>Your Radical Engineer</strong>.</span>
         </div>
 
         <!-- ACCOUNT SECURITY: CHANGE PASSWORD (AVAILABLE TO OWNER & JUDGES) -->
@@ -564,7 +564,7 @@
           </form>
         </div>
 
-        <!-- METRICS SUMMARY -->
+        <!-- METRICS SUMMARY (VISIBLE TO BOTH OWNER & JUDGES) -->
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
           <div class="bg-brand-card border border-brand-border p-5 rounded-2xl">
             <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider block">Total Submissions</span>
@@ -584,79 +584,117 @@
           </div>
         </div>
 
-        <!-- OWNER-ONLY CONTROLS (HIDDEN FOR JUDGES) -->
-        <div id="owner-only-controls" class="hidden grid lg:grid-cols-12 gap-8">
+        <!-- OWNER-ONLY CONTROLS (COMPLETELY HIDDEN FOR JUDGES) -->
+        <div id="owner-only-controls" class="hidden space-y-8">
           
-          <!-- TIMELINE & PUBLISHING CONTROLS -->
-          <div class="lg:col-span-7 bg-brand-card border border-brand-border p-6 sm:p-8 rounded-3xl shadow-xl">
-            <span class="text-brand-salmon text-xs uppercase font-bold tracking-widest block">Owner Cycle & Website Controls</span>
-            <h2 class="font-display text-xl font-extrabold text-white mt-1 mb-5">Deadlines & Overall Winner Publication</h2>
-            <form id="settings-form" class="space-y-5">
-              <div class="grid sm:grid-cols-3 gap-4">
-                <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300">
-                  Launch Date & Time
-                  <input type="datetime-local" id="set-launch" required class="mt-2 w-full bg-brand-dark border border-brand-border rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-brand-salmon font-mono">
-                </label>
-                <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300">
-                  Submission Deadline
-                  <input type="datetime-local" id="set-deadline" required class="mt-2 w-full bg-brand-dark border border-brand-border rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-brand-salmon font-mono">
-                </label>
-                <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300">
-                  Winners Announcement
-                  <input type="datetime-local" id="set-winners" required class="mt-2 w-full bg-brand-dark border border-brand-border rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-brand-salmon font-mono">
-                </label>
-              </div>
-
-              <!-- CUSTOM PUBLIC WINNER ANNOUNCEMENT MESSAGE -->
-              <div>
-                <div class="flex items-center justify-between mb-1.5">
-                  <label for="set-winner-message" class="block text-xs font-semibold uppercase tracking-wider text-slate-300">
-                    Official Public Winner Announcement Message
+          <div class="grid lg:grid-cols-12 gap-8">
+            <!-- TIMELINE, WINNER PHOTO & PUBLISHING CONTROLS -->
+            <div class="lg:col-span-7 bg-brand-card border border-brand-border p-6 sm:p-8 rounded-3xl shadow-xl">
+              <span class="text-brand-salmon text-xs uppercase font-bold tracking-widest block">Owner Cycle & Website Controls</span>
+              <h2 class="font-display text-xl font-extrabold text-white mt-1 mb-5">Deadlines, Winner Portrait & Publication</h2>
+              <form id="settings-form" class="space-y-5">
+                <div class="grid sm:grid-cols-3 gap-4">
+                  <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300">
+                    Launch Date & Time
+                    <input type="datetime-local" id="set-launch" required class="mt-2 w-full bg-brand-dark border border-brand-border rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-brand-salmon font-mono">
                   </label>
-                  <button type="button" id="fill-template-msg" class="text-[11px] text-brand-salmon hover:underline font-semibold">
-                    <i class="fa-solid fa-wand-magic-sparkles mr-1"></i>Insert Professional Template
-                  </button>
+                  <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300">
+                    Submission Deadline
+                    <input type="datetime-local" id="set-deadline" required class="mt-2 w-full bg-brand-dark border border-brand-border rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-brand-salmon font-mono">
+                  </label>
+                  <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300">
+                    Winners Announcement
+                    <input type="datetime-local" id="set-winners" required class="mt-2 w-full bg-brand-dark border border-brand-border rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-brand-salmon font-mono">
+                  </label>
                 </div>
-                <textarea id="set-winner-message" rows="3" placeholder="Write your official public announcement congratulating the winner and announcing the prototype phase..." class="w-full bg-brand-dark border border-brand-border rounded-xl p-3.5 text-xs text-white focus:outline-none focus:border-brand-salmon leading-relaxed"></textarea>
-              </div>
 
-              <div class="p-4 rounded-2xl bg-brand-dark border border-brand-border flex items-center justify-between">
+                <!-- WINNER PHOTO UPLOAD -->
+                <div class="p-4 rounded-2xl bg-brand-dark border border-brand-border space-y-3">
+                  <div class="flex items-center justify-between">
+                    <label for="winner-photo-input" class="block text-xs font-semibold uppercase tracking-wider text-slate-300">
+                      Overall Winner Portrait Photo <span class="text-slate-500 font-normal lowercase">(optional, JPG/PNG/WebP)</span>
+                    </label>
+                    <button type="button" id="clear-winner-photo" class="hidden text-[11px] text-red-400 hover:underline">Remove Photo</button>
+                  </div>
+                  <div class="flex items-center gap-4">
+                    <img id="winner-photo-preview" src="" alt="Winner Preview" class="hidden w-14 h-14 rounded-2xl object-cover border-2 border-brand-amber">
+                    <input type="file" id="winner-photo-input" accept="image/jpeg,image/png,image/webp" class="w-full text-xs text-slate-300 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-brand-amber/20 file:text-brand-amber hover:file:bg-brand-amber/30">
+                  </div>
+                  <input type="hidden" id="set-winner-photo-url">
+                </div>
+
+                <!-- CUSTOM PUBLIC WINNER ANNOUNCEMENT MESSAGE -->
                 <div>
-                  <strong class="text-xs text-white block">Publish Overall Winner on Main Website</strong>
-                  <span class="text-[11px] text-slate-400">When enabled, the Overall Winner's essay title, author, and your official announcement appear on the public portal.</span>
+                  <div class="flex items-center justify-between mb-1.5">
+                    <label for="set-winner-message" class="block text-xs font-semibold uppercase tracking-wider text-slate-300">
+                      Official Public Winner Announcement Message
+                    </label>
+                    <button type="button" id="fill-template-msg" class="text-[11px] text-brand-salmon hover:underline font-semibold">
+                      <i class="fa-solid fa-wand-magic-sparkles mr-1"></i>Insert Professional Template
+                    </button>
+                  </div>
+                  <textarea id="set-winner-message" rows="3" placeholder="Write your official public announcement congratulating the winner and announcing the prototype phase..." class="w-full bg-brand-dark border border-brand-border rounded-xl p-3.5 text-xs text-white focus:outline-none focus:border-brand-salmon leading-relaxed"></textarea>
                 </div>
-                <input type="checkbox" id="set-publish-winners" class="w-5 h-5 accent-brand-salmon rounded cursor-pointer">
-              </div>
 
-              <div class="flex items-center justify-between pt-1">
-                <button type="submit" class="px-6 py-3 rounded-xl bg-brand-salmon hover:bg-brand-salmonLight text-brand-dark font-extrabold text-xs transition-all">
-                  Save Website Settings
+                <div class="p-4 rounded-2xl bg-brand-dark border border-brand-border flex items-center justify-between">
+                  <div>
+                    <strong class="text-xs text-white block">Publish Overall Winner on Main Website</strong>
+                    <span class="text-[11px] text-slate-400">When enabled, the Overall Winner's portrait, title, author, and your announcement appear on the public portal.</span>
+                  </div>
+                  <input type="checkbox" id="set-publish-winners" class="w-5 h-5 accent-brand-salmon rounded cursor-pointer">
+                </div>
+
+                <div class="flex items-center justify-between pt-1">
+                  <button type="submit" id="save-settings-btn" class="px-6 py-3 rounded-xl bg-brand-salmon hover:bg-brand-salmonLight text-brand-dark font-extrabold text-xs transition-all">
+                    Save Website Settings
+                  </button>
+                  <span id="settings-success" class="hidden text-xs text-emerald-400 font-semibold"><i class="fa-solid fa-check mr-1"></i> Settings saved!</span>
+                </div>
+              </form>
+            </div>
+
+            <!-- CREATE JUDGE ACCOUNT (OWNER ONLY) -->
+            <div class="lg:col-span-5 bg-brand-card border border-brand-border p-6 sm:p-8 rounded-3xl shadow-xl">
+              <span class="text-brand-amber text-xs uppercase font-bold tracking-widest block">Owner Access Management</span>
+              <h2 class="font-display text-xl font-extrabold text-white mt-1 mb-2">Create Judge Account</h2>
+              <p class="text-xs text-slate-400 mb-5">Invite adjudicators to read and grade essays. Their confirmation email will include this temporary password.</p>
+              
+              <form id="create-admin-form" class="space-y-4">
+                <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300">
+                  Judge Email Address
+                  <input type="email" id="new-admin-email" required placeholder="judge@yourradicalengineer.com" class="mt-1.5 w-full bg-brand-dark border border-brand-border rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-brand-salmon">
+                </label>
+                <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300">
+                  Temporary Password (min 6 chars)
+                  <input type="password" id="new-admin-password" required minlength="6" placeholder="••••••••" class="mt-1.5 w-full bg-brand-dark border border-brand-border rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-brand-salmon">
+                </label>
+                <p id="create-admin-msg" class="hidden text-xs font-semibold"></p>
+                <button type="submit" id="create-admin-btn" class="w-full py-3 rounded-xl bg-brand-dark hover:bg-slate-800 border border-brand-salmon/50 text-brand-salmon font-bold text-xs transition-all">
+                  <i class="fa-solid fa-user-plus mr-1.5"></i> Create Judge & Send Invite
                 </button>
-                <span id="settings-success" class="hidden text-xs text-emerald-400 font-semibold"><i class="fa-solid fa-check mr-1"></i> Settings saved!</span>
-              </div>
-            </form>
+              </form>
+            </div>
           </div>
 
-          <!-- CREATE JUDGE ACCOUNT (OWNER ONLY) -->
-          <div class="lg:col-span-5 bg-brand-card border border-brand-border p-6 sm:p-8 rounded-3xl shadow-xl">
-            <span class="text-brand-amber text-xs uppercase font-bold tracking-widest block">Owner Access Management</span>
-            <h2 class="font-display text-xl font-extrabold text-white mt-1 mb-2">Create Judge Account</h2>
-            <p class="text-xs text-slate-400 mb-5">Invite adjudicators to read and grade essays. Their confirmation email will include this temporary password.</p>
-            
-            <form id="create-admin-form" class="space-y-4">
-              <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300">
-                Judge Email Address
-                <input type="email" id="new-admin-email" required placeholder="judge@yourradicalengineer.com" class="mt-1.5 w-full bg-brand-dark border border-brand-border rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-brand-salmon">
-              </label>
-              <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300">
-                Temporary Password (min 6 chars)
-                <input type="password" id="new-admin-password" required minlength="6" placeholder="••••••••" class="mt-1.5 w-full bg-brand-dark border border-brand-border rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-brand-salmon">
-              </label>
-              <p id="create-admin-msg" class="hidden text-xs font-semibold"></p>
-              <button type="submit" id="create-admin-btn" class="w-full py-3 rounded-xl bg-brand-dark hover:bg-slate-800 border border-brand-salmon/50 text-brand-salmon font-bold text-xs transition-all">
-                <i class="fa-solid fa-user-plus mr-1.5"></i> Create Judge & Send Invite
-              </button>
-            </form>
+          <!-- CYCLE TRACKS & PROMPTS EDITOR (OWNER ONLY) -->
+          <div class="bg-brand-card border border-brand-border p-6 sm:p-8 rounded-3xl shadow-xl">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+              <div>
+                <span class="text-brand-teal text-xs uppercase font-bold tracking-widest block">Cycle Curriculum & Prompts</span>
+                <h2 class="font-display text-xl font-extrabold text-white mt-1">Edit Competition Tracks & Essay Prompts</h2>
+                <p class="text-xs text-slate-400 mt-1">Customize track names, targets, and essay questions for each new competition cycle. Changes update both the public portal and submission dropdowns immediately.</p>
+              </div>
+              <div class="flex items-center space-x-3">
+                <button type="button" id="add-new-track-btn" class="px-4 py-2.5 rounded-xl bg-brand-dark hover:bg-slate-800 border border-brand-teal/50 text-brand-teal font-bold text-xs transition-colors">
+                  <i class="fa-solid fa-plus mr-1.5"></i>Add Track
+                </button>
+                <button type="button" id="save-tracks-btn" class="px-5 py-2.5 rounded-xl bg-brand-salmon hover:bg-brand-salmonLight text-brand-dark font-extrabold text-xs transition-colors">
+                  <i class="fa-solid fa-floppy-disk mr-1.5"></i>Save Cycle Tracks
+                </button>
+              </div>
+            </div>
+            <p id="tracks-save-msg" class="hidden text-xs font-semibold mb-4"></p>
+            <div id="tracks-editor-container" class="grid lg:grid-cols-2 gap-6"></div>
           </div>
 
         </div>
@@ -671,10 +709,6 @@
             <div class="flex items-center space-x-3">
               <select id="filter-track" class="bg-brand-dark border border-brand-border rounded-xl px-3 py-2 text-xs text-slate-300 focus:outline-none focus:border-brand-salmon">
                 <option value="ALL">All Tracks</option>
-                <option value="Track 1: Agri-Tech & Climate Resilience">Track 1: Agri-Tech</option>
-                <option value="Track 2: Energy Independence & Clean Power">Track 2: Energy</option>
-                <option value="Track 3: Critical Minerals & Value Addition">Track 3: Minerals</option>
-                <option value="Track 4: Civic Tech & Vocational Skills">Track 4: Civic Tech</option>
               </select>
               <button id="refresh-essays" type="button" class="text-xs bg-brand-dark hover:bg-slate-800 border border-brand-border text-slate-300 px-4 py-2 rounded-xl transition-colors font-semibold flex items-center space-x-2">
                 <i class="fa-solid fa-rotate"></i><span>Refresh</span>
@@ -803,6 +837,52 @@
 
     let isCurrentUserOwner = false;
 
+    // Default Cycle Tracks Structure (Fallback if no custom tracks saved in DB yet)
+    const defaultTracksData = [
+      {
+        name: 'Track 1: Agri-Tech & Climate Resilience',
+        subtitle: 'Target: 10M Tonnes Maize, 3M Soya & $1B Beef Exports',
+        prompts: [
+          'How can off-grid solar irrigation and localized cold storage be scaled across rural farming blocks in Southern, Central, and Eastern provinces to safeguard crop production against recurring droughts?',
+          'Outline a pragmatic, technology-backed disease-tracing and feed-formulation framework that will enable small-scale cattle farmers to collectively meet the US$1 billion annual beef export target.',
+          'Instead of transporting raw grain to urban centers, propose a community-owned mini-milling or oil-pressing model engineered for rural Zambian districts to create local jobs and retain wealth.',
+          'How can low-cost IoT soil sensors and mobile SMS advisory systems be deployed to rural smallholders to optimize fertilizer application and boost crop yields toward the 10-million-tonne maize target?'
+        ]
+      },
+      {
+        name: 'Track 2: Energy Independence & Clean Power',
+        subtitle: 'Target: 10,000 MW Installed Capacity & Grid Resilience',
+        prompts: [
+          'With major hydro-plants facing water constraints, propose an engineering roadmap for deploying mini-solar grids to power hospitals, schools, and business hubs across all ten provinces.',
+          'How can Zambia rapidly incorporate industrial-scale solar-plus-storage and clean thermal power into ZESCO’s national grid to achieve 10,000 MW capacity without sacrificing power quality for manufacturers?',
+          'Propose an affordable alternative to charcoal, such as compressed biomass briquettes, that can be locally produced in Zambian towns to stop deforestation and protect micro-climates.',
+          'How can smart meters and local micro-grid technology allow industrial hubs to feed excess solar energy back into the main national grid during peak hours?'
+        ]
+      },
+      {
+        name: 'Track 3: Critical Minerals & Value Addition',
+        subtitle: 'Target: 3 Million Tonnes Copper Output & Local Cable Manufacturing',
+        prompts: [
+          'As Zambia targets 3 million tonnes of annual copper output, propose a concrete engineering strategy for establishing local manufacturing plants to produce finished copper wire and transformers.',
+          'How can large-scale mining operations in Solwezi and Chingola collaborate with local technical firms to build a national supply chain, ensuring Zambian businesses supply critical spare parts?',
+          'Design a modern tailings management or mine-water treatment framework that reduces the environmental footprint of open-pit operations while protecting downstream water systems.',
+          'Given Zambia’s rich reserves of cobalt, copper, and manganese, propose a roadmap for initiating local processing of components for electric vehicle (EV) batteries and solar panels.'
+        ]
+      },
+      {
+        name: 'Track 4: Civic Tech & Vocational Skills',
+        subtitle: 'Focus: Youth Skills, TVET Reform & Governance Transparency',
+        prompts: [
+          'Identify the primary gaps between current university/TVET engineering curricula in Zambia and modern industrial demands. Propose a hands-on apprenticeship model giving students equal practical access.',
+          'High-budget infrastructure projects often suffer from delays. Propose a digital tracking or open-data transparency platform that allows citizens to monitor government development projects in real time.',
+          'Design a national incubation framework that takes high-potential youth engineering prototypes, from university projects or JETS fairs, and converts them into commercially viable businesses.',
+          'Under the banner of “One Zambia, One Nation,” how can digital platforms and civic technology be leveraged to combat misinformation, reduce regional divisions, and foster national economic unity?'
+        ]
+      }
+    ];
+
+    let activeTracksData = JSON.parse(JSON.stringify(defaultTracksData));
+
     // =====================================================================
     // VIEW SWITCHING (PUBLIC PORTAL <-> ADMIN PANEL)
     // =====================================================================
@@ -851,6 +931,8 @@
     async function loadDatabaseSettings() {
       let publishWinners = false;
       let customWinnerMessage = '';
+      let winnerPhotoUrl = '';
+
       try {
         const { data } = await supabaseClient.from('admin_settings').select('*');
         if (data && data.length > 0) {
@@ -859,11 +941,22 @@
             if (row.key === 'deadline_date') targetDates.deadline = new Date(row.value).getTime();
             if (row.key === 'winners_date') targetDates.winners = new Date(row.value).getTime();
             if (row.key === 'publish_winners' && row.value === 'true') publishWinners = true;
-            if (row.key === 'winner_announcement_message') customWinnerMessage = row.value;
+            if (row.key === 'winner_announcement_message') customWinnerMessage = row.value || '';
+            if (row.key === 'winner_photo_url') winnerPhotoUrl = row.value || '';
+            if (row.key === 'competition_tracks' && row.value) {
+              try {
+                const parsed = JSON.parse(row.value);
+                if (Array.isArray(parsed) && parsed.length > 0) {
+                  activeTracksData = parsed;
+                }
+              } catch (e) {
+                console.warn('Invalid custom tracks JSON, falling back to defaults.');
+              }
+            }
           });
         }
       } catch (err) {
-        console.warn('Using default fallback timeline dates.');
+        console.warn('Using default fallback settings.');
       }
 
       const nowTimestamp = new Date().getTime();
@@ -871,10 +964,10 @@
       isClosed = nowTimestamp > targetDates.deadline;
 
       initPortalStates();
-      await loadPublishedWinners(publishWinners, customWinnerMessage);
+      await loadPublishedWinners(publishWinners, customWinnerMessage, winnerPhotoUrl);
     }
 
-    async function loadPublishedWinners(isPublished, customMessage) {
+    async function loadPublishedWinners(isPublished, customMessage, photoUrl) {
       const showcase = document.getElementById('winners-showcase');
       const grid = document.getElementById('winners-grid');
       if (!showcase || !grid) return;
@@ -896,13 +989,20 @@
         const w = winners[0];
         const announcementText = (customMessage && customMessage.trim().length > 0)
           ? customMessage.trim()
-          : `Following rigorous technical adjudication across all submissions, we are proud to announce ${w.full_name} as the Inaugural Radical Solutions Challenge Winner. The winning proposal will now advance to the prototyping and institutional pitch phase with Your Radical Engineer.`;
+          : `Following rigorous technical adjudication across all submissions, we are proud to announce ${w.full_name} as the Radical Solutions Challenge Winner. The winning proposal will now advance to the prototyping and institutional pitch phase with Your Radical Engineer.`;
+
+        const mediaBadgeHtml = photoUrl
+          ? `<div class="relative w-28 h-28 sm:w-32 sm:h-32 mx-auto mb-6">
+               <img src="${photoUrl}" alt="${w.full_name}" class="w-full h-full rounded-3xl object-cover border-2 border-brand-amber shadow-2xl">
+               <span class="absolute -bottom-2 -right-2 w-9 h-9 rounded-xl bg-brand-amber text-brand-dark flex items-center justify-center text-sm shadow-lg"><i class="fa-solid fa-trophy"></i></span>
+             </div>`
+          : `<div class="w-16 h-16 rounded-2xl bg-brand-amber/10 border border-brand-amber/30 text-brand-amber text-3xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+               <i class="fa-solid fa-trophy"></i>
+             </div>`;
 
         grid.innerHTML = `
           <article class="bg-gradient-to-b from-brand-card to-brand-dark border border-brand-salmon/40 rounded-3xl p-8 sm:p-12 shadow-2xl text-center relative">
-            <div class="w-16 h-16 rounded-2xl bg-brand-amber/10 border border-brand-amber/30 text-brand-amber text-3xl flex items-center justify-center mx-auto mb-6 shadow-lg">
-              <i class="fa-solid fa-trophy"></i>
-            </div>
+            ${mediaBadgeHtml}
             <span class="inline-block text-[11px] uppercase font-bold text-brand-salmon tracking-widest bg-brand-salmon/10 border border-brand-salmon/30 px-3.5 py-1 rounded-full mb-4">
               ${w.track}
             </span>
@@ -981,42 +1081,8 @@
     updateCountdown();
 
     // =====================================================================
-    // TRACKS & MEDIA DATA
+    // MEDIA & DYNAMIC TRACKS RENDERING
     // =====================================================================
-    const trackPromptsMap = {
-      'Track 1: Agri-Tech & Climate Resilience': [
-        'How can off-grid solar irrigation and localized cold storage be scaled across rural farming blocks in Southern, Central, and Eastern provinces to safeguard crop production against recurring droughts?',
-        'Outline a pragmatic, technology-backed disease-tracing and feed-formulation framework that will enable small-scale cattle farmers to collectively meet the US$1 billion annual beef export target.',
-        'Instead of transporting raw grain to urban centers, propose a community-owned mini-milling or oil-pressing model engineered for rural Zambian districts to create local jobs and retain wealth.',
-        'How can low-cost IoT soil sensors and mobile SMS advisory systems be deployed to rural smallholders to optimize fertilizer application and boost crop yields toward the 10-million-tonne maize target?'
-      ],
-      'Track 2: Energy Independence & Clean Power': [
-        'With major hydro-plants facing water constraints, propose an engineering roadmap for deploying mini-solar grids to power hospitals, schools, and business hubs across all ten provinces.',
-        'How can Zambia rapidly incorporate industrial-scale solar-plus-storage and clean thermal power into ZESCO’s national grid to achieve 10,000 MW capacity without sacrificing power quality for manufacturers?',
-        'Propose an affordable alternative to charcoal, such as compressed biomass briquettes, that can be locally produced in Zambian towns to stop deforestation and protect micro-climates.',
-        'How can smart meters and local micro-grid technology allow industrial hubs to feed excess solar energy back into the main national grid during peak hours?'
-      ],
-      'Track 3: Critical Minerals & Value Addition': [
-        'As Zambia targets 3 million tonnes of annual copper output, propose a concrete engineering strategy for establishing local manufacturing plants to produce finished copper wire and transformers.',
-        'How can large-scale mining operations in Solwezi and Chingola collaborate with local technical firms to build a national supply chain, ensuring Zambian businesses supply critical spare parts?',
-        'Design a modern tailings management or mine-water treatment framework that reduces the environmental footprint of open-pit operations while protecting downstream water systems.',
-        'Given Zambia’s rich reserves of cobalt, copper, and manganese, propose a roadmap for initiating local processing of components for electric vehicle (EV) batteries and solar panels.'
-      ],
-      'Track 4: Civic Tech & Vocational Skills': [
-        'Identify the primary gaps between current university/TVET engineering curricula in Zambia and modern industrial demands. Propose a hands-on apprenticeship model giving students equal practical access.',
-        'High-budget infrastructure projects often suffer from delays. Propose a digital tracking or open-data transparency platform that allows citizens to monitor government development projects in real time.',
-        'Design a national incubation framework that takes high-potential youth engineering prototypes, from university projects or JETS fairs, and converts them into commercially viable businesses.',
-        'Under the banner of “One Zambia, One Nation,” how can digital platforms and civic technology be leveraged to combat misinformation, reduce regional divisions, and foster national economic unity?'
-      ]
-    };
-
-    const trackDetails = [
-      ['Agri-Tech & Climate Resilience', 'Target: 10M Tonnes Maize, 3M Soya & $1B Beef Exports'],
-      ['Energy Independence & Clean Power', 'Target: 10,000 MW Installed Capacity & Grid Resilience'],
-      ['Critical Minerals & Value Addition', 'Target: 3 Million Tonnes Copper Output & Local Cable Manufacturing'],
-      ['Civic Tech & Vocational Skills', 'Focus: Youth Skills, TVET Reform & Governance Transparency']
-    ];
-    const trackNames = Object.keys(trackPromptsMap);
     const mediaItems = [
       ['Mining & Value Addition', 'How Zambia Can Process 3M Tonnes of Copper Locally', 'Breakdown of heavy equipment maintenance, copper wire fabrication, and supply chain retention.', '08:45'],
       ['Energy Resilience', 'Beyond Hydro: Engineering 10,000 MW Solar Grids', 'Analyzing decentralized solar micro-grids to keep small businesses powered during load shedding.', '12:15'],
@@ -1041,21 +1107,27 @@
     }
 
     function initPortalStates() {
+      const totalPrompts = activeTracksData.reduce((acc, t) => acc + (t.prompts ? t.prompts.length : 0), 0);
+      const promptCountEl = document.getElementById('stat-prompt-count');
+      const tracksHeadingEl = document.getElementById('tracks-section-heading');
+      if (promptCountEl) promptCountEl.textContent = totalPrompts;
+      if (tracksHeadingEl) tracksHeadingEl.textContent = `${activeTracksData.length} Competition Tracks & ${totalPrompts} Prompts`;
+
       const trackGrid = document.getElementById('track-grid');
       if (trackGrid) {
-        trackGrid.innerHTML = trackNames.map((track, trackIndex) =>
+        trackGrid.innerHTML = activeTracksData.map((trackObj, trackIndex) =>
           `<article class="bg-brand-card border border-brand-border rounded-3xl p-6 sm:p-8 hover:border-brand-salmon transition-colors">
             <div class="flex items-center space-x-4 mb-4">
               <div class="w-12 h-12 rounded-xl bg-brand-salmon/15 border border-brand-salmon/30 flex items-center justify-center text-brand-salmon text-xl font-bold">0${trackIndex + 1}</div>
               <div>
-                <h3 class="font-display font-bold text-xl text-white">${track}</h3>
-                <span class="text-xs text-slate-400">${trackDetails[trackIndex][1]}</span>
+                <h3 class="font-display font-bold text-xl text-white">${trackObj.name}</h3>
+                <span class="text-xs text-slate-400">${trackObj.subtitle || ''}</span>
               </div>
             </div>
             <div class="space-y-3 pt-2">
               ${isLaunched
-                ? trackPromptsMap[track].map((prompt, promptIndex) =>
-                    `<button type="button" class="w-full text-left p-3.5 rounded-xl bg-brand-dark border border-brand-border/80 hover:border-brand-salmon/60 transition-colors prompt-clicker" data-track="${track}" data-prompt-index="${promptIndex}">
+                ? (trackObj.prompts || []).map((prompt, promptIndex) =>
+                    `<button type="button" class="w-full text-left p-3.5 rounded-xl bg-brand-dark border border-brand-border/80 hover:border-brand-salmon/60 transition-colors prompt-clicker" data-track="${trackObj.name}" data-prompt-index="${promptIndex}">
                       <span class="text-xs font-bold text-brand-salmon block mb-1">Prompt ${trackIndex + 1}.${promptIndex + 1}</span>
                       <span class="text-xs text-slate-300 leading-relaxed block">${prompt}</span>
                     </button>`
@@ -1078,9 +1150,9 @@
 
       if (trackSelect && questionSelect) {
         trackSelect.innerHTML = '<option value="" disabled selected>Choose Track...</option>';
-        trackNames.forEach(track => trackSelect.add(new Option(track, track)));
+        activeTracksData.forEach(t => trackSelect.add(new Option(t.name, t.name)));
 
-        function populateQuestions(track, selectedIndex = -1) {
+        function populateQuestions(trackName, selectedIndex = -1) {
           if (!isLaunched) {
             questionSelect.innerHTML = '<option value="" disabled selected>Prompts locked until official launch</option>';
             return;
@@ -1091,12 +1163,13 @@
           }
 
           questionSelect.innerHTML = '<option value="" disabled selected>Select specific prompt...</option>';
-          (trackPromptsMap[track] || []).forEach((prompt, index) => {
+          const foundTrack = activeTracksData.find(t => t.name === trackName);
+          ((foundTrack && foundTrack.prompts) || []).forEach((prompt, index) => {
             questionSelect.add(new Option(prompt, prompt, false, index === selectedIndex));
           });
         }
 
-        trackSelect.addEventListener('change', () => populateQuestions(trackSelect.value));
+        trackSelect.onchange = () => populateQuestions(trackSelect.value);
 
         if (isLaunched && !isClosed) {
           document.querySelectorAll('.prompt-clicker').forEach(button => {
@@ -1316,7 +1389,7 @@
     }
 
     // =====================================================================
-    // ADMIN & JUDGE PANEL LOGIC (ROLE-BASED ACCESS & SCORE RANKING)
+    // ADMIN & JUDGE PANEL LOGIC (STRICT ROLE ISOLATION + TRACKS EDITOR)
     // =====================================================================
     const loginContainer = document.getElementById('login-container');
     const dashboardContainer = document.getElementById('dashboard-container');
@@ -1363,6 +1436,10 @@
       loggedInUserLabel.classList.remove('hidden');
 
       await fetchAdminSettings();
+      if (isCurrentUserOwner) {
+        renderTracksEditor();
+      }
+      populateAdminTrackFilter();
       await fetchAdminEssays();
     }
 
@@ -1479,14 +1556,47 @@
           if (row.key === 'deadline_date') document.getElementById('set-deadline').value = row.value.slice(0, 16);
           if (row.key === 'winners_date') document.getElementById('set-winners').value = row.value.slice(0, 16);
           if (row.key === 'winner_announcement_message') document.getElementById('set-winner-message').value = row.value || '';
+          if (row.key === 'winner_photo_url') {
+            const url = row.value || '';
+            document.getElementById('set-winner-photo-url').value = url;
+            updateWinnerPhotoPreview(url);
+          }
           if (row.key === 'publish_winners') {
             const isPub = row.value === 'true';
             document.getElementById('set-publish-winners').checked = isPub;
             document.getElementById('stat-publish-status').textContent = isPub ? 'Live on Portal' : 'Hidden (Draft)';
           }
+          if (row.key === 'competition_tracks' && row.value) {
+            try {
+              const parsed = JSON.parse(row.value);
+              if (Array.isArray(parsed) && parsed.length > 0) {
+                activeTracksData = parsed;
+              }
+            } catch (e) {}
+          }
         });
       }
     }
+
+    function updateWinnerPhotoPreview(url) {
+      const previewImg = document.getElementById('winner-photo-preview');
+      const clearBtn = document.getElementById('clear-winner-photo');
+      if (url) {
+        previewImg.src = url;
+        previewImg.classList.remove('hidden');
+        clearBtn.classList.remove('hidden');
+      } else {
+        previewImg.src = '';
+        previewImg.classList.add('hidden');
+        clearBtn.classList.add('hidden');
+      }
+    }
+
+    document.getElementById('clear-winner-photo').addEventListener('click', () => {
+      document.getElementById('set-winner-photo-url').value = '';
+      document.getElementById('winner-photo-input').value = '';
+      updateWinnerPhotoPreview('');
+    });
 
     // 1-Click Professional Announcement Template Button
     document.getElementById('fill-template-msg').addEventListener('click', () => {
@@ -1494,37 +1604,184 @@
       const winnerName = winner ? winner.full_name : '[Winner Name]';
       const trackName = winner ? winner.track : '[Selected Track]';
       document.getElementById('set-winner-message').value =
-        `After thorough evaluation of technical feasibility, originality, and alignment with the Grow Zambia Agenda, the adjudication panel is pleased to name ${winnerName} (${trackName}) as the Overall Winner of Edition 1.\n\nWe now invite the laureate to collaborate directly with Your Radical Engineer to develop a working prototype for formal presentation to relevant national institutions.`;
+        `After thorough evaluation of technical feasibility, originality, and alignment with the Grow Zambia Agenda, the adjudication panel is pleased to name ${winnerName} (${trackName}) as the Overall Winner of the Radical Solutions Challenge.\n\nWe now invite the laureate to collaborate directly with Your Radical Engineer to develop a working prototype for formal presentation to relevant national institutions.`;
     });
 
     document.getElementById('settings-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       if (!isCurrentUserOwner) return;
 
+      const saveBtn = document.getElementById('save-settings-btn');
       const successBox = document.getElementById('settings-success');
       successBox.classList.add('hidden');
+      saveBtn.disabled = true;
+      saveBtn.textContent = 'Saving...';
 
-      const launchVal = new Date(document.getElementById('set-launch').value).toISOString();
-      const deadlineVal = new Date(document.getElementById('set-deadline').value).toISOString();
-      const winnersVal = new Date(document.getElementById('set-winners').value).toISOString();
-      const publishWinnersVal = document.getElementById('set-publish-winners').checked ? 'true' : 'false';
-      const winnerMessageVal = document.getElementById('set-winner-message').value.trim();
+      try {
+        let photoUrl = document.getElementById('set-winner-photo-url').value.trim();
+        const photoFileInput = document.getElementById('winner-photo-input');
 
-      const { error } = await supabaseClient.from('admin_settings').upsert([
-        { key: 'launch_date', value: launchVal },
-        { key: 'deadline_date', value: deadlineVal },
-        { key: 'winners_date', value: winnersVal },
-        { key: 'publish_winners', value: publishWinnersVal },
-        { key: 'winner_announcement_message', value: winnerMessageVal }
-      ]);
+        if (photoFileInput && photoFileInput.files && photoFileInput.files.length > 0) {
+          const photoFile = photoFileInput.files[0];
+          const ext = photoFile.name.split('.').pop();
+          const photoPath = `laureate_${Date.now()}.${ext}`;
 
-      if (!error) {
+          const { error: uploadErr } = await supabaseClient
+            .storage
+            .from('winners')
+            .upload(photoPath, photoFile);
+
+          if (uploadErr) {
+            throw new Error('Winner photo upload failed: ' + uploadErr.message);
+          }
+
+          const { data: pubData } = supabaseClient
+            .storage
+            .from('winners')
+            .getPublicUrl(photoPath);
+
+          photoUrl = pubData.publicUrl;
+          document.getElementById('set-winner-photo-url').value = photoUrl;
+          updateWinnerPhotoPreview(photoUrl);
+          photoFileInput.value = '';
+        }
+
+        const launchVal = new Date(document.getElementById('set-launch').value).toISOString();
+        const deadlineVal = new Date(document.getElementById('set-deadline').value).toISOString();
+        const winnersVal = new Date(document.getElementById('set-winners').value).toISOString();
+        const publishWinnersVal = document.getElementById('set-publish-winners').checked ? 'true' : 'false';
+        const winnerMessageVal = document.getElementById('set-winner-message').value.trim();
+
+        const { error } = await supabaseClient.from('admin_settings').upsert([
+          { key: 'launch_date', value: launchVal },
+          { key: 'deadline_date', value: deadlineVal },
+          { key: 'winners_date', value: winnersVal },
+          { key: 'publish_winners', value: publishWinnersVal },
+          { key: 'winner_announcement_message', value: winnerMessageVal },
+          { key: 'winner_photo_url', value: photoUrl }
+        ]);
+
+        if (error) throw error;
+
         successBox.classList.remove('hidden');
         document.getElementById('stat-publish-status').textContent = publishWinnersVal === 'true' ? 'Live on Portal' : 'Hidden (Draft)';
-      } else {
-        alert('Error saving settings: ' + error.message);
+      } catch (err) {
+        alert('Error saving settings: ' + err.message);
+      } finally {
+        saveBtn.disabled = false;
+        saveBtn.textContent = 'Save Website Settings';
       }
     });
+
+    // =====================================================================
+    // CYCLE TRACKS & PROMPTS EDITOR (OWNER ONLY)
+    // =====================================================================
+    function renderTracksEditor() {
+      const container = document.getElementById('tracks-editor-container');
+      if (!container) return;
+
+      container.innerHTML = activeTracksData.map((track, tIdx) => `
+        <div class="bg-brand-dark border border-brand-border p-5 rounded-2xl space-y-4" data-track-idx="${tIdx}">
+          <div class="flex items-center justify-between border-b border-brand-border/80 pb-3">
+            <span class="text-xs font-mono font-bold text-brand-salmon">Track 0${tIdx + 1}</span>
+            ${activeTracksData.length > 1
+              ? `<button type="button" onclick="removeCycleTrack(${tIdx})" class="text-[11px] text-red-400 hover:underline"><i class="fa-solid fa-trash mr-1"></i>Remove Track</button>`
+              : ''
+            }
+          </div>
+          <div class="space-y-3">
+            <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+              Track Title
+              <input type="text" class="track-name-input mt-1 w-full bg-brand-card border border-brand-border rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-brand-salmon" value="${track.name.replace(/"/g, '&quot;')}">
+            </label>
+            <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+              Track Subtitle / Target
+              <input type="text" class="track-sub-input mt-1 w-full bg-brand-card border border-brand-border rounded-xl px-3 py-2 text-xs text-slate-300 focus:outline-none focus:border-brand-salmon" value="${(track.subtitle || '').replace(/"/g, '&quot;')}">
+            </label>
+            <div class="space-y-2 pt-1">
+              <span class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400">Essay Prompts</span>
+              ${(track.prompts || []).map((p, pIdx) => `
+                <div class="flex items-start gap-2">
+                  <span class="text-[10px] font-mono text-brand-amber mt-2">${tIdx + 1}.${pIdx + 1}</span>
+                  <textarea rows="2" class="track-prompt-input w-full bg-brand-card border border-brand-border rounded-xl p-2.5 text-xs text-slate-200 focus:outline-none focus:border-brand-salmon leading-relaxed">${p}</textarea>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    window.removeCycleTrack = function(idx) {
+      if (!isCurrentUserOwner) return;
+      activeTracksData.splice(idx, 1);
+      renderTracksEditor();
+    };
+
+    document.getElementById('add-new-track-btn').addEventListener('click', () => {
+      if (!isCurrentUserOwner) return;
+      const nextNum = activeTracksData.length + 1;
+      activeTracksData.push({
+        name: `Track ${nextNum}: New Innovation Track`,
+        subtitle: 'Focus: Engineering Solutions for National Growth',
+        prompts: [
+          'Prompt 1: Describe your engineered solution and implementation roadmap.',
+          'Prompt 2: Outline the technical feasibility and economic impact.',
+          'Prompt 3: Propose a scalable deployment model for Zambian communities.',
+          'Prompt 4: Identify key infrastructure requirements and policy enablers.'
+        ]
+      });
+      renderTracksEditor();
+    });
+
+    document.getElementById('save-tracks-btn').addEventListener('click', async () => {
+      if (!isCurrentUserOwner) return;
+
+      const btn = document.getElementById('save-tracks-btn');
+      const msgEl = document.getElementById('tracks-save-msg');
+      msgEl.classList.add('hidden');
+      btn.disabled = true;
+
+      const cards = document.querySelectorAll('#tracks-editor-container > div');
+      const updatedTracks = [];
+
+      cards.forEach(card => {
+        const name = card.querySelector('.track-name-input').value.trim();
+        const subtitle = card.querySelector('.track-sub-input').value.trim();
+        const prompts = Array.from(card.querySelectorAll('.track-prompt-input'))
+          .map(ta => ta.value.trim())
+          .filter(val => val.length > 0);
+
+        if (name && prompts.length > 0) {
+          updatedTracks.push({ name, subtitle, prompts });
+        }
+      });
+
+      const { error } = await supabaseClient.from('admin_settings').upsert([
+        { key: 'competition_tracks', value: JSON.stringify(updatedTracks) }
+      ]);
+
+      btn.disabled = false;
+
+      if (error) {
+        msgEl.textContent = `Error saving tracks: ${error.message}`;
+        msgEl.className = 'text-xs font-semibold text-red-400 block mb-4';
+      } else {
+        activeTracksData = updatedTracks;
+        populateAdminTrackFilter();
+        msgEl.textContent = 'Cycle tracks & prompts saved! The public portal and submission form are now updated.';
+        msgEl.className = 'text-xs font-semibold text-emerald-400 block mb-4';
+      }
+    });
+
+    function populateAdminTrackFilter() {
+      const filterSelect = document.getElementById('filter-track');
+      if (!filterSelect) return;
+      const currentVal = filterSelect.value || 'ALL';
+      filterSelect.innerHTML = '<option value="ALL">All Tracks</option>';
+      activeTracksData.forEach(t => filterSelect.add(new Option(t.name, t.name)));
+      filterSelect.value = currentVal;
+    }
 
     // Fetch, Rank by Score & Render Essays
     async function fetchAdminEssays() {
