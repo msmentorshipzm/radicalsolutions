@@ -220,7 +220,7 @@
       </div>
     </section>
 
-    <!-- EXECUTION FRAMEWORK SECTION (REPLACED OAR VS BED) -->
+    <!-- EXECUTION FRAMEWORK SECTION -->
     <section id="methodology" class="py-20 bg-brand-dark/50 border-b border-brand-border/40">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center max-w-3xl mx-auto mb-16">
@@ -254,7 +254,7 @@
       </div>
     </section>
 
-    <!-- MEDIA SECTION (DYNAMICALLY POPULATED FROM DATABASE OR FALLBACK) -->
+    <!-- MEDIA SECTION -->
     <section id="media" class="py-20 bg-brand-dark border-b border-brand-border/40">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center max-w-2xl mx-auto mb-16">
@@ -318,7 +318,6 @@
           <h2 class="font-display text-3xl sm:text-4xl font-extrabold text-white mt-1">Submission Integrity, Contest Rules & Guide</h2>
           <p class="text-slate-400 text-sm mt-2 max-w-2xl mx-auto">Review our academic integrity standards, official competition rules, and step-by-step submission instructions before uploading your manuscript.</p>
 
-          <!-- INTERACTIVE MODAL TRIGGERS FOR CONTEST RULES & HOW TO SUBMIT -->
           <div class="flex flex-wrap items-center justify-center gap-4 mt-6">
             <button type="button" onclick="openInfoModal('rules')" class="px-5 py-3 rounded-xl bg-brand-salmon hover:bg-brand-salmonLight text-brand-dark font-extrabold text-xs transition-all shadow-lg shadow-brand-salmon/20 flex items-center space-x-2">
               <i class="fa-solid fa-gavel"></i><span>Read Official Contest Rules</span>
@@ -569,7 +568,7 @@
         <!-- JUDGE NOTICE BANNER (SHOWN ONLY FOR NON-OWNER JUDGES) -->
         <div id="judge-notice-banner" class="hidden bg-brand-amber/10 border border-brand-amber/30 p-4 rounded-2xl flex items-center space-x-3 text-xs text-brand-amber">
           <i class="fa-solid fa-gavel text-base"></i>
-          <span><strong>Judge Adjudication Mode:</strong> You can view submissions, track grading progress, read essays, download attachments, and assign scores (/100) with notes. Website settings, cycle tracks, media, rules, judge invitations, and winner publication belong strictly to <strong>Your Radical Engineer</strong>.</span>
+          <span><strong>Judge Adjudication Mode:</strong> You can view submissions, track grading progress, search by Reference ID or Name, read essays, download attachments, and assign scores (/100) with notes. Ranked standings, website settings, cycle tracks, media, rules, judge invitations, and winner publication belong strictly to <strong>Your Radical Engineer</strong>.</span>
         </div>
 
         <!-- ACCOUNT SECURITY: CHANGE PASSWORD (AVAILABLE TO OWNER & JUDGES) -->
@@ -772,15 +771,25 @@
 
         </div>
 
-        <!-- ESSAY SUBMISSIONS RANKED GRADING TABLE -->
+        <!-- ESSAY SUBMISSIONS TABLE (RANKED STANDINGS SHOWN ONLY TO OWNER) -->
         <div class="bg-brand-card border border-brand-border rounded-3xl shadow-xl overflow-hidden">
-          <div class="p-6 sm:p-8 border-b border-brand-border flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          <div class="p-6 sm:p-8 border-b border-brand-border flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
             <div>
-              <span class="text-brand-salmon text-xs uppercase font-bold tracking-widest block">Adjudication Ranking</span>
-              <h2 class="font-display text-2xl font-extrabold text-white mt-1">Submitted Student Essays (Ranked by Score)</h2>
+              <span id="essays-card-badge" class="text-brand-salmon text-xs uppercase font-bold tracking-widest block">Adjudication Queue</span>
+              <h2 id="essays-card-heading" class="font-display text-2xl font-extrabold text-white mt-1">Submitted Student Essays</h2>
             </div>
-            <div class="flex items-center space-x-3">
-              <select id="filter-track" class="bg-brand-dark border border-brand-border rounded-xl px-3 py-2 text-xs text-slate-300 focus:outline-none focus:border-brand-salmon">
+            <div class="flex flex-wrap items-center gap-3 w-full lg:w-auto">
+              <div class="relative flex-grow sm:flex-grow-0">
+                <i class="fa-solid fa-magnifying-glass text-slate-400 text-xs absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+                <input
+                  type="search"
+                  id="search-essays"
+                  placeholder="Search Ref ID or Name..."
+                  aria-label="Search submissions by reference ID or contestant name"
+                  class="w-full sm:w-56 bg-brand-dark border border-brand-border rounded-xl pl-9 pr-3.5 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-brand-salmon transition-colors"
+                >
+              </div>
+              <select id="filter-track" aria-label="Filter submissions by track" class="bg-brand-dark border border-brand-border rounded-xl px-3 py-2 text-xs text-slate-300 focus:outline-none focus:border-brand-salmon">
                 <option value="ALL">All Tracks</option>
               </select>
               <button id="refresh-essays" type="button" class="text-xs bg-brand-dark hover:bg-slate-800 border border-brand-border text-slate-300 px-4 py-2 rounded-xl transition-colors font-semibold flex items-center space-x-2">
@@ -793,7 +802,7 @@
             <table class="w-full text-left border-collapse text-xs">
               <thead>
                 <tr class="bg-brand-dark/60 text-slate-400 border-b border-brand-border uppercase tracking-wider">
-                  <th class="p-4">Rank</th>
+                  <th id="rank-col-header" class="p-4">Rank</th>
                   <th class="p-4">Ref & Author</th>
                   <th class="p-4">Track & Title</th>
                   <th class="p-4">Document</th>
@@ -1648,7 +1657,7 @@
     }
 
     // =====================================================================
-    // ADMIN & JUDGE PANEL LOGIC (STRICT ROLE ISOLATION + CMS EDITORS)
+    // ADMIN & JUDGE PANEL LOGIC (STRICT ROLE ISOLATION + OWNER-ONLY RANKINGS)
     // =====================================================================
     const loginContainer = document.getElementById('login-container');
     const dashboardContainer = document.getElementById('dashboard-container');
@@ -1678,18 +1687,27 @@
       const judgeBanner = document.getElementById('judge-notice-banner');
       const ownerWinnerToggle = document.getElementById('owner-winner-toggle-wrapper');
       const panelRoleTitle = document.getElementById('panel-role-title');
+      const essaysCardBadge = document.getElementById('essays-card-badge');
+      const essaysCardHeading = document.getElementById('essays-card-heading');
+      const rankColHeader = document.getElementById('rank-col-header');
 
       if (isCurrentUserOwner) {
         ownerControls.classList.remove('hidden');
         judgeBanner.classList.add('hidden');
         ownerWinnerToggle.classList.remove('hidden');
         panelRoleTitle.textContent = 'Radical Engineer • Owner Admin Control Panel';
+        essaysCardBadge.textContent = 'Adjudication Ranking';
+        essaysCardHeading.textContent = 'Submitted Student Essays (Ranked by Score)';
+        rankColHeader.textContent = 'Rank';
         loggedInUserLabel.textContent = `Owner Admin: ${userEmail}`;
       } else {
         ownerControls.classList.add('hidden');
         judgeBanner.classList.remove('hidden');
         ownerWinnerToggle.classList.add('hidden');
         panelRoleTitle.textContent = 'Radical Engineer • Judge Adjudication Portal';
+        essaysCardBadge.textContent = 'Adjudication Queue';
+        essaysCardHeading.textContent = 'Submitted Student Essays';
+        rankColHeader.textContent = 'Entry';
         loggedInUserLabel.textContent = `Adjudicator / Judge: ${userEmail}`;
       }
       loggedInUserLabel.classList.remove('hidden');
@@ -2210,16 +2228,15 @@
       filterSelect.value = currentVal;
     }
 
-    // Fetch, Rank by Score & Render Essays
+    // Fetch Essays (Ordered by score for owner ranking; chronological for judges)
     async function fetchAdminEssays() {
       const tbody = document.getElementById('essays-table-body');
       tbody.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-slate-500">Loading submissions...</td></tr>`;
 
-      const { data, error } = await supabaseClient
-        .from('essays')
-        .select('*')
-        .order('score', { ascending: false, nullsFirst: false })
-        .order('created_at', { ascending: true });
+      const queryBuilder = supabaseClient.from('essays').select('*');
+      const { data, error } = isCurrentUserOwner
+        ? await queryBuilder.order('score', { ascending: false, nullsFirst: false }).order('created_at', { ascending: true })
+        : await queryBuilder.order('created_at', { ascending: true });
 
       if (error) {
         tbody.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-red-400">Error loading essays: ${error.message}</td></tr>`;
@@ -2239,26 +2256,49 @@
     }
 
     function renderAdminEssaysTable() {
+      if (dashboardContainer.classList.contains('hidden')) return;
+
       const tbody = document.getElementById('essays-table-body');
       const trackFilter = document.getElementById('filter-track').value;
-      const filtered = trackFilter === 'ALL'
-        ? allEssaysCache
-        : allEssaysCache.filter(e => e.track === trackFilter);
+      const searchInput = document.getElementById('search-essays');
+      const searchQuery = (searchInput ? searchInput.value : '').trim().toLowerCase();
+
+      const filtered = allEssaysCache.filter(e => {
+        const matchesTrack = trackFilter === 'ALL' || e.track === trackFilter;
+        if (!matchesTrack) return false;
+        if (!searchQuery) return true;
+
+        const refMatch = (e.reference_id || '').toLowerCase().includes(searchQuery);
+        const nameMatch = (e.full_name || '').toLowerCase().includes(searchQuery);
+        return refMatch || nameMatch;
+      });
 
       if (filtered.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-slate-500">No essay submissions found for this filter.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-slate-500">No matching essay submissions found.</td></tr>`;
         return;
       }
 
       tbody.innerHTML = filtered.map((essay, idx) => {
         const isGraded = essay.score && essay.score > 0;
-        const rankBadge = isGraded
-          ? `<span class="inline-flex items-center justify-center w-7 h-7 rounded-lg font-mono font-extrabold text-xs ${idx === 0 ? 'bg-brand-amber/20 text-brand-amber border border-brand-amber/40' : 'bg-brand-dark text-slate-300 border border-brand-border'}">#${idx + 1}</span>`
-          : `<span class="text-[10px] font-mono text-slate-500">—</span>`;
+
+        // Ranked standings (#1, #2, etc.) are visible ONLY to the Owner Admin
+        const firstColumnCell = isCurrentUserOwner
+          ? (isGraded
+              ? `<span class="inline-flex items-center justify-center w-7 h-7 rounded-lg font-mono font-extrabold text-xs ${idx === 0 ? 'bg-brand-amber/20 text-brand-amber border border-brand-amber/40' : 'bg-brand-dark text-slate-300 border border-brand-border'}">#${idx + 1}</span>`
+              : `<span class="text-[10px] font-mono text-slate-500">—</span>`)
+          : `<span class="text-[10px] font-mono text-slate-400 bg-brand-dark border border-brand-border px-2 py-1 rounded-lg">${essay.reference_id || 'Entry'}</span>`;
+
+        const statusBadgeText = essay.is_winner
+          ? (isCurrentUserOwner ? '🏆 Overall Winner' : 'Selected')
+          : (isGraded ? 'Graded' : 'Pending');
+
+        const statusBadgeStyle = essay.is_winner
+          ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40'
+          : (isGraded ? 'bg-brand-amber/15 text-brand-amber' : 'bg-slate-800 text-slate-400');
 
         return `
-          <tr class="hover:bg-brand-dark/40 transition-colors ${essay.is_winner ? 'bg-emerald-500/5' : ''}">
-            <td class="p-4">${rankBadge}</td>
+          <tr class="hover:bg-brand-dark/40 transition-colors ${isCurrentUserOwner && essay.is_winner ? 'bg-emerald-500/5' : ''}">
+            <td class="p-4">${firstColumnCell}</td>
             <td class="p-4">
               <span class="font-mono font-bold text-brand-salmon block">${essay.reference_id || 'N/A'}</span>
               <strong class="text-white block mt-0.5">${essay.full_name}</strong>
@@ -2284,8 +2324,8 @@
               ${essay.admin_comments ? `<span class="text-[10px] text-slate-400 block max-w-[140px] truncate" title="${essay.admin_comments}">${essay.admin_comments}</span>` : ''}
             </td>
             <td class="p-4">
-              <span class="px-2.5 py-1 rounded-full text-[10px] font-bold font-mono ${essay.is_winner ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40' : (isGraded ? 'bg-brand-amber/15 text-brand-amber' : 'bg-slate-800 text-slate-400')}">
-                ${essay.is_winner ? '🏆 Overall Winner' : (isGraded ? 'Graded' : 'Pending')}
+              <span class="px-2.5 py-1 rounded-full text-[10px] font-bold font-mono ${statusBadgeStyle}">
+                ${statusBadgeText}
               </span>
             </td>
             <td class="p-4 text-right">
@@ -2370,6 +2410,7 @@
       }
     });
 
+    document.getElementById('search-essays').addEventListener('input', renderAdminEssaysTable);
     document.getElementById('filter-track').addEventListener('change', renderAdminEssaysTable);
     document.getElementById('refresh-essays').addEventListener('click', fetchAdminEssays);
   </script>
